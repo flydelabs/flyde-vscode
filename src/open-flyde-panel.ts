@@ -5,9 +5,6 @@ export function getWebviewContent(extensionUri: vscode.Uri, relativeFile: string
     const stylePath = vscode.Uri.joinPath(extensionUri, 'media', 'style.css');
 
     const wvStylePathwebview = webview.asWebviewUri(vscode.Uri.joinPath(stylePath));
-
-    console.log({wvStylePathwebview});
-    
     
     
     return `<!DOCTYPE html>

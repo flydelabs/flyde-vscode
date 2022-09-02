@@ -4,11 +4,13 @@ import * as vscode from 'vscode';
 
 import { FlydeEditorEditorProvider } from './flydeEditor';
 import * as execa from 'execa';
-import { join } from 'path/posix';
+
 var fp = require("find-free-port");
 
+import { initFlydeDevServer } from '@flyde/dev-server/dist/lib';
 
-import { initFlydeDevServer} from '@flyde/dev-server/dist/lib';
+import { join } from 'path';
+
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -28,12 +30,17 @@ export function activate(context: vscode.ExtensionContext) {
 	fp(FLYDE_DEFAULT_SERVER_PORT).then(([port]: [number])  => {
 		console.log(`Starting Flyde server on port ${port}`);
 
-		const file = join(__dirname, '../../dev-server/dist/cli.js');
+		// const devServerCli = require.resolve('@flyde/dev-server');
 
-		// initFlydeDevServer({port, root: fileRoot});
-		// console.log({file});
+		// console.log({devServerCli});
+		
 
-		process = execa.execaCommand(`node ${file} --port ${port} --root ${fileRoot}`, {stdio: 'inherit'});
+		// const file = join(__dirname, '../node_modules/@flyde/dev-server/dist/cli.js');
+
+		const editorStaticsRoot = join(__dirname, '../editor-build');
+		const server = initFlydeDevServer({port, root: fileRoot, editorStaticsRoot});
+		// const editorStaticRoot = vscode.Uri.joinPath(context.extensionUri, 'editor-build').toString();
+		// process = execa.execaCommand(`node ${file} --port ${port} --root ${fileRoot}`, {stdio: 'inherit'});
 	
 		context.subscriptions.push(FlydeEditorEditorProvider.register(context, port));
 		// runDevServer(port, fileRoot);
@@ -49,3 +56,5 @@ export function deactivate() {
 		process.kill();
 	}
 }
+
+
