@@ -3,10 +3,12 @@
   "displayName": "Flyde",
   "description": "Flyde editor for VSCode",
   "version": "0.0.1",
+  "publisher": "flyde",
   "engines": {
     "vscode": "^1.69.0"
   },
-  "repository": "https://github.com/flyde",
+  "icon": "icon.png",
+  "repository": "https://github.com/flydehq/flyde-vscode",
   "categories": [
     "Other"
   ],
