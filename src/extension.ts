@@ -19,7 +19,7 @@ let server: any;
 
 let process: execa.ExecaChildProcess;
 
-const FLYDE_DEFAULT_SERVER_PORT = 4242;
+const FLYDE_DEFAULT_SERVER_PORT = 8545;
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -38,7 +38,7 @@ export function activate(context: vscode.ExtensionContext) {
 		// const file = join(__dirname, '../node_modules/@flyde/dev-server/dist/cli.js');
 
 		const editorStaticsRoot = join(__dirname, '../editor-build');
-		const server = initFlydeDevServer({port, root: fileRoot, editorStaticsRoot});
+		server = initFlydeDevServer({port, root: fileRoot, editorStaticsRoot});
 		// const editorStaticRoot = vscode.Uri.joinPath(context.extensionUri, 'editor-build').toString();
 		// process = execa.execaCommand(`node ${file} --port ${port} --root ${fileRoot}`, {stdio: 'inherit'});
 	

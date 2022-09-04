@@ -47,9 +47,9 @@
     ]
   },
   "scripts": {
-    "vscode:prepublish": "yarn run compile && yarn run copy-editor",
+    "vscode:prepublish": "yarn run build",
     "compile": "tsc -p ./",
-    "build": "yarn run compile",
+    "build": "yarn run compile && yarn run copy-editor",
     "copy-editor": "node copy-editor.js",
     "watch": "tsc -watch -p ./",
     "compile-tests": "tsc -p . --outDir out",
@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "@flyde/dev-server": "^1.0.9",
-    "@flyde/editor": "^1.0.5",
+    "@flyde/editor": "^1.0.6",
     "@types/react": "^17.0.0",
     "execa": "^6.1.0",
     "find-free-port": "^2.0.0"

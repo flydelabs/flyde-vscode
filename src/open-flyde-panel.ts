@@ -29,7 +29,7 @@ export function getWebviewContent(extensionUri: vscode.Uri, relativeFile: string
       </style>
     </head>
     <body>
-    <iframe src="http://localhost:${port}/editor/files?fileName=${encodeURIComponent(relativeFile)}&port=${port}" style="width: 100vw; height: 100vh" sandbox="allow-scripts allow-modals"/>
+    <iframe src="http://localhost:${port}/editor/files?fileName=${encodeURIComponent(relativeFile)}&port=${port}&embedded=1" style="width: 100vw; height: 100vh" sandbox="allow-scripts allow-modals"/>
     
     </body>
     </html>`;
