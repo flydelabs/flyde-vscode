@@ -1,0 +1,23 @@
+imports:
+  "@flyde/stdlib":
+    - name: Add
+      alias: Add
+exports: []
+mainId: Main
+parts:
+  Main:
+    id: Main
+    inputs: {}
+    outputs:
+      result:
+        type: any
+    inputsPosition: {}
+    outputsPosition:
+      result:
+        x: -312.8969505148232
+        y: 474.9747063414614
+    completionOutputs:
+      - result
+    instances: []
+    connections: []
+exposedFunctionality: []

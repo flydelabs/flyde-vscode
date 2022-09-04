@@ -13,7 +13,8 @@
     "Other"
   ],
   "activationEvents": [
-    "onCustomEditor:flydeEditor"
+    "onCustomEditor:flydeEditor",
+    "onCommand: flyde.newFlow"
   ],
   "main": "./out/extension.js",
   "contributes": {
@@ -44,7 +45,37 @@
           "dark": "./fileicons/flyde_vscode_dark.svg"
         }
       }
-    ]
+    ],
+    "commands": [
+      {
+        "command": "flyde.openAsText",
+        "title": "Open Flow as Text"
+      },
+      {
+        "command": "flyde.newFlow",
+        "title": "New Flyde Flow"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "when": "resourceLangId == flyde",
+          "command": "flyde.openAsText",
+          "group": "navigation"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "flyde.newFlow",
+          "group": "navigation"
+        }
+      ],
+      "file/newFile": [
+        {
+          "command": "flyde.newFlow",
+          "group": "flyde"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run build",
@@ -74,7 +105,7 @@
   },
   "dependencies": {
     "@flyde/dev-server": "^1.0.9",
-    "@flyde/editor": "^1.0.6",
+    "@flyde/editor": "^1.0.7",
     "@types/react": "^17.0.0",
     "execa": "^6.1.0",
     "find-free-port": "^2.0.0"

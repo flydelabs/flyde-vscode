@@ -1312,10 +1312,10 @@
     typescript "^4.0.0"
     walker "^1.0.8"
 
-"@flyde/editor@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@flyde/editor/-/editor-1.0.6.tgz#84d057854c5eaa15c12c6cd4fc4921196a4c1311"
-  integrity sha512-1K35YetVU2s4r2H8bbhqOjjTuK5GHj24p2G2tS5qhKCj6mhPDiEgWXwi/aKNFiisO4qLifDfkFg39EmBMhWB/Q==
+"@flyde/editor@^1.0.7":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@flyde/editor/-/editor-1.0.7.tgz#001c91ef43dc8f109b77c207dd0dd8bc6abd19a3"
+  integrity sha512-HGjE5RGoIskZvyjmP70HxY8TSzs6PRnKY4ARr4X1pjflAPxWRmZ52B7usKAAbbCGc+ANuSWSyqfRu9jkGEtUPw==
   dependencies:
     "@blueprintjs/core" "^3.11.0"
     "@blueprintjs/popover2" "^0.3.1"
