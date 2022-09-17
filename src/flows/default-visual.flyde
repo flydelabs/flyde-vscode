@@ -3,9 +3,7 @@ imports:
     - name: Add
       alias: Add
 exports: []
-mainId: Main
-parts:
-  Main:
+part:
     id: Main
     inputs: {}
     outputs:
@@ -20,4 +18,3 @@ parts:
       - result
     instances: []
     connections: []
-exposedFunctionality: []
