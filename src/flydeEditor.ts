@@ -1,6 +1,6 @@
 import path = require('path');
 import * as vscode from 'vscode';
-import { getWebviewContent } from './open-flyde-panel';
+import { getWebviewContent } from './editor/open-flyde-panel';
 var fp = require("find-free-port");
 
 import { scanImportableParts} from '@flyde/dev-server/dist/service/scan-importable-parts';
@@ -8,7 +8,6 @@ import { scanImportableParts} from '@flyde/dev-server/dist/service/scan-importab
 import { EditorPorts, rnd } from  '@flyde/flow-editor';
 import { deserializeFlow, resolveFlow, serializeFlow } from '@flyde/runtime';
 import { ResolvedFlydeFlowDefinition } from '@flyde/core';
-import { isPromise } from 'util/types';
 
 const FLYDE_DEFAULT_SERVER_PORT = 8545;
 
@@ -89,7 +88,12 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 	): Promise<void> {
 		// Setup initial content for the webview
 		webviewPanel.webview.options = {
-			enableScripts: true
+			enableScripts: true,
+			portMapping: [{
+				webviewPort: 3000,
+				extensionHostPort: 3000
+			}]
+			
 		};
 
         const firstWorkspace = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0];
@@ -118,7 +122,7 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 		// used to avoid triggering "onChange" of the same webview
 		const webviewId = `wv-${(Date.now() + rnd(999)).toString(32)}`;
 
-		webviewPanel.webview.html = getWebviewContent({
+		webviewPanel.webview.html = await getWebviewContent({
 			extensionUri: this.context.extensionUri,
 			relativeFile: relative,
 			port: this.port,

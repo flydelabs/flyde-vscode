@@ -2,7 +2,7 @@
   "name": "flyde-vscode",
   "displayName": "Flyde",
   "description": "Flyde editor for VSCode",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "publisher": "flyde",
   "engines": {
     "vscode": "^1.69.0"
@@ -14,7 +14,7 @@
   ],
   "activationEvents": [
     "onCustomEditor:flydeEditor",
-    "onCommand: flyde.newFlow"
+    "onCommand:flyde.newFlow"
   ],
   "scripts": {
     "vscode:prepublish": "yarn run build",
@@ -23,7 +23,8 @@
     "link-all": "npm link @flyde/dev-server && npm link @flyde/editor && npm link @flyde/flow-editor && npm link @flyde/runtime && npm link @flyde/core",
     "compile": "tsc -p ./",
     "build": "yarn run compile && yarn build-editor && yarn run copy-editor",
-    "dev": "tsc -watch -p ./",
+    "watch": "tsc -watch -p ./",
+    "dev": "yarn watch",
     "compile-tests": "tsc -p . --outDir out",
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "yarn run compile-tests && yarn run compile && yarn run lint",
