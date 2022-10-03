@@ -8,6 +8,7 @@ import { scanImportableParts} from '@flyde/dev-server/dist/service/scan-importab
 import { EditorPorts, rnd } from  '@flyde/flow-editor';
 import { deserializeFlow, resolveFlow, serializeFlow } from '@flyde/runtime';
 import { ResolvedFlydeFlowDefinition } from '@flyde/core';
+import { findPackageRoot } from './find-package-root';
 
 const FLYDE_DEFAULT_SERVER_PORT = 8545;
 
@@ -62,6 +63,7 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 
 
         const firstWorkspace = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0];
+		
 	    const fileRoot = firstWorkspace ? firstWorkspace.uri.fsPath : '';
 
 		const providerRegistration = vscode.window.registerCustomEditorProvider(FlydeEditorEditorProvider.viewType, provider);
@@ -100,7 +102,6 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 	    const fileRoot = firstWorkspace ? firstWorkspace.uri.fsPath : '';
 
         const relative = path.relative(fileRoot, document.fileName);
-
 
 		const messageResponse = (event: FlydePortMessage<any>, payload: any) => {
 			webviewPanel.webview.postMessage({type: event.type, requestId: event.requestId, payload, source: 'extension'});
@@ -188,7 +189,12 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 						break;
 					}
 					case 'getImportables': {
-						const deps = await scanImportableParts(fileRoot, document.uri.fsPath);
+
+						const root = await findPackageRoot(document.uri);
+						
+						console.log({root: root.toString()});
+						
+						const deps = await scanImportableParts(root.fsPath, document.uri.fsPath);
 						messageResponse(event, deps);
 						break;
 					}
