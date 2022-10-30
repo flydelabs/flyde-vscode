@@ -6,7 +6,7 @@ var fp = require("find-free-port");
 import { scanImportableParts} from '@flyde/dev-server/dist/service/scan-importable-parts';
 
 import { EditorPorts, rnd } from  '@flyde/flow-editor';
-import { deserializeFlow, resolveFlow, serializeFlow } from '@flyde/runtime';
+import { deserializeFlow, resolveFlow, serializeFlow } from '@flyde/resolver';
 import { ResolvedFlydeFlowDefinition } from '@flyde/core';
 import { findPackageRoot } from './find-package-root';
 
@@ -43,7 +43,7 @@ const tryOrThrow = (fn: Function, msg: string) => {
 	} catch (e) {
 		console.error(`Error editor error: ${msg}. Full error:`, e);
 
-		return new Error(`Flyde editor error: ${msg}`);
+		return new Error(`Flyde editor error: ${msg}: ${e}`);
 	}
 };
 
@@ -107,32 +107,39 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 			webviewPanel.webview.postMessage({type: event.type, requestId: event.requestId, payload, source: 'extension'});
 		};
 
-		const raw = document.getText();
-		const initialFlow = tryOrThrow(() => deserializeFlow(raw, document.uri.fsPath), 'Failed to deserialize flow');
-		const dependencies = tryOrThrow(() => resolveFlow(document.uri.fsPath, 'definition') as ResolvedFlydeFlowDefinition, 'Failed to resolve flow\'s dependencies');
-
-		const errors = [initialFlow, dependencies]
-			.filter(obj => obj instanceof Error)
-			.map((err: Error) => err.message);
-		
-
-		if (errors.length) {
-			webviewPanel.webview.html = `Errors: ${errors.join('\n')}`;
-			return initialFlow as any;
-		}
-		// used to avoid triggering "onChange" of the same webview
 		const webviewId = `wv-${(Date.now() + rnd(999)).toString(32)}`;
 
-		webviewPanel.webview.html = await getWebviewContent({
-			extensionUri: this.context.extensionUri,
-			relativeFile: relative,
-			port: this.port,
-			webview: webviewPanel.webview, 
-			initialFlow,
-			dependencies,
-			webviewId
-		});
+		const renderWebview = async () => {
+			const raw = document.getText();
+			const initialFlow = tryOrThrow(() => deserializeFlow(raw, document.uri.fsPath), 'Failed to deserialize flow');
+			const dependencies = tryOrThrow(() => resolveFlow(document.uri.fsPath, 'definition') as ResolvedFlydeFlowDefinition, 'Failed to resolve flow\'s dependencies');
+	
+			const errors = [initialFlow, dependencies]
+				.filter(obj => obj instanceof Error)
+				.map((err: Error) => err.message);
+			
+	
+			if (errors.length) {
+				webviewPanel.webview.html = `Errors: <code>${errors.join('\n')}</code><hr/>Try opening it with a text editor and fix the problem`;
+				return initialFlow as any;
+			}
+			// used to avoid triggering "onChange" of the same webview
+	
+			webviewPanel.webview.html = await getWebviewContent({
+				extensionUri: this.context.extensionUri,
+				relativeFile: relative,
+				port: this.port,
+				webview: webviewPanel.webview, 
+				initialFlow,
+				dependencies,
+				webviewId
+			});
+	
+		};
 
+		await renderWebview();
+
+		
 		let lastSaveBy = '';
         
 		webviewPanel.webview.onDidReceiveMessage(async (event: FlydePortMessage<any>) => {
@@ -192,9 +199,9 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 
 						const root = await findPackageRoot(document.uri);
 						
-						console.log({root: root.toString()});
-						
-						const deps = await scanImportableParts(root.fsPath, document.uri.fsPath);
+						const t = Date.now();
+						const deps = await scanImportableParts(root.fsPath, path.relative(root.fsPath, document.uri.fsPath));
+						console.log({deps, ms: Date.now() - t});
 						messageResponse(event, deps);
 						break;
 					}
@@ -206,6 +213,14 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 
 			}
 		});
+
+		webviewPanel.onDidChangeViewState(async e => {
+			// when the webview is refocused, it needs to receive a new html to contain the correct initial flow
+			if (e.webviewPanel.active) {
+				await renderWebview();
+			}
+		});
+
 
 		// Hook up event handlers so that we can synchronize the webview with the text document.
 		//

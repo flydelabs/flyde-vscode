@@ -14,13 +14,14 @@
   ],
   "activationEvents": [
     "onCustomEditor:flydeEditor",
-    "onCommand:flyde.newFlow"
+    "onCommand:flyde.newVisualFlow",
+    "onCommand:flyde.newCodeFlow"
   ],
   "scripts": {
     "vscode:prepublish": "yarn run build",
     "copy-editor": "mkdir -p editor-build && cp -r ../flyde/editor/build/ editor-build/.",
     "build-editor": "cd ../flyde/editor && yarn build && cd ../../flyde-vscode",
-    "link-all": "npm link @flyde/dev-server && npm link @flyde/editor && npm link @flyde/flow-editor && npm link @flyde/runtime && npm link @flyde/core",
+    "link-all": "npm link @flyde/core && npm link @flyde/resolver && npm link @flyde/dev-server && npm link @flyde/editor && npm link @flyde/flow-editor && npm link @flyde/runtime",
     "compile": "tsc -p ./",
     "build": "yarn run compile && yarn build-editor && yarn run copy-editor",
     "watch": "tsc -watch -p ./",
@@ -68,8 +69,12 @@
         "title": "Open Flow as Text"
       },
       {
-        "command": "flyde.newFlow",
-        "title": "New Flyde Flow"
+        "command": "flyde.newVisualFlow",
+        "title": "Flyde: New Visual Flow"
+      },
+      {
+        "command": "flyde.newTextualFlow",
+        "title": "Flyde: New Code Flow"
       }
     ],
     "menus": {
@@ -77,17 +82,26 @@
         {
           "when": "resourceLangId == flyde",
           "command": "flyde.openAsText",
-          "group": "navigation"
+          "group": "flyde"
         },
         {
           "when": "explorerResourceIsFolder",
-          "command": "flyde.newFlow",
-          "group": "navigation"
+          "command": "flyde.newVisualFlow",
+          "group": "flyde"
+        },
+        {
+          "when": "explorerResourceIsFolder",
+          "command": "flyde.newTextualFlow",
+          "group": "flyde"
         }
       ],
       "file/newFile": [
         {
-          "command": "flyde.newFlow",
+          "command": "flyde.newVisualFlow",
+          "group": "flyde"
+        },
+        {
+          "command": "flyde.newTextualFlow",
           "group": "flyde"
         }
       ]
@@ -114,6 +128,7 @@
     "@flyde/editor": "^1.0.7",
     "@flyde/flow-editor": "^1.0.4",
     "@flyde/runtime": "^1.0.1",
+    "@flyde/resolver": "^1.0.0",
     "@types/react": "^17.0.0",
     "callsite": "^1.0.0",
     "cuid": "^2.1.8",

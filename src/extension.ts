@@ -14,7 +14,7 @@ import { FlydeFlow, groupedPart } from '@flyde/core';
 import { rnd } from '@flyde/flow-editor';
 import { partInput } from '@flyde/core';
 import { partOutput } from '@flyde/core';
-import { serializeFlow } from '@flyde/runtime';
+import { serializeFlow } from '@flyde/resolver';
 import { connectionData } from '@flyde/core';
 import { inlinePartInstance } from '@flyde/core';
 
@@ -63,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
 	
 	context.subscriptions.push(vscode.commands.registerCommand('flyde.openAsText', openAsTextHandler));
 
-	context.subscriptions.push(vscode.commands.registerCommand('flyde.newFlow', async (dirName: vscode.Uri) => {
+	context.subscriptions.push(vscode.commands.registerCommand('flyde.newVisualFlow', async (dirName: vscode.Uri) => {
 
 		const partId = await vscode.window.showInputBox({
 			title: 'Name your flow',
@@ -140,7 +140,7 @@ export function activate(context: vscode.ExtensionContext) {
 		});
 
 		// create a fake instance in the middle
-		part.instances.push(inlinePartInstance('ins1', {...part, customViewCode: 'Your Logic Here 🕺🏼', connections: [], instances: []}, undefined, {
+		part.instances.push(inlinePartInstance('ins1', {...part, customViewCode: 'Your logic here!', connections: [], instances: []}, undefined, {
 			y: 250, x: (inputNames.length * 200) / 2 + 25
 		}));
 		
