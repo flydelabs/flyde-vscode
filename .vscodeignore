@@ -4,6 +4,7 @@ src/**
 .gitignore
 .yarnrc
 **/tsconfig.json
+!node_modules/**/tsconfig.json
 **/.eslintrc.json
 **/*.map
 **/*.ts

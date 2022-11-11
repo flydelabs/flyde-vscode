@@ -123,9 +123,10 @@
   },
   "dependencies": {
     "@flyde/core": "^0.1.0",
-    "@flyde/dev-server": "^0.1.0",
-    "@flyde/runtime": "^0.1.0",
+    "@flyde/dev-server": "^0.2.0",
     "@flyde/resolver": "^0.1.0",
+    "@flyde/runtime": "^0.1.0",
+    "@tsconfig/node16": "^1.0.3",
     "@types/react": "^17.0.0",
     "callsite": "^1.0.0",
     "cuid": "^2.1.8",
