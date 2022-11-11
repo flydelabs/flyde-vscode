@@ -5,14 +5,14 @@ var fp = require("find-free-port");
 
 import { scanImportableParts} from '@flyde/dev-server/dist/service/scan-importable-parts';
 
-import { EditorPorts, rnd } from  '@flyde/flow-editor';
 import { deserializeFlow, resolveFlow, serializeFlow } from '@flyde/resolver';
 import { ResolvedFlydeFlowDefinition } from '@flyde/core';
 import { findPackageRoot } from './find-package-root';
+import { randomInt } from 'crypto';
 
 const FLYDE_DEFAULT_SERVER_PORT = 8545;
 
-export type EditorPortType = keyof EditorPorts;
+// export type EditorPortType = keyof any;
 
 type Awaited<T> = T extends PromiseLike<infer U> ? U : T
 
@@ -27,11 +27,11 @@ type PortConfig<T extends PortFn> = {
     response: ReturnType<Awaited<T>>
 };
 
-type PostMsgConfig = {
-    [Property in keyof EditorPorts]: PortConfig<EditorPorts[Property]>;
-};
+// type PostMsgConfig = {
+//     [Property in keyof any]: PortConfig<EditorPorts[Property]>;
+// };
 
-type FlydePortMessage<T extends EditorPortType> = {
+type FlydePortMessage<T extends any> = {
 	type: T,
 	requestId: string,
 	params: any; // PostMsgConfig[T]['params']
@@ -107,7 +107,7 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 			webviewPanel.webview.postMessage({type: event.type, requestId: event.requestId, payload, source: 'extension'});
 		};
 
-		const webviewId = `wv-${(Date.now() + rnd(999)).toString(32)}`;
+		const webviewId = `wv-${(Date.now() + randomInt(999)).toString(32)}`;
 
 		const renderWebview = async () => {
 			const raw = document.getText();

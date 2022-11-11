@@ -21,7 +21,7 @@
     "vscode:prepublish": "yarn run build",
     "copy-editor": "mkdir -p editor-build && cp -r ../flyde/editor/build/ editor-build/.",
     "build-editor": "cd ../flyde/editor && yarn build && cd ../../flyde-vscode",
-    "link-all": "npm link @flyde/core && npm link @flyde/resolver && npm link @flyde/dev-server && npm link @flyde/runtime",
+    "link-all": "npm link @flyde/core && npm link @flyde/resolver && npm link @flyde/dev-server && npm link @flyde/runtime && npm link @flyde/remote-debugger",
     "compile": "tsc -p ./",
     "build": "yarn run compile && yarn build-editor && yarn run copy-editor",
     "watch": "tsc -watch -p ./",
@@ -90,7 +90,7 @@
           "group": "flyde"
         },
         {
-          "when": "explorerResourceIsFolder",
+          "when": "never",
           "command": "flyde.newTextualFlow",
           "group": "flyde"
         }

@@ -10,8 +10,7 @@ var fp = require("find-free-port");
 import { initFlydeDevServer } from '@flyde/dev-server/dist/lib';
 
 import { join } from 'path';
-import { FlydeFlow, groupedPart } from '@flyde/core';
-import { rnd } from '@flyde/flow-editor';
+import { FlydeFlow, groupedPart, randomInt } from '@flyde/core';
 import { partInput } from '@flyde/core';
 import { partOutput } from '@flyde/core';
 import { serializeFlow } from '@flyde/resolver';
@@ -67,7 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 		const partId = await vscode.window.showInputBox({
 			title: 'Name your flow',
-			value: 'MyAwesomeFlow' + rnd(999)
+			value: 'MyAwesomeFlow' + randomInt(999)
 		});
 
 		if (!partId) {
