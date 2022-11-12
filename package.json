@@ -2,7 +2,7 @@
   "name": "flyde-vscode",
   "displayName": "Flyde",
   "description": "Flyde editor for VSCode",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "publisher": "flyde",
   "engines": {
     "vscode": "^1.69.0"
