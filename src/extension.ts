@@ -129,6 +129,7 @@ export function activate(context: vscode.ExtensionContext) {
 			inputsPosition: inputNames.reduce((acc, name, idx) => ({...acc, [name]: {x: idx * 200 + 50, y: 0} }), {}),
 			outputs: outputNames.reduce((acc, name) => ({...acc, [name]: partOutput('any')}), {}),
 			outputsPosition: outputNames.reduce((acc, name, idx) => ({...acc, [name]: {x: idx * 200 - 50, y: 500} }), {}),
+			completionOutputs: [outputNames.join('+')], // TODO - let configure this
 			instances: [
 
 			],
