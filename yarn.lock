@@ -41,10 +41,10 @@
     minimatch "^3.1.2"
     strip-json-comments "^3.1.1"
 
-"@flyde/core@^0.1.0", "@flyde/core@^0.1.1", "@flyde/core@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@flyde/core/-/core-0.1.4.tgz#cfef70fc85e36685f43e549822e48fc2ef0d2338"
-  integrity sha512-lziBV8m2XYsmnkGCQPeafmjtgcS7WUqOfd6b4M6BWca0utmOOTnbZixtwL5FjE8So2GhVWLXta6mTonYq+Xivw==
+"@flyde/core@^0.1.0", "@flyde/core@^0.1.1", "@flyde/core@^0.1.5", "@flyde/core@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@flyde/core/-/core-0.1.6.tgz#b347f83ce531d795efb77273f3c0ee2a887565c3"
+  integrity sha512-BHAlvYyiaxrDvgVBWy67MYnQJEEXkIn9yTDMwCS6jQvmwVmJwWzACIYPkN7uSwOHRQFK5SEbQI+aJtqwcGvESg==
   dependencies:
     debug "^4.3.2"
     dependency-graph "^0.8.0"
@@ -53,15 +53,15 @@
     vm2 "^3.9.2"
     zod "^3.17.10"
 
-"@flyde/dev-server@^0.2.0":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@flyde/dev-server/-/dev-server-0.2.2.tgz#e0ad3874dd9a445c9eeb95e105489f3507801134"
-  integrity sha512-lYxzIasctkULgRK/CRO5LHEA8aGkPkNfXM1G5OK6v2v2OxvSeTFdcXgQjmH8PIlzGbQS+OS7MRnLYjznCoDZeg==
+"@flyde/dev-server@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@flyde/dev-server/-/dev-server-0.4.1.tgz#4cf71f4082c71758c13cb1143b47ecc5d6003357"
+  integrity sha512-zqKM9zs+6Hec4aagJZCpB5JuYqK7O3ssDjWizi1NP2yftKJNEak0z2DVl4ra+eIKmtORkGW9qs8fpd/ITIBJtA==
   dependencies:
-    "@flyde/core" "^0.1.4"
-    "@flyde/remote-debugger" "^0.2.3"
+    "@flyde/core" "^0.1.6"
+    "@flyde/remote-debugger" "^0.2.5"
     "@flyde/resolver" "^0.1.1"
-    "@flyde/runtime" "^0.2.2"
+    "@flyde/runtime" "^0.4.1"
     "@types/args" "^5.0.0"
     "@types/cuid" "^1.3.0"
     "@types/express" "^4.16.1"
@@ -85,13 +85,13 @@
     typescript "^4.0.0"
     walker "^1.0.8"
 
-"@flyde/remote-debugger@^0.2.3":
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/@flyde/remote-debugger/-/remote-debugger-0.2.3.tgz#356c9f6d797f7e5b9aaa4a29312f65658d8b98e7"
-  integrity sha512-n+xK51MKt+pUnBrMk6rlkWvEX66s6Knvdpi7RqIp6xGOlVOXJETUvrDgIhVY5bBd5OUGirqJHRR/Onb1MVWHHg==
+"@flyde/remote-debugger@^0.2.4", "@flyde/remote-debugger@^0.2.5":
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/@flyde/remote-debugger/-/remote-debugger-0.2.5.tgz#4d61d704061cd2f79fcd1b825fb5f3d53f37c6a2"
+  integrity sha512-M6oAff4tIA6MTo9qTyFrmSbhQvbt9Nh/BXBt8yah3NF1Le1rLcy5BVOkS5ctMWn8yaUG4Pb2uAZ3MBfndlTUzw==
   dependencies:
     "@babel/runtime" "^7.8.4"
-    "@flyde/core" "^0.1.4"
+    "@flyde/core" "^0.1.6"
     "@socket.io/admin-ui" "^0.2.0"
     "@types/express" "^4.16.1"
     "@types/node" "^11.10.5"
@@ -123,12 +123,12 @@
     yaml "^2.1.1"
     zod "^3.17.10"
 
-"@flyde/resolver@^0.3.3":
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/@flyde/resolver/-/resolver-0.3.3.tgz#f52d49d6e0dfab8c3e646d37f44b353f99856bcf"
-  integrity sha512-HE0Vy5dFWuDJfmzQPmVGW2NBYOeMiUjvgwj/NHBmsac3hOhHvFVtK5Y1aR9ibYwmHmNSzgu3ICZ/D+bcmCjZDg==
+"@flyde/resolver@^0.3.3", "@flyde/resolver@^0.3.4", "@flyde/resolver@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@flyde/resolver/-/resolver-0.3.5.tgz#72afd677a5bd12b5277a503d9b07b81cdaa7f6b7"
+  integrity sha512-LNeR7D27kYGeh69PHc4BmGuiYY90XvMhJQ+Z52OvadXQ4QVLMRyNJ6sKCiSCr9C+zm/pYNud3WPRbEtjiXYihw==
   dependencies:
-    "@flyde/core" "^0.1.4"
+    "@flyde/core" "^0.1.6"
     "@types/cuid" "^1.3.0"
     "@types/node" "^11.10.5"
     axios "^0.21.1"
@@ -141,18 +141,19 @@
     require-from-string "^2.0.2"
     resolve-from "^5.0.0"
     ts-node "^10.9.1"
+    typescript "^4.0.0"
     yaml "^2.1.1"
     zod "^3.17.10"
 
 "@flyde/runtime@^0.2.2":
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/@flyde/runtime/-/runtime-0.2.2.tgz#7cbe8d3b0036a52b32c1539cfbc0e5dda231f165"
-  integrity sha512-LOsQY0Rap8+53H7ye09/cN4Uta72U2sg3FAjt6rTeHWR5L1M5Kb6IyBawuiI2NsosdnAr/e83VQKID9wUIgK8g==
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@flyde/runtime/-/runtime-0.2.3.tgz#aab22d5677e4ee747a25e3894bb971170d4b9d23"
+  integrity sha512-uKStIZ9vlqUQz5ctwwZ5GmM404+VGaOPZTKOBRPcQeODipRdRnFcySvsCUlDG3f/UkHzNhOf52d3Vi7ElD3+lA==
   dependencies:
-    "@flyde/core" "^0.1.4"
-    "@flyde/remote-debugger" "^0.2.3"
-    "@flyde/resolver" "^0.3.3"
-    "@flyde/stdlib" "^0.1.4"
+    "@flyde/core" "^0.1.5"
+    "@flyde/remote-debugger" "^0.2.4"
+    "@flyde/resolver" "^0.3.4"
+    "@flyde/stdlib" "^0.1.5"
     "@types/cuid" "^1.3.0"
     "@types/node" "^11.10.5"
     axios "^0.21.1"
@@ -168,12 +169,36 @@
     yaml "^2.1.1"
     zod "^3.17.10"
 
-"@flyde/stdlib@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@flyde/stdlib/-/stdlib-0.1.4.tgz#6051f889308178cee6176fbfb8f3c54377b1b565"
-  integrity sha512-jiGwM0jTozpcgWcFMQRsGLCxT5XA8SaEVLkGpQ23iBAcfR2oBoQ52pJtUH9x4zSvMPuFCgL21cJPxtnM0k1qUg==
+"@flyde/runtime@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@flyde/runtime/-/runtime-0.4.1.tgz#262da109b02761fdfb3daefd988ccc9220173be0"
+  integrity sha512-HPH7yzdh8ioJOfnBRA0ZFGgSHh8iPcX0MIFA7SAE1RXsxQyU4r9EN6jlGcYba4l2Jh0vxYwdkngh5FK7/3Ymyw==
   dependencies:
-    "@flyde/core" "^0.1.4"
+    "@flyde/core" "^0.1.6"
+    "@flyde/remote-debugger" "^0.2.5"
+    "@flyde/resolver" "^0.3.5"
+    "@flyde/stdlib" "^0.1.6"
+    "@types/cuid" "^1.3.0"
+    "@types/node" "^11.10.5"
+    axios "^0.21.1"
+    body-parser "^1.19.0"
+    callsite "^1.0.0"
+    cuid "^2.1.8"
+    find-root "^1.1.0"
+    glob "^8.0.3"
+    module-from-string "^3.3.0"
+    require-from-string "^2.0.2"
+    resolve-from "^5.0.0"
+    ts-node "^10.9.1"
+    yaml "^2.1.1"
+    zod "^3.17.10"
+
+"@flyde/stdlib@^0.1.5", "@flyde/stdlib@^0.1.6":
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/@flyde/stdlib/-/stdlib-0.1.6.tgz#5570500dcaf125538365001036b385eeafb98cce"
+  integrity sha512-BTTsrBCmO0f8OMpOBr4NPe8TIla2/1gi7YkhZu8amGqGDwnnd/ZBj8nO7bPaKZntoofvuE9QDe7m9PJhGdQIjg==
+  dependencies:
+    "@flyde/core" "^0.1.6"
     axios "^0.27.2"
     pubsub-js "^1.9.4"
 
