@@ -122,10 +122,10 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@flyde/core": "^0.1.0",
-    "@flyde/dev-server": "^0.4.1",
-    "@flyde/resolver": "^0.3.3",
-    "@flyde/runtime": "^0.2.2",
+    "@flyde/core": "^0.1.7",
+    "@flyde/dev-server": "^0.4.2",
+    "@flyde/resolver": "^0.3.6",
+    "@flyde/runtime": "^0.4.2",
     "@tsconfig/node16": "^1.0.3",
     "@types/react": "^18.0.25",
     "callsite": "^1.0.0",

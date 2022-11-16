@@ -28,8 +28,16 @@ const getScriptTagsFromReactAppHtml = async (root: vscode.Uri, webview: vscode.W
     const scriptMatches = html.match(/static\/js\/(.*)\.js/) || [];
     const styleMatches = html.match(/static\/css\/(.*)\.css/) || [];
 
-    const scriptUri = webview.asWebviewUri(vscode.Uri.joinPath(root, 'editor-build', scriptMatches[0]));
-    const styleUri = webview.asWebviewUri(vscode.Uri.joinPath(root, 'editor-build', styleMatches[0]));
+    if (!scriptMatches || scriptMatches.length === 0) {
+      throw new Error(`Cannot find script urls in editor-build/index.html`);
+    } 
+
+    if (!styleMatches || styleMatches.length === 0) {
+      throw new Error(`Cannot find style urls in editor-build/index.html`);
+    } 
+
+    const scriptUri = scriptMatches[0] && webview.asWebviewUri(vscode.Uri.joinPath(root, 'editor-build', scriptMatches[0]));
+    const styleUri = styleMatches[0] && webview.asWebviewUri(vscode.Uri.joinPath(root, 'editor-build', styleMatches[0]));
   
     return `
     <script defer="defer" src="${scriptUri}"></script>
