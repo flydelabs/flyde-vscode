@@ -16,6 +16,7 @@ import { partOutput } from "@flyde/core";
 import { serializeFlow } from "@flyde/resolver";
 import { connectionData } from "@flyde/core";
 import { inlinePartInstance } from "@flyde/core";
+import { createDefaultPart } from "./create-default-part";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -193,21 +194,18 @@ export function activate(context: vscode.ExtensionContext) {
           connections: [
             ...inputNames.map((name) => connectionData([name], ["ins1", name])),
             ...outputNames.map((name) =>
-              connectionData(["ins1", name], [name])
+              connectionData(["ins1", 'value'], [name])
             ),
           ],
         });
+
+        const defaultPart = createDefaultPart(inputNames);
 
         // create a fake instance in the middle
         part.instances.push(
           inlinePartInstance(
             "ins1",
-            {
-              ...part,
-              customViewCode: "Your logic here!",
-              connections: [],
-              instances: [],
-            },
+            defaultPart,
             undefined,
             {
               y: 250,
