@@ -66,7 +66,7 @@
     "commands": [
       {
         "command": "flyde.openAsText",
-        "title": "Open Flow as Text"
+        "title": "Flyde: Open Flow as Text"
       },
       {
         "command": "flyde.newVisualFlow",
