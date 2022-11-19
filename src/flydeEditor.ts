@@ -154,6 +154,13 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 						messageResponse(event, value);
 						break;
 					}
+					case 'prompt': {
+						const {text} = event.params;
+						const res = await vscode.window
+							.showInformationMessage(text, "Yes", "No");
+						messageResponse(event, res === 'Yes');
+						break;
+					}
 					case 'openFile': {
 						const {absPath} = event.params;
 						const uri = vscode.Uri.parse(absPath);
