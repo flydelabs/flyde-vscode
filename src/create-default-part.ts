@@ -1,14 +1,14 @@
-import { CodePartTemplateTypeInline, partInput, partOutput, randomInt } from "@flyde/core";
-import { codePart } from "@flyde/core";
+import { InlineValuePartType, partInput, partOutput, randomInt } from "@flyde/core";
+import { inlineValuePart } from "@flyde/core";
 
 export const createDefaultPart = (inputNames: string[]) => {
 
   const inputs = inputNames.reduce((prev, curr) => {
-    return { ...prev, [curr]: partInput("any", "required") };
+    return { ...prev, [curr]: partInput() };
   }, {});
 
   const outputs = {
-    value: partOutput("any"),
+    value: partOutput(),
   };
 
   const innerCode = inputNames.map(n => '${inputs.' + n + '}').join (', ');
@@ -19,14 +19,14 @@ export const createDefaultPart = (inputNames: string[]) => {
 
   const dataBuilderSource = btoa(code);
 
-  return codePart({
+  return inlineValuePart({
     id: `Inline Code ${randomInt(99999)}`,
     inputs,
     outputs,
     fnCode,
     customViewCode: code,
     dataBuilderSource,
-    templateType: CodePartTemplateTypeInline.VALUE,
+    templateType: InlineValuePartType.VALUE,
     completionOutputs: ["value"],
     defaultStyle: {
       size: 'regular',

@@ -14,7 +14,6 @@ export type WebviewContentParams = {
 
 const isDev = process.env.MODE === 'dev';
 
-const { Uri } = vscode;
 const {fs} = vscode.workspace; 
 
 const getScriptTagsFromReactAppHtml = async (root: vscode.Uri, webview: vscode.Webview, isDev: boolean) => {

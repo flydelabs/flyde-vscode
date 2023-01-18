@@ -154,7 +154,7 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 						messageResponse(event, value);
 						break;
 					}
-					case 'prompt': {
+					case 'confirm': {
 						const {text} = event.params;
 						const res = await vscode.window
 							.showInformationMessage(text, "Yes", "No");

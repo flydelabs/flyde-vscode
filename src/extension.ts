@@ -10,7 +10,7 @@ var fp = require("find-free-port");
 import { initFlydeDevServer } from "@flyde/dev-server/dist/lib";
 
 import { join } from "path";
-import { FlydeFlow, groupedPart, randomInt, staticPartRefence } from "@flyde/core";
+import { FlydeFlow, visualPart, randomInt, middlePos, values } from "@flyde/core";
 import { partInput } from "@flyde/core";
 import { partOutput } from "@flyde/core";
 import { serializeFlow } from "@flyde/resolver";
@@ -125,67 +125,52 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
 
-        const inputNames: string[] = [];
-        const outputNames: string[] = [];
-        while (true) {
-          const input = await vscode.window.showInputBox({
-            title: `Name your part\'s #${
-              inputNames.length + 1
-            } input (or leave empty to proceed)`,
-            value: "",
-            validateInput: (str) =>
-              inputNames.includes(str)
-                ? `${str} input already exists`
-                : undefined,
-          });
+        const inputNamesRaw = await vscode.window.showInputBox({
+          title: `Enter your new part's inputs?`,
+          prompt: 'Leave black for none. Enter multiple values by using commas',
+          placeHolder: 'i.e. "name, age, profession',
+          value: ""
+        });
 
-          if (input) {
-            inputNames.push(input);
+        const outputNamesRaw = await vscode.window.showInputBox({
+          title: `Enter your new part's outputs`,
+          prompt: 'Leave black for none. Enter multiple values using commas',
+          placeHolder: 'i.e. "result1, result2"',
+          value: ""
+        });
+
+        const toArr = (raw: string | undefined) => {
+          if (raw) {
+            return Array.from(new Set(raw.split(',').map(s => s.trim())));
           } else {
-            break;
+            return [];
           }
-        }
+        };
 
-        while (true) {
-          const output = await vscode.window.showInputBox({
-            title: `Name your part\'s #${
-              outputNames.length + 1
-            } output (or leave empty to proceed)`,
-            value: "",
-            validateInput: (str) =>
-              inputNames.concat(outputNames).includes(str)
-                ? `${str} output/input already exists`
-                : undefined,
-          });
+        const inputNames = toArr(inputNamesRaw);
+        const outputNames = toArr(outputNamesRaw);
 
-          if (output) {
-            outputNames.push(output);
-          } else {
-            break;
-          }
-        }
-
-        const part = groupedPart({
+        const part = visualPart({
           id: partId,
           inputs: inputNames.reduce(
-            (acc, name) => ({ ...acc, [name]: partInput("any") }),
+            (acc, name) => ({ ...acc, [name]: partInput() }),
             {}
           ),
           inputsPosition: inputNames.reduce(
             (acc, name, idx) => ({
               ...acc,
-              [name]: { x: idx * 200 + 50, y: 0 },
+              [name]: { x: idx * 200, y: 0 },
             }),
             {}
           ),
           outputs: outputNames.reduce(
-            (acc, name) => ({ ...acc, [name]: partOutput("any") }),
+            (acc, name) => ({ ...acc, [name]: partOutput() }),
             {}
           ),
           outputsPosition: outputNames.reduce(
             (acc, name, idx) => ({
               ...acc,
-              [name]: { x: idx * 200 - 50, y: 500 },
+              [name]: { x: idx * 200, y: 500 },
             }),
             {}
           ),
@@ -201,16 +186,25 @@ export function activate(context: vscode.ExtensionContext) {
 
         const defaultPart = createDefaultPart(inputNames);
 
+        const middleOfInputs = inputNames.length ? values(part.inputsPosition)
+          .reduce(middlePos) : {x: 0, y: 0};
+
+        const middleOfOutputs = outputNames.length ? values(part.outputsPosition)
+          .reduce(middlePos) : {x: 0, y: 500};
+
+        const middleOfInputsAndOutputs = middlePos(middleOfInputs, middleOfOutputs);
+        // part width 
+        
+        const PART_WIDTH_TODO_GET_FROM_EDITOR = 400;
+        const instancePosition = {...middleOfInputsAndOutputs, x: middleOfInputsAndOutputs.x - PART_WIDTH_TODO_GET_FROM_EDITOR/2};
+
         // create a fake instance in the middle
         part.instances.push(
           inlinePartInstance(
             "ins1",
             defaultPart,
             undefined,
-            {
-              y: 250,
-              x: (inputNames.length * 200) / 2 + 25,
-            }
+            instancePosition
           )
         );
 
@@ -227,7 +221,7 @@ export function activate(context: vscode.ExtensionContext) {
           await vscode.workspace.fs.writeFile(targetPath, buff);
           // const result = await vscode.window.showQuickPick(['Visual Flow', 'Code Flow']);
           vscode.window.showInformationMessage(
-            `New flow created at ${targetPath}!`
+            `New flow created at ${fileName}!`
           );
 
           vscode.commands.executeCommand(
