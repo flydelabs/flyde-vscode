@@ -18,7 +18,7 @@
     "onCommand:flyde.newCodeFlow"
   ],
   "scripts": {
-    "vscode:prepublish": "npm run build",
+    "vscode:prepackage": "npm run build",
     "copy-editor": "mkdir -p editor-build && cp -r ../flyde/editor/build/ editor-build/.",
     "build-editor": "cd ../flyde/editor && npm run build && cd ../../flyde-vscode",
     "link-all": "npm link @flyde/core @flyde/resolver @flyde/dev-server @flyde/runtime @flyde/remote-debugger",
