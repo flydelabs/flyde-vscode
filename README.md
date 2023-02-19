@@ -8,7 +8,7 @@ Checkout the official website at [flyde.dev](https://www.flyde.dev) or the [exam
 
 ---
 
-![A dad joke CLI tool built with Flyde](/demo.gif)
+![A dad joke CLI tool built with Flyde](https://raw.githubusercontent.com/FlydeHQ/flyde-vscode/main/demo.gif)
 
 ## License
 
