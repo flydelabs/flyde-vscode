@@ -15,7 +15,9 @@ export const createDefaultPart = (inputNames: string[]) => {
 
   const code = `\`Inputs received are: ${innerCode}\``;
 
-  const fnCode = `const result = '(${code})'`;
+  const fnCode = `const result = '(${code})'
+  outputs.value.next(result);
+  `;
 
   const dataBuilderSource = btoa(code);
 

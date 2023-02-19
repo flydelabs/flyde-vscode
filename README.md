@@ -2,15 +2,13 @@
 
 _"The world is asynchronous - don't try to force the systems we build into a synchronous framework!" - J. Paul Morisson RIP_
 
-Flyde is a visual functional reactive flow-based programming tool that can be used to build anything from CLI tools to bots and web apps built. It comes with a [VSCode extension](https://marketplace.visualstudio.com/items?itemName=flyde.flyde-vscode) that allows you to create Flyde flows from within your editor, and integrate them into your codebase using the runtime library.
+Flyde is a visual functional reactive flow-based programming tool that can be used to build anything from CLI tools to bots and web apps. It comes with a [VSCode extension](https://marketplace.visualstudio.com/items?itemName=flyde.flyde-vscode) that allows you to create Flyde flows from within your editor, and integrate them into your codebase using the runtime library.
 
-Checkout the official website at [flyde.dev](https://www.flyde.dev) or the [examples](/examples) folder for more information
-
-**Note:** Flyde is still WIP and is not intended for production use (_yet_)
+Checkout the official website at [flyde.dev](https://www.flyde.dev) or the [examples](https://github.com/FlydeHQ/flyde/tree/main/examples) folder for more information
 
 ---
 
-![A dad joke CLI tool built with Flyde](/examples/dad-jokes-cli/preview.gif)
+![A dad joke CLI tool built with Flyde](/demo.gif)
 
 ## License
 
@@ -29,7 +27,7 @@ In other words, using Flyde flows in your software is permitted without any limi
 
 ### Is this production ready?
 
-No. Not yet. Flyde hasn't been truly battle-tested other than some internal use cases. However, if interest and usage grow there is absolutely no reason for Flyde to stay an experimental tool. If you're using Flyde for anything that is in production / has real traffic, please let me know!
+No. Not yet. Flyde hasn't been truly battle-tested other than some internal use cases. However, if interest and usage grow there is no reason for Flyde to stay an experimental tool. If you're using Flyde for anything that is in production / has real traffic, please let me know!
 
 ### Does it replace normal coding?
 
