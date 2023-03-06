@@ -9,6 +9,7 @@ import { deserializeFlow, resolveFlow, serializeFlow } from '@flyde/resolver';
 import { ResolvedFlydeFlowDefinition } from '@flyde/core';
 import { findPackageRoot } from './find-package-root';
 import { randomInt } from 'crypto';
+import TelemetryReporter from '@vscode/extension-telemetry';
 
 const FLYDE_DEFAULT_SERVER_PORT = 8545;
 
@@ -74,7 +75,7 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 	private static readonly viewType = 'flydeEditor';
 
 	constructor(
-		private readonly context: vscode.ExtensionContext
+		private readonly context: vscode.ExtensionContext,
 	) { }
 
 	/**

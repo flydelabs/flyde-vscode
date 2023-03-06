@@ -4,7 +4,7 @@ _"The world is asynchronous - don't try to force the systems we build into a syn
 
 Flyde is a visual functional reactive flow-based programming tool that can be used to build anything from CLI tools to bots and web apps. It comes with a [VSCode extension](https://marketplace.visualstudio.com/items?itemName=flyde.flyde-vscode) that allows you to create Flyde flows from within your editor, and integrate them into your codebase using the runtime library.
 
-Checkout the official website at [flyde.dev](https://www.flyde.dev) or the [examples](https://github.com/FlydeHQ/flyde/tree/main/examples) folder for more information
+Checkout the official website at [Flyde.dev](https://www.flyde.dev) or the [examples](https://github.com/FlydeHQ/flyde/tree/main/examples) folder for more information
 
 ---
 

@@ -18,6 +18,14 @@ import { connectionData } from "@flyde/core";
 import { inlinePartInstance } from "@flyde/core";
 import { createDefaultPart } from "./create-default-part";
 
+import TelemetryReporter from '@vscode/extension-telemetry';
+import { activateReporter, reportEvent } from "./telemetry";
+
+// the application insights key (also known as instrumentation key)
+
+// telemetry reporter
+let reporter: TelemetryReporter;
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 
@@ -36,14 +44,15 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0];
   const fileRoot = firstWorkspace ? firstWorkspace.uri.fsPath : "";
 
+  // ensure it gets properly disposed. Upon disposal the events will be flushed
+  context.subscriptions.push(activateReporter());
+
+  reportEvent('activate');
+
   fp(FLYDE_DEFAULT_SERVER_PORT).then(([port]: [number]) => {
+
+    reportEvent('devServerStart');
     console.log(`Starting Flyde server on port ${port}`);
-
-    // const devServerCli = require.resolve('@flyde/dev-server');
-
-    // console.log({devServerCli});
-
-    // const file = join(__dirname, '../node_modules/@flyde/dev-server/dist/cli.js');
 
     const editorStaticsRoot = join(__dirname, "../editor-build");
     server = initFlydeDevServer({ port, root: fileRoot, editorStaticsRoot });
@@ -57,6 +66,7 @@ export function activate(context: vscode.ExtensionContext) {
   });
 
   const openAsTextHandler = (uri: vscode.Uri) => {
+    reporter.sendTelemetryEvent('openAsText');
     vscode.commands.executeCommand("workbench.action.reopenWithEditor", uri);
   };
 
@@ -68,6 +78,8 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "flyde.newVisualFlow",
       async (dirName: vscode.Uri) => {
+
+        reportEvent('newVisualFlow:start');
         // use this if triggered by a menu item,
         let folderUri = dirName; // folder will be undefined when triggered by keybinding
 
@@ -224,12 +236,17 @@ export function activate(context: vscode.ExtensionContext) {
             `New flow created at ${fileName}!`
           );
 
+
           vscode.commands.executeCommand(
             "vscode.openWith",
             targetPath,
             "flydeEditor"
           );
+          reportEvent('newVisualFlow:success');
+
         } catch (e: any) {
+          reportEvent('newVisualFlow:error', {error: e});
+
           vscode.window.showErrorMessage(
             `Error creating flow: ${e && e.message ? e.message : e}`
           );
