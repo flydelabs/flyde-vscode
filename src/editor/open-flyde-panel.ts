@@ -1,7 +1,6 @@
 import { FlydeFlow, ResolvedFlydeFlowDefinition } from '@flyde/core';
 import * as vscode from 'vscode';
 
-
 export type WebviewContentParams = {
   extensionUri: vscode.Uri,
   relativeFile: string,
@@ -10,7 +9,7 @@ export type WebviewContentParams = {
   initialFlow: FlydeFlow,
   dependencies: ResolvedFlydeFlowDefinition,
   webviewId: string;
-}
+};
 
 const isDev = process.env.MODE === 'dev';
 

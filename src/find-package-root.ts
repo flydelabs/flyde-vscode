@@ -5,7 +5,7 @@ const {fs} = vscode.workspace;
 
 let cache = new Map();
 
-export const findPackageRoot = async (uri: vscode.Uri, max = 10): Promise<vscode.Uri> => {
+export const findPackageRoot = async (uri: vscode.Uri, max = 10): Promise<vscode.Uri | null> => {
 
     const fromCache = cache.get(uri);
     if (fromCache) {
@@ -18,11 +18,11 @@ export const findPackageRoot = async (uri: vscode.Uri, max = 10): Promise<vscode
         return parent;
     } catch (e) {
         if (max > 0) {
-            const res = await findPackageRoot(parent, max--);
+            const res = await findPackageRoot(parent, max - 1);
             cache.set(uri, res);
             return res;
         } else {
-            throw new Error('not found');
+            return null;
         }
     }
 }

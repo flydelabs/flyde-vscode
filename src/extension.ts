@@ -10,16 +10,14 @@ var fp = require("find-free-port");
 import { initFlydeDevServer } from "@flyde/dev-server/dist/lib";
 
 import { join } from "path";
-import { FlydeFlow, visualPart, randomInt, middlePos, values } from "@flyde/core";
-import { partInput } from "@flyde/core";
-import { partOutput } from "@flyde/core";
-import { serializeFlow } from "@flyde/resolver";
-import { connectionData } from "@flyde/core";
-import { inlinePartInstance } from "@flyde/core";
-import { createDefaultPart } from "./create-default-part";
+import { formatEvent, randomInt } from "@flyde/core";
+import { deserializeFlowByPath, serializeFlow } from "@flyde/resolver";
 
 import TelemetryReporter from '@vscode/extension-telemetry';
 import { activateReporter, reportEvent } from "./telemetry";
+import path = require("path");
+
+import {createEditorClient}  from '@flyde/remote-debugger/dist/clients/editor';
 
 // the application insights key (also known as instrumentation key)
 
@@ -49,6 +47,8 @@ export function activate(context: vscode.ExtensionContext) {
 
   reportEvent('activate');
 
+  const outputChannel = vscode.window.createOutputChannel("Flyde");
+
   fp(FLYDE_DEFAULT_SERVER_PORT).then(([port]: [number]) => {
 
     reportEvent('devServerStart');
@@ -60,10 +60,18 @@ export function activate(context: vscode.ExtensionContext) {
     // process = execa.execaCommand(`node ${file} --port ${port} --root ${fileRoot}`, {stdio: 'inherit'});
 
     context.subscriptions.push(
-      FlydeEditorEditorProvider.register(context, port)
+      FlydeEditorEditorProvider.register(context, port, outputChannel)
     );
     // runDevServer(port, fileRoot);
+    const _debugger = createEditorClient(`http://localhost:${port}`, 'n/a');
+
+    _debugger.onBatchedEvents((events) => {
+      events.forEach(event => {
+        outputChannel.appendLine(formatEvent(event));
+      });
+    });
   });
+
 
   const openAsTextHandler = (uri: vscode.Uri) => {
     reporter.sendTelemetryEvent('openAsText');
@@ -101,23 +109,9 @@ export function activate(context: vscode.ExtensionContext) {
 		  }
         }
 
-        const partId = await vscode.window.showInputBox({
-          title: "Name your flow",
-          value: "MyAwesomeFlow" + randomInt(999),
-        });
-
-        if (!partId) {
-          vscode.window.showWarningMessage("No part id passed, aborting");
-          return;
-        }
-
         const fileName = await vscode.window.showInputBox({
           title: "Flow file name",
-          value: `${partId}.flyde`,
-          validateInput: (str) =>
-            str.endsWith(".flyde")
-              ? undefined
-              : 'File name must have the ".flyde" extension',
+          value: `${"MyAwesomeFlow" + randomInt(999)}`
         });
 
         if (!fileName) {
@@ -125,7 +119,7 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
 
-        const targetPath = Uri.joinPath(folderUri, fileName);
+        const targetPath = Uri.joinPath(folderUri, fileName + '.flyde');
 
         if (
           (await fs.readFile(targetPath).then(
@@ -133,97 +127,14 @@ export function activate(context: vscode.ExtensionContext) {
             () => false
           )) === true
         ) {
-          vscode.window.showErrorMessage(`File ${targetPath} aleady exists!`);
+          vscode.window.showErrorMessage(`File ${targetPath} already exists!`);
           return;
         }
 
-        const inputNamesRaw = await vscode.window.showInputBox({
-          title: `Enter your new part's inputs?`,
-          prompt: 'Leave black for none. Enter multiple values by using commas',
-          placeHolder: 'i.e. "name, age, profession',
-          value: ""
-        });
 
-        const outputNamesRaw = await vscode.window.showInputBox({
-          title: `Enter your new part's outputs`,
-          prompt: 'Leave black for none. Enter multiple values using commas',
-          placeHolder: 'i.e. "result1, result2"',
-          value: ""
-        });
+        const flow = deserializeFlowByPath(path.join(__dirname, '../DefaultFlow.flyde'));
 
-        const toArr = (raw: string | undefined) => {
-          if (raw) {
-            return Array.from(new Set(raw.split(',').map(s => s.trim())));
-          } else {
-            return [];
-          }
-        };
-
-        const inputNames = toArr(inputNamesRaw);
-        const outputNames = toArr(outputNamesRaw);
-
-        const part = visualPart({
-          id: partId,
-          inputs: inputNames.reduce(
-            (acc, name) => ({ ...acc, [name]: partInput() }),
-            {}
-          ),
-          inputsPosition: inputNames.reduce(
-            (acc, name, idx) => ({
-              ...acc,
-              [name]: { x: idx * 200, y: 0 },
-            }),
-            {}
-          ),
-          outputs: outputNames.reduce(
-            (acc, name) => ({ ...acc, [name]: partOutput() }),
-            {}
-          ),
-          outputsPosition: outputNames.reduce(
-            (acc, name, idx) => ({
-              ...acc,
-              [name]: { x: idx * 200, y: 500 },
-            }),
-            {}
-          ),
-          completionOutputs: outputNames.length ? [outputNames.join("+")] : [], // TODO - let configure this
-          instances: [],
-          connections: [
-            ...inputNames.map((name) => connectionData([name], ["ins1", name])),
-            ...outputNames.map((name) =>
-              connectionData(["ins1", 'value'], [name])
-            ),
-          ],
-        });
-
-        const defaultPart = createDefaultPart(inputNames);
-
-        const middleOfInputs = inputNames.length ? values(part.inputsPosition)
-          .reduce(middlePos) : {x: 0, y: 0};
-
-        const middleOfOutputs = outputNames.length ? values(part.outputsPosition)
-          .reduce(middlePos) : {x: 0, y: 500};
-
-        const middleOfInputsAndOutputs = middlePos(middleOfInputs, middleOfOutputs);
-        // part width 
-        
-        const PART_WIDTH_TODO_GET_FROM_EDITOR = 400;
-        const instancePosition = {...middleOfInputsAndOutputs, x: middleOfInputsAndOutputs.x - PART_WIDTH_TODO_GET_FROM_EDITOR/2};
-
-        // create a fake instance in the middle
-        part.instances.push(
-          inlinePartInstance(
-            "ins1",
-            defaultPart,
-            undefined,
-            instancePosition
-          )
-        );
-
-        const flow: FlydeFlow = {
-          imports: {},
-          part,
-        };
+        flow.part.id = fileName;
 
         try {
           const serializedFlow = serializeFlow(flow);
@@ -233,7 +144,7 @@ export function activate(context: vscode.ExtensionContext) {
           await vscode.workspace.fs.writeFile(targetPath, buff);
           // const result = await vscode.window.showQuickPick(['Visual Flow', 'Code Flow']);
           vscode.window.showInformationMessage(
-            `New flow created at ${fileName}!`
+            `New flow created at ${fileName}.flyde!`
           );
 
 

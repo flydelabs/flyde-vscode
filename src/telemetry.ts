@@ -8,11 +8,21 @@ export const activateReporter = () => {
     return reporter;
 }
 
-export const reportEvent: typeof reporter['sendTelemetryEvent'] = (args) => {
+const checkReporter = () => {
     if (!reporter) {
         console.error('Reporter not activated');
-        return;
     }
-
-    reporter.sendTelemetryEvent(args);
+    return !!reporter;
 };
+
+export const reportEvent: typeof reporter['sendTelemetryEvent'] = (...args) => {
+    if (checkReporter()) {
+        reporter.sendTelemetryEvent(...args);
+    }
+};
+
+export const reportException: typeof reporter['sendTelemetryException'] = (...args) => {
+    if (checkReporter()) {
+        reporter.sendTelemetryException(...args);
+    }
+}

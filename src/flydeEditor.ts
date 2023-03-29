@@ -4,19 +4,22 @@ import { getWebviewContent } from './editor/open-flyde-panel';
 var fp = require("find-free-port");
 
 import { scanImportableParts} from '@flyde/dev-server/dist/service/scan-importable-parts';
+import { runFlow, stopFlow} from '@flyde/dev-server/dist/runner';
 
-import { deserializeFlow, resolveFlow, serializeFlow } from '@flyde/resolver';
-import { ResolvedFlydeFlowDefinition } from '@flyde/core';
+import { deserializeFlow, resolveDependencies, resolveFlowDependenciesByPath, serializeFlow } from '@flyde/resolver';
+import { FlydeFlow, keys, ResolvedFlydeFlowDefinition } from '@flyde/core';
 import { findPackageRoot } from './find-package-root';
 import { randomInt } from 'crypto';
-import TelemetryReporter from '@vscode/extension-telemetry';
+import { reportEvent, reportException } from './telemetry';
 
 const FLYDE_DEFAULT_SERVER_PORT = 8545;
 
+import { Uri } from 'vscode';
+import { FlowJob } from '@flyde/dev-server';
+
 // export type EditorPortType = keyof any;
 
-type Awaited<T> = T extends PromiseLike<infer U> ? U : T
-
+type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
 
 type EmitterFn = (...params: any) => Promise<any>;
 type ListenerFn = (cb: (...params: any) =>Promise<any> ) => void;
@@ -48,24 +51,24 @@ const tryOrThrow = (fn: Function, msg: string) => {
 	}
 };
 
+let runningJobs = <{[webviewId: string]: FlowJob}>{};
 
 export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvider {
 
 	port: number = FLYDE_DEFAULT_SERVER_PORT;
 
+	channel: vscode.OutputChannel | undefined;
+
 	setPort (port: number) {
 		this.port = port;
 	};
 
-	public static register(context: vscode.ExtensionContext, port: number): vscode.Disposable {
+	public static register(context: vscode.ExtensionContext, port: number, channel: vscode.OutputChannel): vscode.Disposable {
 		const provider = new FlydeEditorEditorProvider(context);
 
+
+		provider.channel = channel;
 		provider.setPort(port);
-
-
-        const firstWorkspace = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0];
-		
-	    const fileRoot = firstWorkspace ? firstWorkspace.uri.fsPath : '';
 
 		const providerRegistration = vscode.window.registerCustomEditorProvider(FlydeEditorEditorProvider.viewType, provider);
 
@@ -77,12 +80,6 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 	constructor(
 		private readonly context: vscode.ExtensionContext,
 	) { }
-
-	/**
-	 * Called when our custom editor is opened.
-	 * 
-	 * 
-	 */
 
 	public async resolveCustomTextEditor(
 		document: vscode.TextDocument,
@@ -104,7 +101,13 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 
         const relative = path.relative(fileRoot, document.fileName);
 
+
+		let lastSaveBy = '';
+
+		let lastFlow: FlydeFlow;
+
 		const messageResponse = (event: FlydePortMessage<any>, payload: any) => {
+			console.info('Responding to message from webview', event.type, event.requestId, payload);
 			webviewPanel.webview.postMessage({type: event.type, requestId: event.requestId, payload, source: 'extension'});
 		};
 
@@ -112,8 +115,22 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 
 		const renderWebview = async () => {
 			const raw = document.getText();
-			const initialFlow = tryOrThrow(() => deserializeFlow(raw, document.uri.fsPath), 'Failed to deserialize flow');
-			const dependencies = tryOrThrow(() => resolveFlow(document.uri.fsPath, 'definition') as ResolvedFlydeFlowDefinition, 'Failed to resolve flow\'s dependencies');
+			const fileName = (document.uri.fsPath.split(path.sep).pop() ?? 'Default').replace('.flyde', '');
+			const initialFlow = tryOrThrow(() => {
+				return raw.trim() !== '' ? deserializeFlow(raw, document.uri.fsPath) : {
+					part: {
+						id: fileName,
+						inputs: {},
+						inputsPosition: {},
+						outputs: {},
+						outputsPosition: {},
+						instances: [],
+						connections: []
+					},
+					imports: {}
+				};
+			}, 'Failed to deserialize flow');
+			const dependencies = tryOrThrow(() => resolveDependencies(initialFlow, 'definition', document.uri.fsPath), 'Failed to resolve flow\'s dependencies');
 	
 			const errors = [initialFlow, dependencies]
 				.filter(obj => obj instanceof Error)
@@ -135,90 +152,147 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 				dependencies,
 				webviewId
 			});
+
+			lastFlow = initialFlow;
 	
 		};
 
 		await renderWebview();
+		reportEvent('renderedWebview', {webviewId});
 
-		
-		let lastSaveBy = '';
+		vscode.commands.executeCommand('setContext', 'flyde.flowLoaded', true);
+
+		let didFocusOutput = false;
         
 		webviewPanel.webview.onDidReceiveMessage(async (event: FlydePortMessage<any>) => {
 			if (event.type && event.requestId) {
-				switch (event.type) {
-					case 'prompt': {
-						const {defaultValue, text} = event.params;
-						const value = await vscode.window.showInputBox({
-							value: defaultValue,
-							prompt: text
-						});
-						messageResponse(event, value);
-						break;
-					}
-					case 'confirm': {
-						const {text} = event.params;
-						const res = await vscode.window
-							.showInformationMessage(text, "Yes", "No");
-						messageResponse(event, res === 'Yes');
-						break;
-					}
-					case 'openFile': {
-						const {absPath} = event.params;
-						const uri = vscode.Uri.parse(absPath);
 
-						const isFlydeFlow = absPath.endsWith('.flyde'); 
-						if (isFlydeFlow) {
-							const res = await vscode.commands.executeCommand("vscode.openWith", uri, 'flydeEditor');
-							messageResponse(event, res);
-						} else {
-							const activeColumn = vscode.window.activeTextEditor?.viewColumn; // without passing the active column it seems to override the tab with the selection
-							const res = await vscode.commands.executeCommand("vscode.open", uri, activeColumn);
-							messageResponse(event, res);
+				console.info('Received message from webview', event.type, event.requestId, event.params);
+
+				try {
+					
+						switch (event.type) {
+							case 'prompt': {
+								const {defaultValue, text} = event.params;
+								const value = await vscode.window.showInputBox({
+									value: defaultValue,
+									prompt: text
+								});
+								messageResponse(event, value);
+								break;
+							}
+							case 'confirm': {
+								const {text} = event.params;
+								const res = await vscode.window
+									.showInformationMessage(text, "Yes", "No");
+								messageResponse(event, res === 'Yes');
+								break;
+							}
+							case 'openFile': {
+								const {absPath} = event.params;
+								const uri = vscode.Uri.parse(absPath);
+		
+								const isFlydeFlow = absPath.endsWith('.flyde'); 
+								if (isFlydeFlow) {
+									const res = await vscode.commands.executeCommand("vscode.openWith", uri, 'flydeEditor');
+									messageResponse(event, res);
+								} else {
+									const activeColumn = vscode.window.activeTextEditor?.viewColumn; // without passing the active column it seems to override the tab with the selection
+									const res = await vscode.commands.executeCommand("vscode.open", uri, activeColumn);
+									messageResponse(event, res);
+								}
+								break;
+							}
+							case 'readFlow': {
+								const raw = document.getText();
+								const flow = deserializeFlow(raw, document.uri.fsPath);
+								messageResponse(event, flow);
+								break;
+							}
+		
+							case 'resolveDeps': {
+								// const {absPath} = event.params;
+								const flow = resolveFlowDependenciesByPath(document.uri.fsPath, 'definition');
+								messageResponse(event, flow);
+								break;
+							}
+							case 'setFlow': {
+								const {flow} = event.params;
+								const serialized = serializeFlow(flow);
+								lastFlow = flow;
+								const edit = new vscode.WorkspaceEdit();
+		
+								// replacing everything for simplicity. TODO - pass only delta changes
+								const range = new vscode.Range(0, 0, document.lineCount, 0);
+								edit.replace(document.uri, range, serialized);
+								lastSaveBy = webviewId;
+								await vscode.workspace.applyEdit(edit);
+								messageResponse(event, undefined);
+								break;
+							}
+							case 'getImportables': {
+		
+								const maybePackageRoot = await findPackageRoot(document.uri);
+								const root = maybePackageRoot ?? Uri.joinPath(document.uri, '..');
+							
+								const deps = await scanImportableParts(root.fsPath, path.relative(root.fsPath, document.uri.fsPath));
+								messageResponse(event, deps);
+								break;
+							}
+							case 'onInstallRuntimeRequest': {
+								// show vscode selection dialog between "use yarn" and "use npm"
+								const res = await vscode.window.showQuickPick(['Use Yarn', 'Use NPM'], {
+									placeHolder: 'How do you want to install the runtime?'
+								});
+
+								const command = res === 'Use Yarn' ? 'yarn add @flyde/runtime' : 'npm install @flyde/runtime';
+
+								// notify user
+								vscode.window.showInformationMessage(`Running \`${command}\` from the integrated terminal. This may take a while. You can follow the progress in the terminal`);
+
+								// create a terminal
+								const terminal = vscode.window.createTerminal({name: 'Flyde Runtime Installer'});
+
+								// run the command
+								await terminal.show();
+								await terminal.sendText(command);
+								break;
+							}
+							case 'onRunFlow': {
+								reportEvent('runFlow:before', {inputsCount: `${keys(event.params.inputs).length}`});
+								const job = await runFlow(lastFlow, fileRoot, event.params.inputs, this.port);
+								reportEvent('runFlow:after');
+
+								vscode.commands.executeCommand('setContext', 'flyde.ranFlow', true);
+								if (!didFocusOutput) {
+									didFocusOutput = true;
+									this.channel?.show();
+								}
+
+								return job;
+							}
+							case 'onStopFlow': {
+								const job = runningJobs[webviewId];
+								if (!job) {
+									throw new Error(`No job found for webview ${webviewId}`);
+								}
+								await stopFlow(job);
+								break;
+							}
+							default: {
+								reportEvent('onDidReceiveMessage: unknown message', {type: event.type, webviewId: webviewId});
+								vscode.window.showErrorMessage(`Handling of  ${event.type} is not implemented yet`);
+								break;
+							}
 						}
-						break;
+		
 					}
-					case 'readFlow': {
-						const raw = document.getText();
-						const flow = deserializeFlow(raw, document.uri.fsPath);
-						messageResponse(event, flow);
-						break;
-					}
-
-					case 'resolveDeps': {
-						// const {absPath} = event.params;
-						const flow = resolveFlow(document.uri.fsPath, 'definition');
-						messageResponse(event, flow);
-						break;
-					}
-					case 'saveFlow': {
-						const {flow} = event.params;
-						const serialized = serializeFlow(flow);
-						const edit = new vscode.WorkspaceEdit();
-
-						// replacing everything for simplicity. TODO - pass only delta changes
-						const range = new vscode.Range(0, 0, document.lineCount, 0);
-						edit.replace(document.uri, range, serialized);
-						lastSaveBy = webviewId;
-						await vscode.workspace.applyEdit(edit);
-						messageResponse(event, undefined);
-						break;
-					}
-					case 'getImportables': {
-
-						const root = await findPackageRoot(document.uri);
-						
-						const t = Date.now();
-						const deps = await scanImportableParts(root.fsPath, path.relative(root.fsPath, document.uri.fsPath));
-						console.log({deps, ms: Date.now() - t});
-						messageResponse(event, deps);
-						break;
-					}
-					default: {
-						vscode.window.showErrorMessage(`Handling of  ${event.type} is not implemented yet ??`);
-						break;
-					}
+				 catch (err: unknown) {
+					const error = err instanceof Error ? err : new Error(`Unknown error: ${err}`);
+					console.error(`Error while handling message from webview`, error);
+					reportException(error, {source: 'webviewPanel.webview.onDidReceiveMessage'});
+					vscode.window.showErrorMessage(`Unexpected error while handling message from webview: ${error.message}`);
 				}
-
 			}
 		});
 
@@ -243,9 +317,9 @@ export class FlydeEditorEditorProvider implements vscode.CustomTextEditorProvide
 
 			if (isSameUri && lastSaveBy !== webviewId) {
 				const raw = document.getText();
-				const flow = deserializeFlow(raw, document.uri.fsPath);
-				const deps = resolveFlow(document.uri.fsPath, 'definition');
-				webviewPanel.webview.postMessage({type: 'onFlowChange', requestId: 'TODO-cuid', params: {flow, deps}, source: 'extension'});
+				const flow: FlydeFlow = deserializeFlow(raw, document.uri.fsPath);
+				const deps = resolveDependencies(flow, 'definition', document.uri.fsPath);
+				webviewPanel.webview.postMessage({type: 'onExternalFlowChange', requestId: 'TODO-cuid', params: {flow, deps}, source: 'extension'});
 			}
 		});
 
