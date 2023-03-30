@@ -1,0 +1,246 @@
+imports:
+  "@flyde/stdlib":
+    - Equals
+    - Subtract
+    - Add
+    - Set Global State
+    - Get Global State
+part:
+  instances:
+    - pos:
+        x: -143.75394531250004
+        y: -100.41033416748047
+      id: Equals-364
+      inputConfig:
+        compare:
+          mode: static
+          value: 0
+        b:
+          mode: static
+          value: 0
+      visibleInputs:
+        - a
+        - b
+        - __trigger
+      partId: Equals
+      style:
+        size: regular
+    - pos:
+        x: 64.31899169921871
+        y: 87.86208290100097
+      id: Equals-364-d95
+      inputConfig:
+        compare:
+          mode: static
+          value: 1
+        b:
+          mode: static
+          value: 1
+      visibleInputs:
+        - a
+        - b
+        - __trigger
+      partId: Equals
+    - pos:
+        x: 185.4830535888672
+        y: 629.1723207092285
+      id: Add-539
+      inputConfig: {}
+      partId: Add
+      style:
+        color: "#fee440"
+    - pos:
+        x: 129.231962890625
+        y: 247.02580001831052
+      id: Subtract-210
+      inputConfig:
+        n2:
+          mode: static
+          value: 1
+      visibleInputs:
+        - n1
+        - n2
+      partId: Subtract
+      style:
+        color: "#f15bb5"
+    - pos:
+        x: 293.9998309326172
+        y: 237.84961441040036
+      id: Subtract-210-d215
+      inputConfig:
+        n2:
+          mode: static
+          value: 2
+      visibleInputs:
+        - n1
+        - n2
+      partId: Subtract
+      style:
+        color: "#f15bb5"
+    - pos:
+        x: 95.73330749511717
+        y: 419.88048431396487
+      id: Fibonacci-261
+      inputConfig: {}
+      visibleInputs:
+        - n
+      partId: Fibonacci
+    - pos:
+        x: 296.0793762207031
+        y: 425.56346138000487
+      id: Fibonacci-379
+      inputConfig: {}
+      partId: Fibonacci
+    - pos:
+        x: -187.13034929799187
+        y: -477.1479096727884
+      id: clfv4afmf00084668r9nuoaoe
+      inputConfig:
+        defaultValue:
+          mode: static
+          value: -1
+      partId: Get Global State
+    - pos:
+        x: -470.26059625781113
+        y: -308.2758312601702
+      id: clfv4c2zi000m4668ohcc6rb7
+      inputConfig:
+        b:
+          mode: static
+          value: -1
+      partId: Equals
+    - pos:
+        x: 43.86677711316838
+        y: 748.0266276452062
+      id: clfv4epnt001o4668lpvrlux1
+      inputConfig:
+        key:
+          mode: sticky
+      partId: Set Global State
+  connections:
+    - from:
+        insId: Fibonacci-261
+        pinId: result
+      to:
+        insId: Add-539
+        pinId: n1
+    - from:
+        insId: Subtract-210
+        pinId: difference
+      to:
+        insId: Fibonacci-261
+        pinId: n
+    - from:
+        insId: Subtract-210-d215
+        pinId: difference
+      to:
+        insId: Fibonacci-379
+        pinId: n
+    - from:
+        insId: Equals-364
+        pinId: "false"
+      to:
+        insId: Equals-364-d95
+        pinId: a
+    - from:
+        insId: Equals-364-d95
+        pinId: "false"
+      to:
+        insId: Subtract-210
+        pinId: n1
+    - from:
+        insId: Equals-364-d95
+        pinId: "false"
+      to:
+        insId: Subtract-210-d215
+        pinId: n1
+    - from:
+        insId: __this
+        pinId: n
+      to:
+        insId: clfv4afmf00084668r9nuoaoe
+        pinId: key
+    - from:
+        insId: clfv4afmf00084668r9nuoaoe
+        pinId: value
+      to:
+        insId: clfv4c2zi000m4668ohcc6rb7
+        pinId: a
+    - from:
+        insId: __this
+        pinId: n
+      to:
+        insId: Equals-364
+        pinId: a
+    - from:
+        insId: clfv4c2zi000m4668ohcc6rb7
+        pinId: "true"
+      to:
+        insId: Equals-364
+        pinId: __trigger
+    - from:
+        insId: __this
+        pinId: n
+      to:
+        insId: clfv4epnt001o4668lpvrlux1
+        pinId: key
+      hidden: true
+    - from:
+        insId: Add-539
+        pinId: sum
+      to:
+        insId: clfv4epnt001o4668lpvrlux1
+        pinId: value
+    - from:
+        insId: clfv4epnt001o4668lpvrlux1
+        pinId: setValue
+      to:
+        insId: __this
+        pinId: result
+    - from:
+        insId: clfv4c2zi000m4668ohcc6rb7
+        pinId: "false"
+      to:
+        insId: __this
+        pinId: result
+    - from:
+        insId: Equals-364
+        pinId: "true"
+      to:
+        insId: __this
+        pinId: result
+    - from:
+        insId: Equals-364-d95
+        pinId: "true"
+      to:
+        insId: __this
+        pinId: result
+    - from:
+        insId: Fibonacci-379
+        pinId: result
+      to:
+        insId: Add-539
+        pinId: n2
+  id: Fibonacci
+  inputs:
+    n:
+      mode: required
+      type: any
+  outputs:
+    result:
+      type: any
+      optional: false
+      delayed: false
+  inputsPosition:
+    n:
+      x: -313.93844991449174
+      y: -580.2133427174213
+  outputsPosition:
+    result:
+      x: -129.94097954199347
+      y: 898.3719472627818
+  completionOutputs:
+    - result
+  defaultStyle:
+    size: large
+    color: "#00bbf9"

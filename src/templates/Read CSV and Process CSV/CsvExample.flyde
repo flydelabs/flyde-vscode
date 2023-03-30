@@ -1,0 +1,302 @@
+imports:
+  "@flyde/stdlib":
+    - Read File
+    - Split
+    - Head and rest
+    - Loop List
+    - Accumulate Values by Count
+    - Property Equals
+    - Accumulate Values by Time
+    - Get List Element
+    - Sum List
+    - Parse Int
+part:
+  instances:
+    - pos:
+        x: -140.78629353841143
+        y: -114.19796077223486
+      id: clfuqs69n00014668p8jg106j
+      inputConfig:
+        path:
+          mode: static
+          value: sales.csv
+        encoding:
+          mode: static
+          value: utf8
+      visibleInputs:
+        - path
+        - encoding
+      visibleOutputs:
+        - contents
+        - __error
+      partId: Read File
+      style:
+        icon: fa-file
+        color: "#00f5d4"
+    - pos:
+        x: -148.29782174594447
+        y: 68.37059127412704
+      id: Parse CSV-bn0462h
+      inputConfig: {}
+      part:
+        id: Parse CSV
+        inputs:
+          contents:
+            mode: required
+        outputs:
+          parsed:
+            delayed: false
+        instances:
+          - pos:
+              x: -118.06916251947007
+              y: -242.0581984195877
+            id: clfur381u000e46680qngrrv0
+            inputConfig:
+              separator:
+                mode: static
+                value: "\n"
+            partId: Split
+          - pos:
+              x: -143.34856082088254
+              y: -127.92327522136146
+            id: clfur3wrb000n4668tzjs5lcw
+            inputConfig: {}
+            partId: Head and rest
+          - pos:
+              x: -123.38416757304788
+              y: 40.55221890874138
+            id: clfur49eg000w4668ahvwk2ib
+            inputConfig: {}
+            partId: Loop List
+          - pos:
+              x: -177.25193940431552
+              y: 198.87647320233754
+            id: clfur4n31001346682iyika2o
+            inputConfig:
+              separator:
+                mode: static
+                value: ","
+            partId: Split
+          - id: clfutolj5000346685ja75qfg
+            partId: Accumulate Values by Count
+            inputConfig: {}
+            pos:
+              x: -111.5711781571847
+              y: 351.8273068946909
+        inputsPosition:
+          string:
+            x: -125.91370946045086
+            y: -338.8222372977071
+          contents:
+            x: -125.91370946045086
+            y: -338.8222372977071
+        outputsPosition:
+          parsed:
+            x: -17.001405019976612
+            y: 579.060005421976
+        connections:
+          - from:
+              insId: clfur381u000e46680qngrrv0
+              pinId: value
+            to:
+              insId: clfur3wrb000n4668tzjs5lcw
+              pinId: list
+          - from:
+              insId: clfur3wrb000n4668tzjs5lcw
+              pinId: rest
+            to:
+              insId: clfur49eg000w4668ahvwk2ib
+              pinId: list
+          - from:
+              insId: clfur49eg000w4668ahvwk2ib
+              pinId: item
+            to:
+              insId: clfur4n31001346682iyika2o
+              pinId: string
+          - from:
+              insId: clfur4n31001346682iyika2o
+              pinId: value
+            to:
+              insId: clfutolj5000346685ja75qfg
+              pinId: value
+          - from:
+              insId: clfur49eg000w4668ahvwk2ib
+              pinId: length
+            to:
+              insId: clfutolj5000346685ja75qfg
+              pinId: count
+          - from:
+              insId: __this
+              pinId: contents
+            to:
+              insId: clfur381u000e46680qngrrv0
+              pinId: string
+          - from:
+              insId: clfutolj5000346685ja75qfg
+              pinId: accumulated
+            to:
+              pinId: parsed
+              insId: __this
+        completionOutputs:
+          - parsed
+      style:
+        size: regular
+        icon: file-csv
+        color: "#f15bb5"
+    - pos:
+        x: -80.83957769649146
+        y: 349.2136896203491
+      id: clfuu4wdv00074668lyl7gtnw
+      inputConfig: {}
+      partId: Sum List
+    - pos:
+        x: -118.72152492212996
+        y: 218.9583372603031
+      id: Get Prices By Continent-e4046ap
+      inputConfig:
+        value:
+          mode: static
+          value: Asia
+      part:
+        id: Get Prices By Continent
+        inputs:
+          list:
+            mode: required
+          value:
+            mode: required
+        outputs:
+          accumulated:
+            delayed: false
+        instances:
+          - pos:
+              x: -247.17726806640627
+              y: 190.37244945526123
+            id: clfutxtvk00174668slofeqax
+            inputConfig: {}
+            partId: Loop List
+          - pos:
+              x: -241.05586326871594
+              y: 361.56697026881875
+            id: clfutyfo9001h4668li94xj5c
+            inputConfig:
+              attribute:
+                mode: static
+                value: "1"
+              value:
+                mode: sticky
+            partId: Property Equals
+          - pos:
+              x: -235.99688031409028
+              y: 784.258404669396
+            id: clfuu0tzr001v4668989c6z2b
+            inputConfig:
+              time:
+                mode: static
+                value: 5
+            partId: Accumulate Values by Time
+          - pos:
+              x: -250.18657958984375
+              y: 517.7588043212891
+            id: clfuu1kkq0024466856fkuiyi
+            inputConfig:
+              index:
+                mode: static
+                value: 3
+            partId: Get List Element
+          - id: Get Prices By Continent-cs0461a
+            partId: Parse Int
+            inputConfig: {}
+            pos:
+              x: -207.30524414062495
+              y: 625.1581494140624
+        inputsPosition:
+          list:
+            x: -224.4720619253199
+            y: -6.734161457821966
+          value:
+            x: 209.99120256393655
+            y: -65.09689617086424
+        outputsPosition:
+          accumulated:
+            x: -148.38450112564686
+            y: 938.8051974670922
+        connections:
+          - from:
+              insId: clfutxtvk00174668slofeqax
+              pinId: item
+            to:
+              insId: clfutyfo9001h4668li94xj5c
+              pinId: object
+          - from:
+              insId: clfutyfo9001h4668li94xj5c
+              pinId: "true"
+            to:
+              insId: clfuu1kkq0024466856fkuiyi
+              pinId: list
+          - from:
+              insId: __this
+              pinId: list
+            to:
+              insId: clfutxtvk00174668slofeqax
+              pinId: list
+          - from:
+              insId: __this
+              pinId: value
+            to:
+              insId: clfutyfo9001h4668li94xj5c
+              pinId: value
+          - from:
+              insId: clfuu0tzr001v4668989c6z2b
+              pinId: accumulated
+            to:
+              insId: __this
+              pinId: accumulated
+          - from:
+              insId: clfuu1kkq0024466856fkuiyi
+              pinId: element
+            to:
+              insId: Get Prices By Continent-cs0461a
+              pinId: str
+          - from:
+              insId: Get Prices By Continent-cs0461a
+              pinId: int
+            to:
+              insId: clfuu0tzr001v4668989c6z2b
+              pinId: value
+        completionOutputs:
+          - accumulated
+  connections:
+    - from:
+        insId: clfuqs69n00014668p8jg106j
+        pinId: contents
+      to:
+        insId: Parse CSV-bn0462h
+        pinId: contents
+    - from:
+        insId: Parse CSV-bn0462h
+        pinId: parsed
+      to:
+        insId: Get Prices By Continent-e4046ap
+        pinId: list
+    - from:
+        insId: Get Prices By Continent-e4046ap
+        pinId: accumulated
+      to:
+        insId: clfuu4wdv00074668lyl7gtnw
+        pinId: list
+    - from:
+        insId: clfuu4wdv00074668lyl7gtnw
+        pinId: sum
+      to:
+        insId: __this
+        pinId: result
+  id: CsvExample
+  inputs: {}
+  outputs:
+    result:
+      delayed: false
+  inputsPosition: {}
+  outputsPosition:
+    result:
+      x: -68.63787563119442
+      y: 510.60286774996604
