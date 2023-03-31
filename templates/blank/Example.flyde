@@ -1,0 +1,14 @@
+imports:
+  "@flyde/stdlib": []
+part:
+  instances: []
+  connections: []
+  id: Example
+  inputs: {}
+  outputs: {}
+  inputsPosition: {}
+  outputsPosition:
+    result:
+      x: -23.264428942324532
+      y: 237.25953921502617
+  completionOutputs: []

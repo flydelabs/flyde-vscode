@@ -5,20 +5,20 @@ imports:
 part:
   instances:
     - pos:
-        x: -230.75198974609376
-        y: -224.33596801757812
+        x: -242.4186767578125
+        y: -282.6658935546875
       id: Inline-value-Hello-3r046zk
       inputConfig: {}
       part:
-        id: Inline-value-Hello
+        id: Inline-value-Hello,
         inputs: {}
         outputs:
           value:
             delayed: false
-        fnCode: const result = ('Hello'); Promise.resolve(result).then(val =>
+        fnCode: const result = ('Hello,'); Promise.resolve(result).then(val =>
           outputs.value.next(val))
-        customViewCode: "'Hello'"
-        dataBuilderSource: J0hlbGxvJw==
+        customViewCode: "'Hello,'"
+        dataBuilderSource: J0hlbGxvLCc=
         templateType: value
         completionOutputs:
           - value
@@ -36,8 +36,8 @@ part:
           fontFamily: monospace
           fontWeight: "500"
     - pos:
-        x: 9.939814453124995
-        y: -241.91000610351563
+        x: -7.8394824218750045
+        y: -285.98620849609375
       id: Inline-value-World-vo146xh
       inputConfig: {}
       part:
@@ -60,6 +60,12 @@ part:
             fontFamily: monospace
             fontWeight: "500"
         description: Custom inline value
+      style:
+        size: large
+        icon: code
+        cssOverride:
+          fontFamily: monospace
+          fontWeight: "500"
     - pos:
         x: -43.04081217447907
         y: 65.3379041689916
@@ -67,8 +73,8 @@ part:
       inputConfig: {}
       partId: Concat
     - pos:
-        x: 60.17854817708343
-        y: -63.80998401460214
+        x: 39.43770345052093
+        y: -128.64082507905528
       id: clftmbihe000j4668newg9ius
       inputConfig:
         delay:

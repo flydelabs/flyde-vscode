@@ -19,7 +19,7 @@ part:
       inputConfig:
         path:
           mode: static
-          value: sales.csv
+          value: "{{targetPath}}/sales.csv"
         encoding:
           mode: static
           value: utf8

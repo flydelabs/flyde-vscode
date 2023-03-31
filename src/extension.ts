@@ -13,11 +13,12 @@ import { join } from "path";
 import { formatEvent, randomInt } from "@flyde/core";
 import { deserializeFlowByPath, serializeFlow } from "@flyde/resolver";
 
-import TelemetryReporter from '@vscode/extension-telemetry';
+import TelemetryReporter from "@vscode/extension-telemetry";
 import { activateReporter, reportEvent } from "./telemetry";
 import path = require("path");
 
-import {createEditorClient}  from '@flyde/remote-debugger/dist/clients/editor';
+import { createEditorClient } from "@flyde/remote-debugger/dist/clients/editor";
+import { Template, getTemplates, scaffoldTemplate } from "./templateUtils";
 
 // the application insights key (also known as instrumentation key)
 
@@ -45,36 +46,41 @@ export function activate(context: vscode.ExtensionContext) {
   // ensure it gets properly disposed. Upon disposal the events will be flushed
   context.subscriptions.push(activateReporter());
 
-  reportEvent('activate');
+  reportEvent("activate");
 
   const outputChannel = vscode.window.createOutputChannel("Flyde");
 
   fp(FLYDE_DEFAULT_SERVER_PORT).then(([port]: [number]) => {
-
-    reportEvent('devServerStart');
-    console.log(`Starting Flyde server on port ${port}`);
+    reportEvent("devServerStart");
 
     const editorStaticsRoot = join(__dirname, "../editor-build");
-    server = initFlydeDevServer({ port, root: fileRoot, editorStaticsRoot });
-    // const editorStaticRoot = vscode.Uri.joinPath(context.extensionUri, 'editor-build').toString();
-    // process = execa.execaCommand(`node ${file} --port ${port} --root ${fileRoot}`, {stdio: 'inherit'});
+    const cleanServer = initFlydeDevServer({
+      port,
+      root: fileRoot,
+      editorStaticsRoot,
+    });
+
+    context.subscriptions.push({
+      dispose() {
+        cleanServer();
+      },
+    });
 
     context.subscriptions.push(
       FlydeEditorEditorProvider.register(context, port, outputChannel)
     );
-    // runDevServer(port, fileRoot);
-    const _debugger = createEditorClient(`http://localhost:${port}`, 'n/a');
+
+    const _debugger = createEditorClient(`http://localhost:${port}`, "n/a");
 
     _debugger.onBatchedEvents((events) => {
-      events.forEach(event => {
+      events.forEach((event) => {
         outputChannel.appendLine(formatEvent(event));
       });
     });
   });
 
-
   const openAsTextHandler = (uri: vscode.Uri) => {
-    reporter.sendTelemetryEvent('openAsText');
+    reporter.sendTelemetryEvent("openAsText");
     vscode.commands.executeCommand("workbench.action.reopenWithEditor", uri);
   };
 
@@ -86,8 +92,7 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand(
       "flyde.newVisualFlow",
       async (dirName: vscode.Uri) => {
-
-        reportEvent('newVisualFlow:start');
+        reportEvent("newVisualFlow:start");
         // use this if triggered by a menu item,
         let folderUri = dirName; // folder will be undefined when triggered by keybinding
 
@@ -102,16 +107,34 @@ export function activate(context: vscode.ExtensionContext) {
 
           // see note below for parsing multiple files/folders
           folderUri = await vscode.Uri.file(pathResult); // make it a Uri
-		  
-		  const stat = await fs.stat(folderUri);
-		  if (stat.type === vscode.FileType.File) {
-			folderUri = vscode.Uri.joinPath(folderUri, '..');
-		  }
+
+          const stat = await fs.stat(folderUri);
+          if (stat.type === vscode.FileType.File) {
+            folderUri = vscode.Uri.joinPath(folderUri, "..");
+          }
+        }
+
+        const templates = getTemplates();
+
+        const template = await vscode.window.showQuickPick<
+          Template & { label: string }
+        >(
+          templates.map((t) => ({
+            ...t,
+            label: t.name,
+            description: t.tags.join(", "),
+            detail: t.description,
+          }))
+        );
+
+        if (!template) {
+          vscode.window.showWarningMessage("No template selected, aborting");
+          return;
         }
 
         const fileName = await vscode.window.showInputBox({
           title: "Flow file name",
-          value: `${"MyAwesomeFlow" + randomInt(999)}`
+          value: `${"MyAwesomeFlow" + randomInt(999)}`,
         });
 
         if (!fileName) {
@@ -119,7 +142,7 @@ export function activate(context: vscode.ExtensionContext) {
           return;
         }
 
-        const targetPath = Uri.joinPath(folderUri, fileName + '.flyde');
+        const targetPath = Uri.joinPath(folderUri, fileName + ".flyde");
 
         if (
           (await fs.readFile(targetPath).then(
@@ -130,50 +153,24 @@ export function activate(context: vscode.ExtensionContext) {
           vscode.window.showErrorMessage(`File ${targetPath} already exists!`);
           return;
         }
-
-
-        const flow = deserializeFlowByPath(path.join(__dirname, '../DefaultFlow.flyde'));
-
-        flow.part.id = fileName;
-
         try {
-          const serializedFlow = serializeFlow(flow);
-
-          const buff = Buffer.from(serializedFlow, "utf-8");
-
-          await vscode.workspace.fs.writeFile(targetPath, buff);
-          // const result = await vscode.window.showQuickPick(['Visual Flow', 'Code Flow']);
-          vscode.window.showInformationMessage(
-            `New flow created at ${fileName}.flyde!`
-          );
-
-
+          reportEvent("newVisualFlow:before", { template: template.name });
+          scaffoldTemplate(template, folderUri.fsPath, fileName);
           vscode.commands.executeCommand(
             "vscode.openWith",
             targetPath,
             "flydeEditor"
           );
-          reportEvent('newVisualFlow:success');
-
-        } catch (e: any) {
-          reportEvent('newVisualFlow:error', {error: e});
-
-          vscode.window.showErrorMessage(
-            `Error creating flow: ${e && e.message ? e.message : e}`
+          reportEvent("newVisualFlow:success");
+          vscode.window.showInformationMessage(
+            `New flow created at ${fileName}.flyde!`
           );
+        } catch (error) {
+          vscode.window.showErrorMessage(`Error creating flow: ${error}`);
         }
-
-        // await vscode.workspace.openTextDocument(targetPath).then((arg) => {
-        // 	console.log(arg);
-
-        // }, (err) => {
-        // 	console.log(err);
-
-        // });
       }
     )
   );
-
 }
 
 // this method is called when your extension is deactivated

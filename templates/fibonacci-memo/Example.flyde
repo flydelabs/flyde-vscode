@@ -8,8 +8,8 @@ imports:
 part:
   instances:
     - pos:
-        x: -143.75394531250004
-        y: -100.41033416748047
+        x: -212.5711450195313
+        y: -226.21673065185547
       id: Equals-364
       inputConfig:
         compare:
@@ -24,10 +24,10 @@ part:
         - __trigger
       partId: Equals
       style:
-        size: regular
+        size: small
     - pos:
-        x: 64.31899169921871
-        y: 87.86208290100097
+        x: -89.34763427734379
+        y: -91.75466209411621
       id: Equals-364-d95
       inputConfig:
         compare:
@@ -39,19 +39,20 @@ part:
       visibleInputs:
         - a
         - b
-        - __trigger
       partId: Equals
+      style:
+        size: small
     - pos:
-        x: 185.4830535888672
-        y: 629.1723207092285
+        x: 25.154806518554693
+        y: 307.5910428619385
       id: Add-539
       inputConfig: {}
       partId: Add
       style:
         color: "#fee440"
     - pos:
-        x: 129.231962890625
-        y: 247.02580001831052
+        x: -56.15921142578125
+        y: 75.60350921630857
       id: Subtract-210
       inputConfig:
         n2:
@@ -64,8 +65,8 @@ part:
       style:
         color: "#f15bb5"
     - pos:
-        x: 293.9998309326172
-        y: 237.84961441040036
+        x: 84.18812438964846
+        y: 75.20316436767575
       id: Subtract-210-d215
       inputConfig:
         n2:
@@ -78,40 +79,33 @@ part:
       style:
         color: "#f15bb5"
     - pos:
-        x: 95.73330749511717
-        y: 419.88048431396487
+        x: -77.35678039550783
+        y: 181.67983827114108
       id: Fibonacci-261
       inputConfig: {}
       visibleInputs:
         - n
       partId: Fibonacci
     - pos:
-        x: 296.0793762207031
-        y: 425.56346138000487
+        x: 91.03280639648438
+        y: 185.04785259246825
       id: Fibonacci-379
       inputConfig: {}
       partId: Fibonacci
     - pos:
-        x: -187.13034929799187
-        y: -477.1479096727884
+        x: -403.53745379017937
+        y: -402.319204838804
       id: clfv4afmf00084668r9nuoaoe
       inputConfig:
         defaultValue:
-          mode: static
-          value: -1
+          mode: queue
+      visibleOutputs:
+        - value
+        - __error
       partId: Get Global State
     - pos:
-        x: -470.26059625781113
-        y: -308.2758312601702
-      id: clfv4c2zi000m4668ohcc6rb7
-      inputConfig:
-        b:
-          mode: static
-          value: -1
-      partId: Equals
-    - pos:
-        x: 43.86677711316838
-        y: 748.0266276452062
+        x: -123.55424339464412
+        y: 421.14917860956166
       id: clfv4epnt001o4668lpvrlux1
       inputConfig:
         key:
@@ -161,23 +155,11 @@ part:
         insId: clfv4afmf00084668r9nuoaoe
         pinId: key
     - from:
-        insId: clfv4afmf00084668r9nuoaoe
-        pinId: value
-      to:
-        insId: clfv4c2zi000m4668ohcc6rb7
-        pinId: a
-    - from:
         insId: __this
         pinId: n
       to:
         insId: Equals-364
         pinId: a
-    - from:
-        insId: clfv4c2zi000m4668ohcc6rb7
-        pinId: "true"
-      to:
-        insId: Equals-364
-        pinId: __trigger
     - from:
         insId: __this
         pinId: n
@@ -194,12 +176,6 @@ part:
     - from:
         insId: clfv4epnt001o4668lpvrlux1
         pinId: setValue
-      to:
-        insId: __this
-        pinId: result
-    - from:
-        insId: clfv4c2zi000m4668ohcc6rb7
-        pinId: "false"
       to:
         insId: __this
         pinId: result
@@ -221,6 +197,18 @@ part:
       to:
         insId: Add-539
         pinId: n2
+    - from:
+        insId: clfv4afmf00084668r9nuoaoe
+        pinId: __error
+      to:
+        insId: Equals-364
+        pinId: __trigger
+    - from:
+        insId: clfv4afmf00084668r9nuoaoe
+        pinId: value
+      to:
+        insId: __this
+        pinId: result
   id: Fibonacci
   inputs:
     n:
@@ -237,8 +225,8 @@ part:
       y: -580.2133427174213
   outputsPosition:
     result:
-      x: -129.94097954199347
-      y: 898.3719472627818
+      x: -263.5486244329267
+      y: 598.6068962456861
   completionOutputs:
     - result
   defaultStyle:
