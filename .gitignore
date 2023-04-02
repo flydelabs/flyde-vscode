@@ -4,3 +4,4 @@ dist
 .yarn
 yarn-error
 out
+editor-build
