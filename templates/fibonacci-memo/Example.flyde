@@ -43,8 +43,8 @@ part:
       style:
         size: small
     - pos:
-        x: 25.154806518554693
-        y: 307.5910428619385
+        x: -52.79020080566406
+        y: 400.2493737792969
       id: Add-539
       inputConfig: {}
       partId: Add
@@ -79,22 +79,25 @@ part:
       style:
         color: "#f15bb5"
     - pos:
-        x: -77.35678039550783
-        y: 181.67983827114108
+        x: -73.44161926269533
+        y: 149.45785197734835
       id: Fibonacci-261
       inputConfig: {}
       visibleInputs:
         - n
       partId: Fibonacci
     - pos:
-        x: 91.03280639648438
-        y: 185.04785259246825
+        x: 42.176300048828125
+        y: 289.42489011764525
       id: Fibonacci-379
       inputConfig: {}
+      visibleInputs:
+        - n
+        - __trigger
       partId: Fibonacci
     - pos:
-        x: -403.53745379017937
-        y: -402.319204838804
+        x: -321.8844386534606
+        y: -429.41850903802276
       id: clfv4afmf00084668r9nuoaoe
       inputConfig:
         defaultValue:
@@ -104,8 +107,8 @@ part:
         - __error
       partId: Get Global State
     - pos:
-        x: -123.55424339464412
-        y: 421.14917860956166
+        x: -194.61054832628474
+        y: 511.2260752770421
       id: clfv4epnt001o4668lpvrlux1
       inputConfig:
         key:
@@ -123,12 +126,6 @@ part:
         pinId: difference
       to:
         insId: Fibonacci-261
-        pinId: n
-    - from:
-        insId: Subtract-210-d215
-        pinId: difference
-      to:
-        insId: Fibonacci-379
         pinId: n
     - from:
         insId: Equals-364
@@ -209,6 +206,18 @@ part:
       to:
         insId: __this
         pinId: result
+    - from:
+        insId: Subtract-210-d215
+        pinId: difference
+      to:
+        insId: Fibonacci-379
+        pinId: n
+    - from:
+        insId: Fibonacci-261
+        pinId: result
+      to:
+        insId: Fibonacci-379
+        pinId: __trigger
   id: Fibonacci
   inputs:
     n:
@@ -225,8 +234,8 @@ part:
       y: -580.2133427174213
   outputsPosition:
     result:
-      x: -263.5486244329267
-      y: 598.6068962456861
+      x: -278.50431309947277
+      y: 679.3676769956579
   completionOutputs:
     - result
   defaultStyle:

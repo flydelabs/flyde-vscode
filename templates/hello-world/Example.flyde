@@ -5,8 +5,8 @@ imports:
 part:
   instances:
     - pos:
-        x: -242.4186767578125
-        y: -282.6658935546875
+        x: -257.0244506835937
+        y: -349.37652587890625
       id: Inline-value-Hello-3r046zk
       inputConfig: {}
       part:
@@ -36,8 +36,8 @@ part:
           fontFamily: monospace
           fontWeight: "500"
     - pos:
-        x: -7.8394824218750045
-        y: -285.98620849609375
+        x: -62.686528320312505
+        y: -244.63742309570313
       id: Inline-value-World-vo146xh
       inputConfig: {}
       part:
@@ -73,8 +73,8 @@ part:
       inputConfig: {}
       partId: Concat
     - pos:
-        x: 39.43770345052093
-        y: -128.64082507905528
+        x: 11.271931966145928
+        y: -93.22169666108653
       id: clftmbihe000j4668newg9ius
       inputConfig:
         delay:
