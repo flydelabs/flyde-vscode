@@ -10,7 +10,17 @@
   "icon": "icon.png",
   "repository": "https://github.com/flydehq/flyde-vscode",
   "categories": [
-    "Other"
+    "Programming Languages",
+    "Visualization",
+    "Testing",
+    "Education"
+  ],
+  "keywords": [
+    "visual programming",
+    "flow-based",
+    "low-code",
+    "reactive",
+    "FBP"
   ],
   "activationEvents": [
     "onCustomEditor:flydeEditor",
