@@ -5,3 +5,4 @@ dist
 yarn-error
 out
 editor-build
+*.vsix
