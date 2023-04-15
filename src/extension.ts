@@ -10,14 +10,12 @@ var fp = require("find-free-port");
 import { initFlydeDevServer } from "@flyde/dev-server/dist/lib";
 
 import { join } from "path";
-import { formatEvent, randomInt } from "@flyde/core";
-import { deserializeFlowByPath, serializeFlow } from "@flyde/resolver";
+import { randomInt } from "@flyde/core";
 
 import TelemetryReporter from "@vscode/extension-telemetry";
 import { activateReporter, reportEvent } from "./telemetry";
 import path = require("path");
 
-import { createEditorClient } from "@flyde/remote-debugger/dist/clients/editor";
 import { Template, getTemplates, scaffoldTemplate } from "./templateUtils";
 
 // the application insights key (also known as instrumentation key)
@@ -69,14 +67,6 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
       FlydeEditorEditorProvider.register(context, port, outputChannel)
     );
-
-    const _debugger = createEditorClient(`http://localhost:${port}`, "n/a");
-
-    _debugger.onBatchedEvents((events) => {
-      events.forEach((event) => {
-        outputChannel.appendLine(formatEvent(event));
-      });
-    });
   });
 
   const openAsTextHandler = (uri: vscode.Uri) => {
@@ -161,7 +151,7 @@ export function activate(context: vscode.ExtensionContext) {
             targetPath,
             "flydeEditor"
           );
-          reportEvent("newVisualFlow:success");
+          reportEvent("newVisualFlow:success", { template: template.name });
           vscode.window.showInformationMessage(
             `New flow created at ${fileName}.flyde!`
           );

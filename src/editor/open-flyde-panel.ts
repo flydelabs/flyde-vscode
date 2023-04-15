@@ -1,67 +1,99 @@
-import { FlydeFlow, ResolvedFlydeFlowDefinition } from '@flyde/core';
-import * as vscode from 'vscode';
+import { FlydeFlow, ResolvedFlydeFlowDefinition } from "@flyde/core";
+import * as vscode from "vscode";
 
 export type WebviewContentParams = {
-  extensionUri: vscode.Uri,
-  relativeFile: string,
-  port: number,
-  webview: vscode.Webview,
-  initialFlow: FlydeFlow,
-  dependencies: ResolvedFlydeFlowDefinition,
+  extensionUri: vscode.Uri;
+  relativeFile: string;
+  executionId: string;
+  port: number;
+  webview: vscode.Webview;
+  initialFlow: FlydeFlow;
+  dependencies: ResolvedFlydeFlowDefinition;
   webviewId: string;
 };
 
-const isDev = process.env.MODE === 'dev';
+const isDev = process.env.MODE === "dev";
 
-const {fs} = vscode.workspace; 
+const { fs } = vscode.workspace;
 
-const getScriptTagsFromReactAppHtml = async (root: vscode.Uri, webview: vscode.Webview, isDev: boolean) => {
-
+const getScriptTagsFromReactAppHtml = async (
+  root: vscode.Uri,
+  webview: vscode.Webview,
+  isDev: boolean
+) => {
   if (isDev) {
     return '<script defer="defer" src="http://localhost:3000/editor/static/js/bundle.js"></script>';
   } else {
     // this assumes react scripts will always remain on the same structure
-    const html = (await fs.readFile(vscode.Uri.joinPath(root, 'editor-build/index.html'))).toString();
-  
+    const html = (
+      await fs.readFile(vscode.Uri.joinPath(root, "editor-build/index.html"))
+    ).toString();
+
     const scriptMatches = html.match(/static\/js\/(.*)\.js/) || [];
     const styleMatches = html.match(/static\/css\/(.*)\.css/) || [];
 
     if (!scriptMatches || scriptMatches.length === 0) {
       throw new Error(`Cannot find script urls in editor-build/index.html`);
-    } 
+    }
 
     if (!styleMatches || styleMatches.length === 0) {
       throw new Error(`Cannot find style urls in editor-build/index.html`);
-    } 
+    }
 
-    const scriptUri = scriptMatches[0] && webview.asWebviewUri(vscode.Uri.joinPath(root, 'editor-build', scriptMatches[0]));
-    const styleUri = styleMatches[0] && webview.asWebviewUri(vscode.Uri.joinPath(root, 'editor-build', styleMatches[0]));
-  
+    const scriptUri =
+      scriptMatches[0] &&
+      webview.asWebviewUri(
+        vscode.Uri.joinPath(root, "editor-build", scriptMatches[0])
+      );
+    const styleUri =
+      styleMatches[0] &&
+      webview.asWebviewUri(
+        vscode.Uri.joinPath(root, "editor-build", styleMatches[0])
+      );
+
     return `
     <script defer="defer" src="${scriptUri}"></script>
     <link href="${styleUri}" rel="stylesheet">
     `;
   }
-
 };
 
 export async function getWebviewContent(params: WebviewContentParams) {
+  const {
+    extensionUri,
+    relativeFile,
+    port,
+    webview,
+    initialFlow,
+    dependencies,
+    executionId,
+  } = params;
+  const stylePath = vscode.Uri.joinPath(extensionUri, "media", "style.css");
 
-    const {extensionUri, relativeFile, port, webview, initialFlow, dependencies} = params;
-    const stylePath = vscode.Uri.joinPath(extensionUri, 'media', 'style.css');
+  const wvStylePathwebview = webview.asWebviewUri(
+    vscode.Uri.joinPath(stylePath)
+  );
 
-    const wvStylePathwebview = webview.asWebviewUri(vscode.Uri.joinPath(stylePath));
+  const buildUri = webview.asWebviewUri(
+    vscode.Uri.joinPath(extensionUri, "editor-build")
+  );
 
-    const buildUri = webview.asWebviewUri(vscode.Uri.joinPath(extensionUri, 'editor-build'));
+  // const INITIAL_DATA = JSON.stringify({webviewId, initialFlow, dependencies});
 
-    // const INITIAL_DATA = JSON.stringify({webviewId, initialFlow, dependencies});
+  // on dev mode we want to load the webpack hot reloaded version of the iframe, for quick feedback loop
 
-    // on dev mode we want to load the webpack hot reloaded version of the iframe, for quick feedback loop
+  const bootstrapData = {
+    initialFlow,
+    dependencies,
+    port,
+    relativeFile,
+    executionId,
+  };
+  const serializedBootstrapData = Buffer.from(
+    JSON.stringify(bootstrapData)
+  ).toString("base64");
 
-    const bootstrapData = {initialFlow, dependencies, port, relativeFile};
-    const serializedBootstrapData = Buffer.from(JSON.stringify(bootstrapData)).toString('base64');
-    
-    return `<!DOCTYPE html>
+  return `<!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8">
@@ -102,5 +134,3 @@ export async function getWebviewContent(params: WebviewContentParams) {
     </body>
     </html>`;
 }
-
-

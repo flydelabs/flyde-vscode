@@ -6,7 +6,7 @@ Flyde is a powerful extension for Visual Studio Code that enables you to create 
 
 ## Features
 
-- Intuitive flow-based programming interface for creating and editing programs
+- Intuitive flow-based programming interface for creating programs
 - Real-time visual debugger for easy error handling and debugging
 - Integrates with your existing codebase and workflows
 - Supports TypeScript and JavaScript

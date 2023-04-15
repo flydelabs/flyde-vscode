@@ -32,6 +32,7 @@
     "copy-editor": "mkdir -p editor-build && cp -r ../flyde/editor/build/ editor-build/.",
     "build-editor": "cd ../flyde/editor && npm run build && cd ../../flyde-vscode",
     "link-all": "npm link @flyde/core @flyde/resolver @flyde/dev-server @flyde/runtime @flyde/remote-debugger",
+    "update-all": "npm update @flyde/core @flyde/resolver @flyde/dev-server @flyde/runtime @flyde/remote-debugger",
     "compile": "tsc -p ./",
     "build": "npm run compile && npm run build-editor && npm run copy-editor",
     "watch": "tsc -watch -p ./",
