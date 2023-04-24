@@ -4,6 +4,7 @@ import * as vscode from "vscode";
 import * as path from "path";
 import { inspectLastWebviewElements } from "./testUtils";
 import assert = require("assert");
+import { eventually } from "@flyde/core";
 
 suite("Extension Test Suite", () => {
   test("Loads test flow and renders instance views", async () => {
@@ -18,8 +19,13 @@ suite("Extension Test Suite", () => {
       "flydeEditor"
     );
 
-    const instances = await inspectLastWebviewElements(".ins-view-inner");
+    await eventually(async () => {
+      const instances = await inspectLastWebviewElements(".ins-view-inner");
 
-    assert(instances.length === 4, "Expected fixture flow to have 4 instances");
+      assert(
+        instances.length === 4,
+        "Expected fixture flow to have 4 instances"
+      );
+    }, 5000);
   }).timeout(5000);
 });
