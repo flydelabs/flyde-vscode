@@ -6,3 +6,4 @@ yarn-error
 out
 editor-build
 *.vsix
+.vscode-test

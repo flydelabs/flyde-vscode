@@ -33,7 +33,7 @@ jobs:
           git push origin main
 
       - name: Build extension
-        run: npm run compile
+        run: npm run build
 
       - name: Bump minor version
         run: |

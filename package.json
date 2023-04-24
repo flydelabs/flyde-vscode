@@ -22,11 +22,6 @@
     "reactive",
     "FBP"
   ],
-  "activationEvents": [
-    "onCustomEditor:flydeEditor",
-    "onCommand:flyde.newVisualFlow",
-    "onCommand:flyde.newCodeFlow"
-  ],
   "scripts": {
     "vscode:prepackage": "npm run build",
     "link-all": "npm link @flyde/core @flyde/resolver @flyde/dev-server @flyde/runtime @flyde/remote-debugger @flyde/editor",
@@ -189,6 +184,7 @@
     "@types/glob": "^8.0.0",
     "@types/mocha": "^10.0.0",
     "@types/node": "18.11.9",
+    "@types/sinon": "^10.0.14",
     "@types/vscode": "^1.69.0",
     "@typescript-eslint/eslint-plugin": "^5.30.0",
     "@typescript-eslint/parser": "^5.30.0",
@@ -197,6 +193,7 @@
     "fs-extra": "^10.1.0",
     "glob": "^8.0.3",
     "mocha": "^10.0.0",
+    "sinon": "^15.0.4",
     "typescript": "^4.7.4"
   },
   "dependencies": {
