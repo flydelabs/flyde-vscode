@@ -8,7 +8,7 @@ on:
 
 jobs:
   publish:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
@@ -36,7 +36,7 @@ jobs:
         run: npm run build
 
       - name: Test extension
-        run: npm run test
+        run: xvfb-run -a npm run test
 
       - name: Bump minor version
         run: |
