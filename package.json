@@ -91,7 +91,6 @@
           "group": "flyde"
         },
         {
-          "when": "explorerResourceIsFolder",
           "command": "flyde.newVisualFlow",
           "group": "flyde"
         },

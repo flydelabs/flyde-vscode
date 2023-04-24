@@ -89,9 +89,9 @@ export function activate(context: vscode.ExtensionContext) {
       async (dirName: vscode.Uri) => {
         reportEvent("newVisualFlow:start");
         // use this if triggered by a menu item,
-        let folderUri = dirName; // folder will be undefined when triggered by keybinding
+        let folderOrFileUri = dirName; // folder will be undefined when triggered by keybinding
 
-        if (!folderUri) {
+        if (!folderOrFileUri) {
           // so triggered by a keybinding
           const originalClipboard = await vscode.env.clipboard.readText();
 
@@ -100,14 +100,19 @@ export function activate(context: vscode.ExtensionContext) {
 
           await vscode.env.clipboard.writeText(originalClipboard);
 
-          // see note below for parsing multiple files/folders
-          folderUri = await vscode.Uri.file(pathResult); // make it a Uri
+          folderOrFileUri = await vscode.Uri.file(pathResult); // make it a Uri
 
-          const stat = await fs.stat(folderUri);
+          const stat = await fs.stat(folderOrFileUri);
           if (stat.type === vscode.FileType.File) {
-            folderUri = vscode.Uri.joinPath(folderUri, "..");
+            folderOrFileUri = vscode.Uri.joinPath(folderOrFileUri, "..");
           }
         }
+
+        const folderStat = await fs.stat(folderOrFileUri);
+        const folderUri =
+          folderStat.type === vscode.FileType.Directory
+            ? folderOrFileUri
+            : vscode.Uri.joinPath(folderOrFileUri, "..");
 
         const templates = getTemplates();
 
