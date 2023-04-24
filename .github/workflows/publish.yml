@@ -1,0 +1,39 @@
+name: Publish Extension
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16
+
+      - name: Install dependencies and update @flyde/* packages
+        run: |
+          npm ci
+          npm update --scope=@flyde
+
+      - name: Build extension
+        run: npm run compile
+
+      - name: Bump patch version
+        run: |
+          npm version patch -m "Bump version to %s"
+          git push origin main
+
+      - name: Package and publish extension
+        env:
+          VSCE_TOKEN: ${{ secrets.VSCE_TOKEN }}
+        run: |
+          npm install -g @vscode/vsce
+          vsce publish -p $VSCE_TOKEN

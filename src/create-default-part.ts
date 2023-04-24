@@ -1,8 +1,12 @@
-import { InlineValuePartType, partInput, partOutput, randomInt } from "@flyde/core";
+import {
+  InlineValuePartType,
+  partInput,
+  partOutput,
+  randomInt,
+} from "@flyde/core";
 import { inlineValuePart } from "@flyde/core";
 
 export const createDefaultPart = (inputNames: string[]) => {
-
   const inputs = inputNames.reduce((prev, curr) => {
     return { ...prev, [curr]: partInput() };
   }, {});
@@ -11,7 +15,7 @@ export const createDefaultPart = (inputNames: string[]) => {
     value: partOutput(),
   };
 
-  const innerCode = inputNames.map(n => '${inputs.' + n + '}').join (', ');
+  const innerCode = inputNames.map((n) => "${inputs." + n + "}").join(", ");
 
   const code = `\`Inputs received are: ${innerCode}\``;
 
@@ -25,18 +29,18 @@ export const createDefaultPart = (inputNames: string[]) => {
     id: `Inline Code ${randomInt(99999)}`,
     inputs,
     outputs,
-    fnCode,
+    runFnRawCode: fnCode,
     customViewCode: code,
     dataBuilderSource,
     templateType: InlineValuePartType.VALUE,
     completionOutputs: ["value"],
     defaultStyle: {
-      size: 'regular',
-      icon: 'code',
+      size: "regular",
+      icon: "code",
       cssOverride: {
-        fontFamily: 'monospace',
-        fontWeight: '500'
-      }
-    }
+        fontFamily: "monospace",
+        fontWeight: "500",
+      },
+    },
   });
 };

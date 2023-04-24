@@ -11,17 +11,10 @@ import {
   resolveFlowDependenciesByPath,
   serializeFlow,
 } from "@flyde/resolver";
-import {
-  FlydeFlow,
-  formatEvent,
-  keys,
-  ResolvedFlydeFlowDefinition,
-} from "@flyde/core";
+import { FlydeFlow, formatEvent, keys } from "@flyde/core";
 import { findPackageRoot } from "./find-package-root";
 import { randomInt } from "crypto";
 import { reportEvent, reportException } from "./telemetry";
-
-const FLYDE_DEFAULT_SERVER_PORT = 8545;
 
 import { Uri } from "vscode";
 import { FlowJob } from "@flyde/dev-server";
@@ -65,26 +58,24 @@ const tryOrThrow = (fn: Function, msg: string) => {
 
 let runningJobs = <{ [webviewId: string]: FlowJob }>{};
 
+export interface FlydeEditorProviderParams {
+  port: number;
+  mainOutputChannel: vscode.OutputChannel;
+  debugOutputChannel: vscode.OutputChannel;
+}
+
 export class FlydeEditorEditorProvider
   implements vscode.CustomTextEditorProvider
 {
-  port: number = FLYDE_DEFAULT_SERVER_PORT;
-
-  outputChannel: vscode.OutputChannel | undefined;
-
-  setPort(port: number) {
-    this.port = port;
-  }
+  params!: FlydeEditorProviderParams;
 
   public static register(
     context: vscode.ExtensionContext,
-    port: number,
-    outputChannel: vscode.OutputChannel
+    params: FlydeEditorProviderParams
   ): vscode.Disposable {
     const provider = new FlydeEditorEditorProvider(context);
 
-    provider.outputChannel = outputChannel;
-    provider.setPort(port);
+    provider.params = params;
 
     const providerRegistration = vscode.window.registerCustomEditorProvider(
       FlydeEditorEditorProvider.viewType,
@@ -185,7 +176,7 @@ export class FlydeEditorEditorProvider
       webviewPanel.webview.html = await getWebviewContent({
         extensionUri: this.context.extensionUri,
         relativeFile: relative,
-        port: this.port,
+        port: this.params.port,
         webview: webviewPanel.webview,
         initialFlow,
         dependencies,
@@ -202,13 +193,17 @@ export class FlydeEditorEditorProvider
     vscode.commands.executeCommand("setContext", "flyde.flowLoaded", true);
 
     const _debugger = createEditorClient(
-      `http://localhost:${this.port}`,
+      `http://localhost:${this.params.port}`,
       executionId
     );
 
     _debugger.onBatchedEvents((events) => {
+      const { mainOutputChannel, debugOutputChannel } = this.params;
       events.forEach((event) => {
-        this.outputChannel?.appendLine(formatEvent(event));
+        debugOutputChannel.appendLine(formatEvent(event));
+        if (!event.ancestorsInsIds) {
+          mainOutputChannel.appendLine(formatEvent(event));
+        }
       });
     });
 
@@ -348,7 +343,7 @@ export class FlydeEditorEditorProvider
                   lastFlow,
                   fullDocumentPath,
                   event.params.inputs,
-                  this.port
+                  this.params.port
                 );
                 reportEvent("runFlow:after");
 
@@ -359,7 +354,7 @@ export class FlydeEditorEditorProvider
                 );
                 if (!didFocusOutput) {
                   didFocusOutput = true;
-                  this.outputChannel?.show();
+                  this.params.mainOutputChannel?.show();
                 }
 
                 return job;

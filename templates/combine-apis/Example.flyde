@@ -39,7 +39,7 @@ part:
               outputs:
                 value:
                   delayed: false
-              fnCode: const result =
+              runFnRawCode: const result =
                 (`https://random-data-api.com/api/v2/users?size=${inputs.count}`);
                 Promise.resolve(result).then(val => outputs.value.next(val))
               customViewCode: "`https://random-data-api.com/api/v2/users?size=${inputs.count}`"
@@ -115,7 +115,7 @@ part:
         outputs:
           value:
             delayed: false
-        fnCode: const result = (5); Promise.resolve(result).then(val =>
+        runFnRawCode: const result = (5); Promise.resolve(result).then(val =>
           outputs.value.next(val))
         customViewCode: "5"
         dataBuilderSource: NQ==
@@ -164,7 +164,7 @@ part:
               outputs:
                 value:
                   delayed: false
-              fnCode: const result =
+              runFnRawCode: const result =
                 (`https://random-data-api.com/api/v2/beers?size=${inputs.count}`);
                 Promise.resolve(result).then(val => outputs.value.next(val))
               customViewCode: "`https://random-data-api.com/api/v2/beers?size=${inputs.count}`"
@@ -234,7 +234,7 @@ part:
         outputs:
           value:
             delayed: false
-        fnCode: "const result = ({name: inputs.user, beer: inputs.beer});
+        runFnRawCode: "const result = ({name: inputs.user, beer: inputs.beer});
           Promise.resolve(result).then(val => outputs.value.next(val))"
         customViewCode: "{name: inputs.user, beer: inputs.beer}"
         dataBuilderSource: e25hbWU6IGlucHV0cy51c2VyLCBiZWVyOiBpbnB1dHMuYmVlcn0=
