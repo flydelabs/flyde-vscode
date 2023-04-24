@@ -39,6 +39,7 @@
     "release": "vsce package --no-yarn && vsce publish minor"
   },
   "main": "./out/extension.js",
+  "activationEvents": [],
   "contributes": {
     "customEditors": [
       {
