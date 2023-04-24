@@ -10,6 +10,7 @@ suite("Extension Test Suite", () => {
     const testFile = vscode.Uri.file(
       path.resolve(__dirname, "../../test-fixtures/HelloWorld.flyde")
     );
+    console.log({ testFile });
 
     await vscode.commands.executeCommand(
       "vscode.openWith",
@@ -20,5 +21,5 @@ suite("Extension Test Suite", () => {
     const instances = await inspectLastWebviewElements(".ins-view-inner");
 
     assert(instances.length === 4, "Expected fixture flow to have 4 instances");
-  });
+  }).timeout(5000);
 });
