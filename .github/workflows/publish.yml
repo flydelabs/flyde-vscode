@@ -23,10 +23,18 @@ jobs:
           npm ci
           npm update --scope=@flyde
 
+      - name: Commit package.json if updated
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add package.json package-lock.json
+          git diff-index --quiet HEAD || git commit -m "Update @flyde/* packages"
+          git push origin main
+
       - name: Build extension
         run: npm run compile
 
-      - name: Bump patch version
+      - name: Bump minor version
         run: |
           npm version minor -m "Bump version to %s"
           git push origin main
