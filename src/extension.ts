@@ -52,7 +52,7 @@ export function activate(context: vscode.ExtensionContext) {
   fp(FLYDE_DEFAULT_SERVER_PORT).then(([port]: [number]) => {
     reportEvent("devServerStart");
 
-    const editorStaticsRoot = join(require.resolve("@flyde/editor"), "..");
+    const editorStaticsRoot = join(__dirname, "../editor-build");
     const cleanServer = initFlydeDevServer({
       port,
       root: fileRoot,
