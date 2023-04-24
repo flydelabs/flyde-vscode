@@ -58,6 +58,12 @@ const tryOrThrow = (fn: Function, msg: string) => {
 
 let runningJobs = <{ [webviewId: string]: FlowJob }>{};
 
+let lastWebview: any = null;
+
+export const getLastWebviewForTests = () => {
+  return lastWebview;
+};
+
 export interface FlydeEditorProviderParams {
   port: number;
   mainOutputChannel: vscode.OutputChannel;
@@ -185,6 +191,8 @@ export class FlydeEditorEditorProvider
       });
 
       lastFlow = initialFlow;
+
+      lastWebview = webviewPanel.webview;
     };
 
     await renderWebview();
