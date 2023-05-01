@@ -74,9 +74,12 @@ export function activate(context: vscode.ExtensionContext) {
     );
   });
 
-  const openAsTextHandler = (uri: vscode.Uri) => {
+  const openAsTextHandler = async (uri: vscode.Uri) => {
+    const document = await vscode.workspace.openTextDocument(uri);
+
+    // Show the document in the text editor
+    await vscode.window.showTextDocument(document);
     reporter.sendTelemetryEvent("openAsText");
-    vscode.commands.executeCommand("workbench.action.reopenWithEditor", uri);
   };
 
   context.subscriptions.push(
@@ -170,6 +173,34 @@ export function activate(context: vscode.ExtensionContext) {
         }
       }
     )
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("flyde.setOpenAiToken", async () => {
+      const token = await vscode.window.showInputBox({
+        title: "OpenAI API Token",
+        value: "",
+      });
+
+      if (!token) {
+        vscode.window.showWarningMessage("No token passed, aborting");
+        return;
+      }
+
+      await vscode.workspace
+        .getConfiguration()
+        .update("flyde.openAiToken", token, vscode.ConfigurationTarget.Global);
+    })
+  );
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand("flyde.clearOpenAiToken", async () => {
+      await vscode.workspace
+        .getConfiguration()
+        .update("flyde.openAiToken", "", vscode.ConfigurationTarget.Global);
+
+      vscode.window.showInformationMessage("OpenAI API Token cleared");
+    })
   );
 }
 

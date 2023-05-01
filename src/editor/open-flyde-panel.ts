@@ -82,12 +82,17 @@ export async function getWebviewContent(params: WebviewContentParams) {
 
   // on dev mode we want to load the webpack hot reloaded version of the iframe, for quick feedback loop
 
+  const config = vscode.workspace.getConfiguration("flyde");
+
+  const hasOpenAiToken = config.get("openAiToken") !== "";
+
   const bootstrapData = {
     initialFlow,
     dependencies,
     port,
     relativeFile,
     executionId,
+    hasOpenAiToken,
   };
   const serializedBootstrapData = Buffer.from(
     JSON.stringify(bootstrapData)

@@ -2,6 +2,7 @@ imports:
   "@flyde/stdlib":
     - Concat
     - Delay
+  ./undefined.flyde.ts: []
 part:
   instances:
     - pos:

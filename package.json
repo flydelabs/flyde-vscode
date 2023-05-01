@@ -81,6 +81,14 @@
       {
         "command": "flyde.newTextualFlow",
         "title": "Flyde: New Code Flow"
+      },
+      {
+        "command": "flyde.setOpenAiToken",
+        "title": "Flyde: Set OpenAI Token"
+      },
+      {
+        "command": "flyde.clearOpenAiToken",
+        "title": "Flyde: Clear OpenAI Token"
       }
     ],
     "menus": {
@@ -178,7 +186,17 @@
           }
         ]
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Flyde",
+      "properties": {
+        "flyde.openAiToken": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI token for code part generation"
+        }
+      }
+    }
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",

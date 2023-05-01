@@ -4,9 +4,14 @@ import { getWebviewContent } from "./editor/open-flyde-panel";
 var fp = require("find-free-port");
 
 import { scanImportableParts } from "@flyde/dev-server/dist/service/scan-importable-parts";
+import {
+  generateAndSavePart,
+  generatePartCodeFromPrompt,
+} from "@flyde/dev-server/dist/service/generate-part-from-prompt";
 
 import {
   deserializeFlow,
+  resolveCodePartDependencies,
   resolveDependencies,
   resolveFlowDependenciesByPath,
   serializeFlow,
@@ -288,6 +293,24 @@ export class FlydeEditorEditorProvider
                 messageResponse(event, flow);
                 break;
               }
+              case "generatePartFromPrompt": {
+                const config = vscode.workspace.getConfiguration("flyde");
+                const openAiToken = config.get<string>("openAiToken");
+
+                const { prompt } = event.params;
+                if (prompt.trim().length === 0) {
+                  throw new Error("prompt is empty");
+                }
+                const targetPath = Uri.joinPath(document.uri, "..");
+                const importablePart = await generateAndSavePart(
+                  targetPath.fsPath,
+                  prompt,
+                  openAiToken
+                );
+
+                messageResponse(event, { importablePart });
+                break;
+              }
               case "setFlow": {
                 const { flow } = event.params;
                 const serialized = serializeFlow(flow);
@@ -366,6 +389,11 @@ export class FlydeEditorEditorProvider
                 }
 
                 return job;
+              }
+              case "hasOpenAiToken": {
+                const config = vscode.workspace.getConfiguration("flyde");
+                const openAiToken = config.get<string>("openAiToken");
+                messageResponse(event, !!openAiToken);
               }
               case "reportEvent": {
                 const { name, data } = event.params;
