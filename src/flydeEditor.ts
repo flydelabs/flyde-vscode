@@ -4,14 +4,10 @@ import { getWebviewContent } from "./editor/open-flyde-panel";
 var fp = require("find-free-port");
 
 import { scanImportableParts } from "@flyde/dev-server/dist/service/scan-importable-parts";
-import {
-  generateAndSavePart,
-  generatePartCodeFromPrompt,
-} from "@flyde/dev-server/dist/service/generate-part-from-prompt";
+import { generateAndSavePart } from "@flyde/dev-server/dist/service/generate-part-from-prompt";
 
 import {
   deserializeFlow,
-  resolveCodePartDependencies,
   resolveDependencies,
   resolveFlowDependenciesByPath,
   serializeFlow,
@@ -26,6 +22,7 @@ import { FlowJob } from "@flyde/dev-server";
 
 import { forkRunFlow } from "@flyde/dev-server/dist/runner/runFlow.host";
 import { createEditorClient } from "@flyde/remote-debugger";
+import { maybeAskToStarProject } from "./maybeAskToStarProject";
 
 // export type EditorPortType = keyof any;
 
@@ -370,13 +367,20 @@ export class FlydeEditorEditorProvider
                 reportEvent("runFlow:before", {
                   inputsCount: `${keys(event.params.inputs).length}`,
                 });
-                const job = await forkRunFlow(
-                  lastFlow,
-                  fullDocumentPath,
-                  event.params.inputs,
-                  this.params.port
-                );
+                const job = await forkRunFlow({
+                  runFlowParams: [
+                    lastFlow,
+                    fullDocumentPath,
+                    event.params.inputs,
+                    this.params.port,
+                  ],
+                  cwd: vscode.workspace.workspaceFolders?.[0].uri.fsPath,
+                });
                 reportEvent("runFlow:after");
+
+                setTimeout(() => {
+                  maybeAskToStarProject(5000);
+                }, 10000);
 
                 vscode.commands.executeCommand(
                   "setContext",
