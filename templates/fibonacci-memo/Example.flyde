@@ -236,8 +236,6 @@ part:
     result:
       x: -278.50431309947277
       y: 679.3676769956579
-  completionOutputs:
-    - result
   defaultStyle:
     size: large
     color: "#00bbf9"
