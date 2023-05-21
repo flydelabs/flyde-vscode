@@ -190,6 +190,8 @@ export function activate(context: vscode.ExtensionContext) {
       await vscode.workspace
         .getConfiguration()
         .update("flyde.openAiToken", token, vscode.ConfigurationTarget.Global);
+
+      vscode.window.showInformationMessage("OpenAI API Token set");
     })
   );
 
