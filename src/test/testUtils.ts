@@ -8,24 +8,36 @@ async function getLastWebview(): Promise<vscode.Webview> {
   return getLastWebviewForTests()!;
 }
 
-export async function inspectLastWebviewElements(
-  selector: string
-): Promise<{ innerHtml: string; textContent: string }[]> {
+export type WebViewTestingCommands = {
+  $$: {
+    params: { selector: string };
+    response: { innerHtml: string; textContent: string }[];
+  };
+  click: { params: { selector: string }; response: void };
+};
+
+export async function webviewTestingCommand<
+  T extends keyof WebViewTestingCommands
+>(
+  command: T,
+  params: WebViewTestingCommands[T]["params"]
+): Promise<WebViewTestingCommands[T]["response"]> {
   const webview = await getLastWebview();
   return new Promise((res, rej) => {
     webview.onDidReceiveMessage((message) => {
-      if (message.type === "__inspectElementsResponse") {
-        if (message.payload.error) {
-          rej(message.payload.error);
+      if (message.type === "__webviewTestingResponse") {
+        if (message.error) {
+          rej(message.error);
         } else {
-          res(message.payload);
+          res(message.response);
         }
       }
     });
 
     webview.postMessage({
-      type: "__testInspectElements",
-      payload: { selector },
+      type: "__webviewTestingCommand",
+      command,
+      params,
     });
   });
 }
