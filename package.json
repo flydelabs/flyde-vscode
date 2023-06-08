@@ -2,7 +2,7 @@
   "name": "flyde-vscode",
   "displayName": "Flyde",
   "description": "AI Meets Visual Programming - Unleashing Creativity and Efficiency",
-  "version": "0.36.0",
+  "version": "0.37.0",
   "publisher": "flyde",
   "engines": {
     "vscode": "^1.69.0"
