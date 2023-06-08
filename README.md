@@ -5,12 +5,12 @@ Flyde is a powerful extension for Visual Studio Code that enables you to create 
 ![Flyde example](https://github.com/FlydeHQ/flyde-vscode/raw/main/media/walkthrough/run-flow.gif)
 
 ## Features
-
 - Intuitive flow-based programming interface for creating programs
+- AI-based Flyde-component creation
 - Real-time visual debugger for easy error handling and debugging
 - Integrates with your existing codebase and workflows
 - Supports TypeScript and JavaScript
-- Build custom parts visually, or use custom code
+- Build custom components visually, or use custom code
 - Pre-built templates to help you get started quickly
 - Split complex flows into sub-flows for better readability and maintainability
 - A rich standard library of parts for common tasks
@@ -20,7 +20,7 @@ Flyde is a powerful extension for Visual Studio Code that enables you to create 
 - Install the Flyde extension from the Visual Studio Code marketplace
 - Right-click on a folder in the Explorer and select "Flyde: New Visual Flow"
 - Choose a template and name your flow
-- Start creating your flow by adding parts, connecting them together, and writing code
+- Start creating your flow by adding parts, connecting them, and writing code
 
 ## Use-cases
 
@@ -64,7 +64,7 @@ No. Textual coding excels in many areas, such as implementing algorithms, which 
 
 Flyde hasn't been optimized for runtime performance or benchmarked yet, so it should be slower than writing regular code. Just as JavaScript is slower than C, abstractions come at a cost. However, numerous ideas can improve performance, so it's safe to say performance will improve significantly in the future.
 
-### Which Languages are Supported?
+### Which Languages Are Supported?
 
 Currently, only JavaScript and TypeScript are supported. However, since Flyde is a higher-level abstraction, there's no real logical barrier preventing support for other languages in the future.
 
