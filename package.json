@@ -1,13 +1,8 @@
 {
   "name": "flyde-vscode",
   "displayName": "Flyde",
-<<<<<<< Updated upstream
-  "description": "Flyde editor for VSCode",
-  "version": "0.36.0",
-=======
   "description": "AI Meets Visual Programming - Unleashing Creativity and Efficiency",
-  "version": "0.34.0",
->>>>>>> Stashed changes
+  "version": "0.36.0",
   "publisher": "flyde",
   "engines": {
     "vscode": "^1.69.0"
