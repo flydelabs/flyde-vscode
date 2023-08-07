@@ -189,13 +189,7 @@
     ],
     "configuration": {
       "title": "Flyde",
-      "properties": {
-        "flyde.openAiToken": {
-          "type": "string",
-          "default": "",
-          "description": "OpenAI token for code part generation"
-        }
-      }
+      "properties": {}
     }
   },
   "devDependencies": {
