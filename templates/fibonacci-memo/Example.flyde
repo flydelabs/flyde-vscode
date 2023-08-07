@@ -5,7 +5,7 @@ imports:
     - Add
     - Set Global State
     - Get Global State
-part:
+node:
   instances:
     - pos:
         x: -212.5711450195313
@@ -22,7 +22,7 @@ part:
         - a
         - b
         - __trigger
-      partId: Equals
+      nodeId: Equals
       style:
         size: small
     - pos:
@@ -39,7 +39,7 @@ part:
       visibleInputs:
         - a
         - b
-      partId: Equals
+      nodeId: Equals
       style:
         size: small
     - pos:
@@ -47,7 +47,7 @@ part:
         y: 400.2493737792969
       id: Add-539
       inputConfig: {}
-      partId: Add
+      nodeId: Add
       style:
         color: "#fee440"
     - pos:
@@ -61,7 +61,7 @@ part:
       visibleInputs:
         - n1
         - n2
-      partId: Subtract
+      nodeId: Subtract
       style:
         color: "#f15bb5"
     - pos:
@@ -75,7 +75,7 @@ part:
       visibleInputs:
         - n1
         - n2
-      partId: Subtract
+      nodeId: Subtract
       style:
         color: "#f15bb5"
     - pos:
@@ -85,7 +85,7 @@ part:
       inputConfig: {}
       visibleInputs:
         - n
-      partId: Fibonacci
+      nodeId: Fibonacci
     - pos:
         x: 42.176300048828125
         y: 289.42489011764525
@@ -94,7 +94,7 @@ part:
       visibleInputs:
         - n
         - __trigger
-      partId: Fibonacci
+      nodeId: Fibonacci
     - pos:
         x: -321.8844386534606
         y: -429.41850903802276
@@ -105,7 +105,7 @@ part:
       visibleOutputs:
         - value
         - __error
-      partId: Get Global State
+      nodeId: Get Global State
     - pos:
         x: -194.61054832628474
         y: 511.2260752770421
@@ -113,7 +113,7 @@ part:
       inputConfig:
         key:
           mode: sticky
-      partId: Set Global State
+      nodeId: Set Global State
   connections:
     - from:
         insId: Fibonacci-261

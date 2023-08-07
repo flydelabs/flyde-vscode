@@ -4,14 +4,14 @@ imports:
     - Loop List
     - Get Attribute
     - Accumulate Values by Time
-part:
+node:
   instances:
     - pos:
         x: -171.43105712890622
         y: 131.64248191833497
       id: clfuuvdn7000u4668ghe8jiiw
       inputConfig: {}
-      partId: Loop List
+      nodeId: Loop List
     - pos:
         x: -185.784885152181
         y: -13.900549091697215
@@ -21,7 +21,7 @@ part:
           mode: queue
       visibleInputs:
         - count
-      part:
+      node:
         id: "Fetch Users "
         inputs:
           count:
@@ -31,7 +31,7 @@ part:
             delayed: false
         instances:
           - id: value-458
-            part:
+            node:
               id: Inline-value-https://random
               inputs:
                 count:
@@ -61,7 +61,7 @@ part:
               x: -408.0011983235678
               y: -125.39325990438653
           - id: RestAPIExample-bd046az
-            partId: GET Request
+            nodeId: GET Request
             inputConfig:
               url:
                 mode: queue
@@ -109,7 +109,7 @@ part:
         y: -147.7533322948222
       id: value-588
       inputConfig: {}
-      part:
+      node:
         id: Inline Code 92115
         inputs: {}
         outputs:
@@ -134,13 +134,13 @@ part:
         y: 139.52227699279786
       id: RestAPIExample-jq146sq
       inputConfig: {}
-      partId: Loop List
+      nodeId: Loop List
     - pos:
         x: -476.2804445586215
         y: -6.858721642608998
       id: Fetch Beers-y8246hw
       inputConfig: {}
-      part:
+      node:
         id: Fetch Beers
         inputs:
           count:
@@ -150,13 +150,13 @@ part:
             delayed: false
         instances:
           - id: clfuv2ofd00074668he6d89kz
-            partId: GET Request
+            nodeId: GET Request
             inputConfig: {}
             pos:
               x: -532.0680209102675
               y: 179.8814787097154
           - id: Inline-value-https://random-m8046by
-            part:
+            node:
               id: Inline-value-https://random
               inputs:
                 count:
@@ -224,7 +224,7 @@ part:
         y: 434.7028805541993
       id: "Inline-value-{name: inputs.n-sg346h5"
       inputConfig: {}
-      part:
+      node:
         id: "Inline-value-{name: inputs.u"
         inputs:
           user:
@@ -256,7 +256,7 @@ part:
         attribute:
           mode: static
           value: first_name
-      partId: Get Attribute
+      nodeId: Get Attribute
     - pos:
         x: -469.2648950195312
         y: 307.1158465576172
@@ -265,7 +265,7 @@ part:
         attribute:
           mode: static
           value: name
-      partId: Get Attribute
+      nodeId: Get Attribute
     - pos:
         x: -291.5539669255288
         y: 591.2207630719383
@@ -274,7 +274,7 @@ part:
         time:
           mode: static
           value: 200
-      partId: Accumulate Values by Time
+      nodeId: Accumulate Values by Time
   connections:
     - from:
         insId: Fetch Users -3m146np

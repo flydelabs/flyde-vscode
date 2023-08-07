@@ -1,6 +1,6 @@
 imports:
   "@flyde/stdlib": []
-part:
+node:
   instances: []
   connections: []
   id: Example
