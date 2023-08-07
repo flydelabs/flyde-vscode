@@ -2,14 +2,14 @@ imports:
   "@flyde/stdlib":
     - Concat
     - Delay
-node:
+part:
   instances:
     - pos:
         x: -230.75198974609376
         y: -224.33596801757812
       id: Inline-value-Hello-3r046zk
       inputConfig: {}
-      node:
+      part:
         id: Inline-value-Hello
         inputs: {}
         outputs:
@@ -40,7 +40,7 @@ node:
         y: -241.91000610351563
       id: Inline-value-World-vo146xh
       inputConfig: {}
-      node:
+      part:
         id: Inline-value- World!
         inputs: {}
         outputs:
@@ -65,7 +65,7 @@ node:
         y: 65.3379041689916
       id: clftmb8cw000b4668nw8u5qr9
       inputConfig: {}
-      nodeId: Concat
+      partId: Concat
     - pos:
         x: 60.17854817708343
         y: -63.80998401460214
@@ -74,7 +74,7 @@ node:
         delay:
           mode: static
           value: 3500
-      nodeId: Delay
+      partId: Delay
       style:
         size: small
         icon: fa-clock

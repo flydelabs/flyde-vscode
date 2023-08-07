@@ -10,7 +10,7 @@ imports:
     - Get List Element
     - Sum List
     - Parse Int
-node:
+part:
   instances:
     - pos:
         x: -140.78629353841143
@@ -29,7 +29,7 @@ node:
       visibleOutputs:
         - contents
         - __error
-      nodeId: Read File
+      partId: Read File
       style:
         icon: fa-file
         color: "#00f5d4"
@@ -38,7 +38,7 @@ node:
         y: 68.37059127412704
       id: Parse CSV-bn0462h
       inputConfig: {}
-      node:
+      part:
         id: Parse CSV
         inputs:
           contents:
@@ -55,19 +55,19 @@ node:
               separator:
                 mode: static
                 value: "\n"
-            nodeId: Split
+            partId: Split
           - pos:
               x: -143.34856082088254
               y: -127.92327522136146
             id: clfur3wrb000n4668tzjs5lcw
             inputConfig: {}
-            nodeId: Head and rest
+            partId: Head and rest
           - pos:
               x: -123.38416757304788
               y: 40.55221890874138
             id: clfur49eg000w4668ahvwk2ib
             inputConfig: {}
-            nodeId: Loop List
+            partId: Loop List
           - pos:
               x: -177.25193940431552
               y: 198.87647320233754
@@ -76,9 +76,9 @@ node:
               separator:
                 mode: static
                 value: ","
-            nodeId: Split
+            partId: Split
           - id: clfutolj5000346685ja75qfg
-            nodeId: Accumulate Values by Count
+            partId: Accumulate Values by Count
             inputConfig: {}
             pos:
               x: -111.5711781571847
@@ -148,7 +148,7 @@ node:
         y: 349.2136896203491
       id: clfuu4wdv00074668lyl7gtnw
       inputConfig: {}
-      nodeId: Sum List
+      partId: Sum List
     - pos:
         x: -118.72152492212996
         y: 218.9583372603031
@@ -157,7 +157,7 @@ node:
         value:
           mode: static
           value: Asia
-      node:
+      part:
         id: Get Prices By Continent
         inputs:
           list:
@@ -173,7 +173,7 @@ node:
               y: 190.37244945526123
             id: clfutxtvk00174668slofeqax
             inputConfig: {}
-            nodeId: Loop List
+            partId: Loop List
           - pos:
               x: -241.05586326871594
               y: 361.56697026881875
@@ -184,7 +184,7 @@ node:
                 value: "1"
               value:
                 mode: sticky
-            nodeId: Property Equals
+            partId: Property Equals
           - pos:
               x: -235.99688031409028
               y: 784.258404669396
@@ -193,7 +193,7 @@ node:
               time:
                 mode: static
                 value: 5
-            nodeId: Accumulate Values by Time
+            partId: Accumulate Values by Time
           - pos:
               x: -250.18657958984375
               y: 517.7588043212891
@@ -202,9 +202,9 @@ node:
               index:
                 mode: static
                 value: 3
-            nodeId: Get List Element
+            partId: Get List Element
           - id: Get Prices By Continent-cs0461a
-            nodeId: Parse Int
+            partId: Parse Int
             inputConfig: {}
             pos:
               x: -207.30524414062495

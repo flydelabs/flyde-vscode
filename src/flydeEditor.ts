@@ -3,8 +3,8 @@ import * as vscode from "vscode";
 import { getWebviewContent } from "./editor/open-flyde-panel";
 var fp = require("find-free-port");
 
-import { scanImportableNodes } from "@flyde/dev-server/dist/service/scan-importable-nodes";
-import { generateAndSaveNode } from "@flyde/dev-server/dist/service/generate-node-from-prompt";
+import { scanImportableParts } from "@flyde/dev-server/dist/service/scan-importable-parts";
+import { generateAndSavePart } from "@flyde/dev-server/dist/service/generate-part-from-prompt";
 
 import {
   deserializeFlow,
@@ -152,7 +152,7 @@ export class FlydeEditorEditorProvider
         return raw.trim() !== ""
           ? deserializeFlow(raw, fullDocumentPath)
           : {
-              node: {
+              part: {
                 id: fileName,
                 inputs: {},
                 inputsPosition: {},
@@ -290,7 +290,7 @@ export class FlydeEditorEditorProvider
                 messageResponse(event, flow);
                 break;
               }
-              case "generateNodeFromPrompt": {
+              case "generatePartFromPrompt": {
                 const config = vscode.workspace.getConfiguration("flyde");
                 const openAiToken = config.get<string>("openAiToken");
 
@@ -299,13 +299,13 @@ export class FlydeEditorEditorProvider
                   throw new Error("prompt is empty");
                 }
                 const targetPath = Uri.joinPath(document.uri, "..");
-                const importableNode = await generateAndSaveNode(
+                const importablePart = await generateAndSavePart(
                   targetPath.fsPath,
                   prompt,
                   openAiToken
                 );
 
-                messageResponse(event, { importableNode });
+                messageResponse(event, { importablePart });
                 break;
               }
               case "setFlow": {
@@ -327,7 +327,7 @@ export class FlydeEditorEditorProvider
                 const root =
                   maybePackageRoot ?? Uri.joinPath(document.uri, "..");
 
-                const deps = await scanImportableNodes(
+                const deps = await scanImportableParts(
                   root.fsPath,
                   path.relative(root.fsPath, fullDocumentPath)
                 );

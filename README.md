@@ -1,47 +1,26 @@
-<div align="center">
-<h1>Flyde: Visual Flow-Based Programming</h1>
-</div>
+# Flyde: Visual Flow-Based Programming for VSCode
 
-<div align="center">
-<a href="https://flyde.dev">Flyde</a> is a powerful visual flow-based programming toolkit that enables you to create and edit code using a visual flow-based programming interface. With Flyde, you can build backend flows quickly and intuitively, making it ideal for novice developers, non-developer technical teams, and experienced developers who want to prototype and test ideas fast.
-<br/>
-
-<br/>
-  
-[![Official Website](https://img.shields.io/badge/Official%20Website-flyde.dev-blue?style=flat&logo=world&logoColor=white)](https://flyde.dev.com)
-[![Discord Follow](https://dcbadge.vercel.app/api/server/x7t4tjZQP8?style=flat)](https://discord.com/invite/x7t4tjZQP8)
-[![GitHub Repo stars](https://img.shields.io/github/stars/flydehq/flyde?style=social)](https://github.com/flydehq/flyde)
-[![@FlydeDev](https://img.shields.io/twitter/follow/FlydeDev?style=social)](https://twitter.com/FlydeDev)
-
-<strong>VSCode Extension ✔️</strong> · <strong>Runtime Library ✔️</strong> · <strong>Integrates with Existing Code ✔️</strong>
-<br/>
-<strong>✔Rich Standard Library ✔️</strong> · <strong>Visual Debugger ✔️</strong> · <strong>AI-Assisted Node Creation ✔️</strong>
-<br/>
-<strong>TypeScript Support ✔️</strong> · <strong>TypeScript Support ✔️</strong>
-
-<br/>
-<br/>
-</div>
+Flyde is a powerful extension for Visual Studio Code that enables you to create and edit code using a visual flow-based programming interface. With Flyde, you can build applications quickly and intuitively, making it ideal for novice developers, non-developer technical teams, and experienced developers who want to prototype and test ideas fast.
 
 ![Flyde example](https://github.com/FlydeHQ/flyde-vscode/raw/main/media/walkthrough/run-flow.gif)
 
 ## Features
-
-- Intuitive flow-based programming interface for creating and editing programs
+- Intuitive flow-based programming interface for creating programs
+- AI-based Flyde-component creation
 - Real-time visual debugger for easy error handling and debugging
 - Integrates with your existing codebase and workflows
 - Supports TypeScript and JavaScript
-- Build custom nodes visually, or use custom code
+- Build custom components visually, or use custom code
 - Pre-built templates to help you get started quickly
 - Split complex flows into sub-flows for better readability and maintainability
-- A rich standard library of nodes for common tasks
+- A rich standard library of parts for common tasks
 
 ## Getting Started
 
 - Install the Flyde extension from the Visual Studio Code marketplace
 - Right-click on a folder in the Explorer and select "Flyde: New Visual Flow"
 - Choose a template and name your flow
-- Start creating your flow by adding nodes, connecting them together, and writing code
+- Start creating your flow by adding parts, connecting them, and writing code
 
 ## Use-cases
 
@@ -67,7 +46,7 @@ Everything needed to run a Flyde file is _MIT_ licensed. That includes:
 - `@flyde/runtime`
 - `@flyde/stdlib`
 
-The UI library and other nodes of the toolkit are GNU AGPLv3 licensed.
+The UI library and other parts of the toolkit are GNU AGPLv3 licensed.
 
 In other words, using Flyde flows in your software is permitted without any limitation. However, if you use Flyde's visual editor in your own work, it must be open-sourced as well. More about [GNU APGLv3](https://choosealicense.com/licenses/agpl-3.0/) here
 
@@ -91,8 +70,8 @@ Currently, only JavaScript and TypeScript are supported. However, since Flyde is
 
 ### What Inspired You to Build Flyde?
 
-Years of drawing and reviewing software designs on whiteboards led me to dream of a "run" button in the corner of the whiteboard. Modern development involves a lot of "glue" code, concurrency, asynchronicity, and third-party APIs. I find it hard to believe that developers will continue coding the same way in 10 years, and I think we're ready for the next level of abstraction. Flyde is my attempt to make that happen and lower the barrier for developers to create complex software, just as Assembly did for punched card programming, and C did for Assembly.
+Years of drawing and reviewing software designs on whiteboards led me to dream of a "run" button in the corner of the whiteboard. Modern development involves a lot of "glue" code, concurrency, asynchronicity, and third-party APIs. I find it hard to believe that developers will continue coding the same way in 10 years, and I think we're ready for the next abstraction. Flyde is my attempt to make that happen and lower the barrier for developers to create complex software, just as Assembly did for punched card programming, and C did for Assembly.
 
 ---
 
-_"The world is asynchronous - don't try to force the systems we build into a synchronous framework!" - [J. Paul Morisson](https://www.jpaulmorrison.com/) RIP_
+_"The world is asynchronous - don't try to force the systems we build into a synchronous framework!" - J. Paul Morisson RIP_

@@ -31,7 +31,7 @@ suite("Extension Test Suite", () => {
     }, 5000);
   });
 
-  test("Renders add node modal", async () => {
+  test("Renders add part modal", async () => {
     const testFile = vscode.Uri.file(
       path.resolve(__dirname, "../../test-fixtures/HelloWorld.flyde")
     );
@@ -49,7 +49,7 @@ suite("Extension Test Suite", () => {
 
       assert(
         elements.length === 1,
-        "Expected to find the add node button in the actions menu"
+        "Expected to find the add part button in the actions menu"
       );
     });
 
@@ -59,7 +59,7 @@ suite("Extension Test Suite", () => {
 
     await eventually(async () => {
       const elements = await webviewTestingCommand("$$", {
-        selector: ".add-node-menu-list-item",
+        selector: ".add-part-menu-list-item",
       });
       assert(elements.length > 100, "Expected to find 100+ items in the menu");
     });

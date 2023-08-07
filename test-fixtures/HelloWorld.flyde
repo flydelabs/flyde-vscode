@@ -3,14 +3,14 @@ imports:
     - Concat
     - Delay
   ./undefined.flyde.ts: []
-node:
+part:
   instances:
     - pos:
         x: -257.0244506835937
         y: -349.37652587890625
       id: Inline-value-Hello-3r046zk
       inputConfig: {}
-      node:
+      part:
         id: Inline-value-Hello,
         inputs: {}
         outputs:
@@ -41,7 +41,7 @@ node:
         y: -244.63742309570313
       id: Inline-value-World-vo146xh
       inputConfig: {}
-      node:
+      part:
         id: Inline-value- World!
         inputs: {}
         outputs:
@@ -72,7 +72,7 @@ node:
         y: 65.3379041689916
       id: clftmb8cw000b4668nw8u5qr9
       inputConfig: {}
-      nodeId: Concat
+      partId: Concat
     - pos:
         x: 11.271931966145928
         y: -93.22169666108653
@@ -81,7 +81,7 @@ node:
         delay:
           mode: static
           value: 3500
-      nodeId: Delay
+      partId: Delay
       style:
         size: small
         icon: fa-clock
