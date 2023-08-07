@@ -1,18 +1,18 @@
 import {
-  InlineValuePartType,
-  partInput,
-  partOutput,
+  InlineValueNodeType,
+  nodeInput,
+  nodeOutput,
   randomInt,
 } from "@flyde/core";
-import { inlineValuePart } from "@flyde/core";
+import { inlineValueNode } from "@flyde/core";
 
-export const createDefaultPart = (inputNames: string[]) => {
+export const createDefaultNode = (inputNames: string[]) => {
   const inputs = inputNames.reduce((prev, curr) => {
-    return { ...prev, [curr]: partInput() };
+    return { ...prev, [curr]: nodeInput() };
   }, {});
 
   const outputs = {
-    value: partOutput(),
+    value: nodeOutput(),
   };
 
   const innerCode = inputNames.map((n) => "${inputs." + n + "}").join(", ");
@@ -25,14 +25,14 @@ export const createDefaultPart = (inputNames: string[]) => {
 
   const dataBuilderSource = btoa(code);
 
-  return inlineValuePart({
+  return inlineValueNode({
     id: `Inline Code ${randomInt(99999)}`,
     inputs,
     outputs,
     runFnRawCode: fnCode,
     customViewCode: code,
     dataBuilderSource,
-    templateType: InlineValuePartType.VALUE,
+    templateType: InlineValueNodeType.VALUE,
     completionOutputs: ["value"],
     defaultStyle: {
       size: "regular",
