@@ -22,7 +22,7 @@ const getScriptTagsFromReactAppHtml = async (
   isDev: boolean
 ) => {
   if (isDev) {
-    return '<script defer="defer" src="http://localhost:3000/editor/static/js/bundle.js"></script>';
+    return '<script defer="defer" src="http://localhost:3000/static/js/bundle.js"></script>';
   } else {
     // this assumes react scripts will always remain on the same structure
     const html = (
