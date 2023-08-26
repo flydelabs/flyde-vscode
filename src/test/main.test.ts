@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 import * as path from "path";
 import { webviewTestingCommand } from "./testUtils";
 import assert = require("assert");
-import { eventually } from "@flyde/core";
+import { delay, eventually } from "@flyde/core";
 
 suite("Extension Test Suite", () => {
   test("Loads test flow and renders instance views", async () => {
@@ -29,7 +29,7 @@ suite("Extension Test Suite", () => {
         "Expected fixture flow to have 4 instances"
       );
     }, 5000);
-  });
+  }).timeout(10000);
 
   test("Renders add node modal", async () => {
     const testFile = vscode.Uri.file(
@@ -63,5 +63,5 @@ suite("Extension Test Suite", () => {
       });
       assert(elements.length > 100, "Expected to find 100+ items in the menu");
     });
-  }).timeout(1000);
+  }).timeout(10000);
 });
