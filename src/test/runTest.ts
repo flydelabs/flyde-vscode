@@ -12,6 +12,16 @@ async function main() {
     // Passed to --extensionTestsPath
     const extensionTestsPath = path.resolve(__dirname, "./suite/index");
 
+    const proto: any = Object.prototype;
+
+    if (!proto.toJSON) {
+      proto.toJSON = function () {
+        // Implementation of your toJSON method
+        // Convert this object's properties to JSON as needed
+        return JSON.stringify(this);
+      };
+    }
+
     // Download VS Code, unzip it and run the integration test
     await runTests({
       extensionDevelopmentPath,
