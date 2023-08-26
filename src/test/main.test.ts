@@ -7,30 +7,6 @@ import assert = require("assert");
 import { delay, eventually } from "@flyde/core";
 
 suite("Extension Test Suite", () => {
-  test("Loads test flow and renders instance views", async () => {
-    const testFile = vscode.Uri.file(
-      path.resolve(__dirname, "../../test-fixtures/HelloWorld.flyde")
-    );
-
-    await vscode.commands.executeCommand(
-      "vscode.openWith",
-      testFile,
-      "flydeEditor"
-    );
-
-    await eventually(async () => {
-      const instances = await webviewTestingCommand("$$", {
-        selector: ".ins-view-inner",
-      });
-      console.log({ instances });
-
-      assert(
-        instances.length === 4,
-        "Expected fixture flow to have 4 instances"
-      );
-    }, 5000);
-  }).timeout(10000);
-
   test("Renders add node modal", async () => {
     const testFile = vscode.Uri.file(
       path.resolve(__dirname, "../../test-fixtures/HelloWorld.flyde")
@@ -63,5 +39,29 @@ suite("Extension Test Suite", () => {
       });
       assert(elements.length > 100, "Expected to find 100+ items in the menu");
     });
+  }).timeout(10000);
+
+  test("Loads test flow and renders instance views", async () => {
+    const testFile = vscode.Uri.file(
+      path.resolve(__dirname, "../../test-fixtures/HelloWorld.flyde")
+    );
+
+    await vscode.commands.executeCommand(
+      "vscode.openWith",
+      testFile,
+      "flydeEditor"
+    );
+
+    await eventually(async () => {
+      const instances = await webviewTestingCommand("$$", {
+        selector: ".ins-view-inner",
+      });
+      console.log({ instances });
+
+      assert(
+        instances.length === 4,
+        "Expected fixture flow to have 4 instances"
+      );
+    }, 4000);
   }).timeout(10000);
 });
