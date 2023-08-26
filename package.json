@@ -2,7 +2,7 @@
   "name": "flyde-vscode",
   "displayName": "Flyde",
   "description": "Visual Flow-Based Programming meets AI",
-  "version": "0.41.0",
+  "version": "0.42.0",
   "publisher": "flyde",
   "engines": {
     "vscode": "^1.75.0"
