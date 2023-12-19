@@ -70,6 +70,7 @@ export interface FlydeEditorProviderParams {
   port: number;
   mainOutputChannel: vscode.OutputChannel;
   debugOutputChannel: vscode.OutputChannel;
+  darkMode: boolean;
 }
 
 export class FlydeEditorEditorProvider
@@ -190,6 +191,7 @@ export class FlydeEditorEditorProvider
         dependencies,
         webviewId,
         executionId,
+        darkMode: this.params.darkMode,
       });
 
       lastFlow = initialFlow;

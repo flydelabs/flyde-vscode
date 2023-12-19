@@ -10,6 +10,7 @@ export type WebviewContentParams = {
   initialFlow: FlydeFlow;
   dependencies: ResolvedFlydeFlowDefinition;
   webviewId: string;
+  darkMode: boolean;
 };
 
 const isDev = process.env.MODE === "dev";
@@ -67,6 +68,7 @@ export async function getWebviewContent(params: WebviewContentParams) {
     initialFlow,
     dependencies,
     executionId,
+    darkMode,
   } = params;
   const stylePath = vscode.Uri.joinPath(extensionUri, "media", "style.css");
 
@@ -93,6 +95,7 @@ export async function getWebviewContent(params: WebviewContentParams) {
     relativeFile,
     executionId,
     hasOpenAiToken,
+    darkMode,
   };
   const serializedBootstrapData = Buffer.from(
     JSON.stringify(bootstrapData)
@@ -125,7 +128,7 @@ export async function getWebviewContent(params: WebviewContentParams) {
       </style>
       ${await getScriptTagsFromReactAppHtml(extensionUri, webview, isDev)}
     </head>
-    <body>
+    <body class="${darkMode ? "bp5-dark dark-mode" : ""}">
     <script type="text/javascript">
         window.__bootstrapData = "${serializedBootstrapData}"
     </script>

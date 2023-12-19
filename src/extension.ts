@@ -49,6 +49,18 @@ export function activate(context: vscode.ExtensionContext) {
   const mainOutputChannel = vscode.window.createOutputChannel("Flyde");
   const debugOutputChannel = vscode.window.createOutputChannel("Flyde (Debug)");
 
+  let currentTheme = vscode.window.activeColorTheme;
+
+  let useDarkMode =
+    currentTheme.kind !== vscode.ColorThemeKind.Light &&
+    currentTheme.kind !== vscode.ColorThemeKind.HighContrastLight;
+
+  vscode.window.onDidChangeActiveColorTheme((theme) => {
+    useDarkMode =
+      theme.kind !== vscode.ColorThemeKind.Light &&
+      theme.kind !== vscode.ColorThemeKind.HighContrastLight;
+  });
+
   fp(FLYDE_DEFAULT_SERVER_PORT).then(([port]: [number]) => {
     reportEvent("devServerStart");
 
@@ -70,6 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
         port,
         mainOutputChannel,
         debugOutputChannel,
+        darkMode: useDarkMode,
       })
     );
   });
