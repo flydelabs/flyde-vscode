@@ -375,6 +375,7 @@ export class FlydeEditorEditorProvider
                     fullDocumentPath,
                     event.params.inputs,
                     this.params.port,
+                    event.params.executionDelay,
                   ],
                   cwd: vscode.workspace.workspaceFolders?.[0].uri.fsPath,
                 });

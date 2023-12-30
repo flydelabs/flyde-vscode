@@ -118,7 +118,8 @@ export async function getWebviewContent(params: WebviewContentParams) {
     
       <style>
       body {
-          background: white;
+
+          
           padding: 0px;
       }
           iframe {
@@ -134,7 +135,7 @@ export async function getWebviewContent(params: WebviewContentParams) {
     </script>
 
     <div id="root">
-      <div style="display: flex; align-items: center;justify-content: center;height:100vh;width: 100vw">
+      <div style="display: flex; align-items: center;justify-content: center;height:100vh;width: 100vw;">
         <img src="${buildUri}/loader.svg" />
       </div>
     </div>
