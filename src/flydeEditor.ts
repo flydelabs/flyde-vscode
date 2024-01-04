@@ -8,8 +8,8 @@ import { generateAndSaveNode } from "@flyde/dev-server/dist/service/generate-nod
 
 import {
   deserializeFlow,
-  resolveDependencies,
-  resolveFlowDependenciesByPath,
+  resolveFlow,
+  resolveFlowByPath,
   serializeFlow,
 } from "@flyde/resolver";
 import { FlydeFlow, formatEvent, keys } from "@flyde/core";
@@ -166,7 +166,8 @@ export class FlydeEditorEditorProvider
             };
       }, "Failed to deserialize flow");
       const dependencies = tryOrThrow(
-        () => resolveDependencies(initialFlow, "definition", fullDocumentPath),
+        () =>
+          resolveFlow(initialFlow, "definition", fullDocumentPath).dependencies,
         "Failed to resolve flow's dependencies"
       );
 
@@ -284,12 +285,23 @@ export class FlydeEditorEditorProvider
               }
 
               case "resolveDeps": {
-                // const {absPath} = event.params;
-                const flow = resolveFlowDependenciesByPath(
-                  fullDocumentPath,
-                  "definition"
-                );
-                messageResponse(event, flow);
+                const { flow: dtoFlow } = event.params;
+
+                if (dtoFlow) {
+                  console.log({ dtoFlow });
+                  const deps = resolveFlow(
+                    dtoFlow,
+                    "definition",
+                    fullDocumentPath
+                  ).dependencies;
+                  messageResponse(event, deps);
+                } else {
+                  const flow = resolveFlowByPath(
+                    fullDocumentPath,
+                    "definition"
+                  );
+                  messageResponse(event, flow);
+                }
                 break;
               }
               case "generateNodeFromPrompt": {
@@ -447,11 +459,11 @@ export class FlydeEditorEditorProvider
         if (isSameUri && lastSaveBy !== webviewId) {
           const raw = document.getText();
           const flow: FlydeFlow = deserializeFlow(raw, fullDocumentPath);
-          const deps = resolveDependencies(
+          const deps = resolveFlow(
             flow,
             "definition",
             fullDocumentPath
-          );
+          ).dependencies;
           webviewPanel.webview.postMessage({
             type: "onExternalFlowChange",
             requestId: "TODO-cuid",
