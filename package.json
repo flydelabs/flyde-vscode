@@ -1,7 +1,6 @@
 {
   "name": "flyde-vscode",
-  "displayName": "Flyde",
-  "description": "Visual Flow-Based Programming meets AI",
+  "description": "Flyde is an open-source, visual programming language. It runs in the IDE, integrates with existing TypeScript code, both browser and Node.js.",
   "version": "0.50.0",
   "publisher": "flyde",
   "engines": {
@@ -24,7 +23,7 @@
   ],
   "scripts": {
     "vscode:prepackage": "npm run build",
-    "link-all": "npm link @flyde/core @flyde/resolver @flyde/dev-server @flyde/runtime @flyde/remote-debugger @flyde/editor",
+    "link-all": "npm link @flyde/core @flyde/resolver @flyde/dev-server @flyde/runtime @flyde/remote-debugger @flyde/editor @flyde/stdlib",
     "update-all": "npm update @flyde/core @flyde/resolver @flyde/dev-server @flyde/runtime @flyde/remote-debugger @flyde/editor",
     "compile": "tsc -p ./",
     "build": "npm run compile && npm run copy-editor",
@@ -79,10 +78,6 @@
         "title": "Flyde: New Visual Flow"
       },
       {
-        "command": "flyde.newTextualFlow",
-        "title": "Flyde: New Code Flow"
-      },
-      {
         "command": "flyde.setOpenAiToken",
         "title": "Flyde: Set OpenAI Token"
       },
@@ -101,20 +96,11 @@
         {
           "command": "flyde.newVisualFlow",
           "group": "flyde"
-        },
-        {
-          "when": "never",
-          "command": "flyde.newTextualFlow",
-          "group": "flyde"
         }
       ],
       "file/newFile": [
         {
           "command": "flyde.newVisualFlow",
-          "group": "flyde"
-        },
-        {
-          "command": "flyde.newTextualFlow",
           "group": "flyde"
         }
       ]
@@ -223,7 +209,8 @@
     "cuid": "^2.1.8",
     "execa": "^6.1.0",
     "find-free-port": "^2.0.0",
-    "resolve-from": "^5.0.0"
+    "resolve-from": "^5.0.0",
+    "ts-node": "^10.9.2"
   },
   "packageManager": "yarn@3.3.1"
 }

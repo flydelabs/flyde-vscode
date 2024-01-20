@@ -5,6 +5,7 @@ import * as path from "path";
 import { webviewTestingCommand } from "./testUtils";
 import assert = require("assert");
 import { delay, eventually } from "@flyde/core";
+import { getTemplates } from "../templateUtils";
 
 suite("Extension Test Suite", () => {
   test("Loads test flow and renders instance views", async () => {
@@ -22,16 +23,13 @@ suite("Extension Test Suite", () => {
       const instances = await webviewTestingCommand("$$", {
         selector: ".ins-view-inner",
       });
-      console.log({ instances });
 
       assert(
         instances.length === 4,
         "Expected fixture flow to have 4 instances"
       );
     }, 4000);
-  })
-    .timeout(5000)
-    .retries(3);
+  });
 
   test("Renders add node modal", async () => {
     const testFile = vscode.Uri.file(
@@ -65,7 +63,37 @@ suite("Extension Test Suite", () => {
       });
       assert(elements.length > 100, "Expected to find 100+ items in the menu");
     });
-  })
-    .timeout(5000)
-    .retries(3);
+  });
+
+  suite("Templates", () => {
+    const templateFiles = getTemplates();
+
+    test("Loads all templates", async () => {
+      assert(
+        templateFiles.length > 0,
+        "Expected to find at least one template"
+      );
+    });
+
+    templateFiles.forEach((templateFile) => {
+      test(`Loads ${templateFile.name} template`, async () => {
+        const flowPath = path.join(templateFile.fullPath, "Example.flyde");
+        const testFile = vscode.Uri.file(flowPath);
+
+        await vscode.commands.executeCommand(
+          "vscode.openWith",
+          testFile,
+          "flydeEditor"
+        );
+
+        await eventually(async () => {
+          const flowEditor = await webviewTestingCommand("$$", {
+            selector: ".flyde-flow-editor",
+          });
+
+          assert(flowEditor.length === 1, ".flyde-flow-editor not found");
+        }, 4000);
+      });
+    });
+  });
 });
