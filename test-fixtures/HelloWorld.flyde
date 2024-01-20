@@ -2,71 +2,10 @@ imports:
   "@flyde/stdlib":
     - Concat
     - Delay
+    - InlineValue
   ./undefined.flyde.ts: []
 node:
   instances:
-    - pos:
-        x: -257.0244506835937
-        y: -349.37652587890625
-      id: Inline-value-Hello-3r046zk
-      inputConfig: {}
-      node:
-        id: Inline-value-Hello,
-        inputs: {}
-        outputs:
-          value:
-            delayed: false
-        runFnRawCode: const result = ('Hello,'); Promise.resolve(result).then(val =>
-          outputs.value.next(val))
-        customViewCode: "'Hello,'"
-        dataBuilderSource: J0hlbGxvLCc=
-        templateType: value
-        completionOutputs:
-          - value
-        defaultStyle:
-          size: regular
-          icon: code
-          cssOverride:
-            fontFamily: monospace
-            fontWeight: "500"
-        description: Custom inline value
-      style:
-        size: large
-        icon: code
-        cssOverride:
-          fontFamily: monospace
-          fontWeight: "500"
-    - pos:
-        x: -62.686528320312505
-        y: -244.63742309570313
-      id: Inline-value-World-vo146xh
-      inputConfig: {}
-      node:
-        id: Inline-value- World!
-        inputs: {}
-        outputs:
-          value:
-            delayed: false
-        runFnRawCode: const result = (' World!'); Promise.resolve(result).then(val =>
-          outputs.value.next(val))
-        customViewCode: "' World!'"
-        dataBuilderSource: JyBXb3JsZCEn
-        templateType: value
-        completionOutputs:
-          - value
-        defaultStyle:
-          size: regular
-          icon: code
-          cssOverride:
-            fontFamily: monospace
-            fontWeight: "500"
-        description: Custom inline value
-      style:
-        size: large
-        icon: code
-        cssOverride:
-          fontFamily: monospace
-          fontWeight: "500"
     - pos:
         x: -43.04081217447907
         y: 65.3379041689916
@@ -74,30 +13,43 @@ node:
       inputConfig: {}
       nodeId: Concat
     - pos:
-        x: 11.271931966145928
-        y: -93.22169666108653
+        x: 14.759389241536553
+        y: -34.26689319428965
       id: clftmbihe000j4668newg9ius
       inputConfig:
         delay:
-          mode: static
-          value: 3500
-      nodeId: Delay
+          mode: queue
+      nodeId: Delay__clftmbihe000j4668newg9ius
+      macroId: Delay
+      macroData:
+        type: static
+        timeMs: 1000
       style:
         size: small
         icon: fa-clock
+    - pos:
+        x: -113.84091796874998
+        y: -75.13641764252512
+      id: amsqg1strnxzxulfuwydz998
+      inputConfig: {}
+      nodeId: InlineValue__amsqg1strnxzxulfuwydz998
+      macroId: InlineValue
+      macroData:
+        type: string
+        value: Hello
+        label: '"Hello"'
+    - pos:
+        x: 14.624100341796861
+        y: -129.59303141205638
+      id: c574cklre7s0epev24x40rxo
+      inputConfig: {}
+      nodeId: InlineValue__c574cklre7s0epev24x40rxo
+      macroId: InlineValue
+      macroData:
+        type: string
+        value: World
+        label: '"World"'
   connections:
-    - from:
-        insId: Inline-value-Hello-3r046zk
-        pinId: value
-      to:
-        insId: clftmb8cw000b4668nw8u5qr9
-        pinId: a
-    - from:
-        insId: Inline-value-World-vo146xh
-        pinId: value
-      to:
-        insId: clftmbihe000j4668newg9ius
-        pinId: value
     - from:
         insId: clftmbihe000j4668newg9ius
         pinId: delayedValue
@@ -110,6 +62,18 @@ node:
       to:
         insId: __this
         pinId: result
+    - from:
+        insId: amsqg1strnxzxulfuwydz998
+        pinId: value
+      to:
+        insId: clftmb8cw000b4668nw8u5qr9
+        pinId: a
+    - from:
+        insId: c574cklre7s0epev24x40rxo
+        pinId: value
+      to:
+        insId: clftmbihe000j4668newg9ius
+        pinId: value
   id: HelloWorld
   inputs: {}
   outputs:

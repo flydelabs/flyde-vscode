@@ -150,7 +150,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         const fileName = await vscode.window.showInputBox({
           title: "Flow file name",
-          value: `${"MyAwesomeFlow" + randomInt(999)}`,
+          value: "NewFlow",
         });
 
         if (!fileName) {

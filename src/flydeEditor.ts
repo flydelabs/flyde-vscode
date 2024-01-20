@@ -5,6 +5,7 @@ var fp = require("find-free-port");
 
 import { scanImportableNodes } from "@flyde/dev-server/dist/service/scan-importable-nodes";
 import { generateAndSaveNode } from "@flyde/dev-server/dist/service/generate-node-from-prompt";
+import { getLibraryData } from "@flyde/dev-server/dist/service/get-library-data";
 
 import {
   deserializeFlow,
@@ -12,7 +13,12 @@ import {
   resolveFlowByPath,
   serializeFlow,
 } from "@flyde/resolver";
-import { FlydeFlow, formatEvent, keys } from "@flyde/core";
+import {
+  FlydeFlow,
+  MAJOR_DEBUGGER_EVENT_TYPES,
+  formatEvent,
+  keys,
+} from "@flyde/core";
 import { findPackageRoot } from "./find-package-root";
 import { randomInt } from "crypto";
 import { reportEvent, reportException } from "./telemetry";
@@ -215,7 +221,9 @@ export class FlydeEditorEditorProvider
       events.forEach((event) => {
         debugOutputChannel.appendLine(formatEvent(event));
         if (!event.ancestorsInsIds) {
-          mainOutputChannel.appendLine(formatEvent(event));
+          if (MAJOR_DEBUGGER_EVENT_TYPES.includes(event.type)) {
+            mainOutputChannel.appendLine(formatEvent(event));
+          }
         }
       });
     });
@@ -228,8 +236,7 @@ export class FlydeEditorEditorProvider
           console.info(
             "Received message from webview",
             event.type,
-            event.requestId,
-            event.params
+            event.requestId
           );
 
           try {
@@ -288,7 +295,6 @@ export class FlydeEditorEditorProvider
                 const { flow: dtoFlow } = event.params;
 
                 if (dtoFlow) {
-                  console.log({ dtoFlow });
                   const deps = resolveFlow(
                     dtoFlow,
                     "definition",
@@ -405,6 +411,9 @@ export class FlydeEditorEditorProvider
                 if (!didFocusOutput) {
                   didFocusOutput = true;
                   this.params.mainOutputChannel?.show();
+                  this.params.mainOutputChannel?.appendLine(
+                    `Running flow. Events will appear here. You can also hover the inputs and output pins to view data.`
+                  );
                 }
 
                 return job;
@@ -417,6 +426,11 @@ export class FlydeEditorEditorProvider
               case "reportEvent": {
                 const { name, data } = event.params;
                 reportEvent(`flowEditor:${name}`, { ...data, webviewId });
+                break;
+              }
+              case "getLibraryData": {
+                const libraryData = getLibraryData();
+                messageResponse(event, libraryData);
                 break;
               }
               default: {

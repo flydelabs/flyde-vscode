@@ -15,9 +15,9 @@
 
 <strong>VSCode Extension ✔️</strong> · <strong>Runtime Library ✔️</strong> · <strong>Integrates with Existing Code ✔️</strong>
 <br/>
-<strong>✔Rich Standard Library ✔️</strong> · <strong>Visual Debugger ✔️</strong> · <strong>AI-Assisted Node Creation ✔️</strong>
+<strong>Rich Standard Library ✔️</strong> · <strong>Visual Debugger ✔️</strong>
 <br/>
-<strong>TypeScript Support ✔️</strong> · <strong>TypeScript Support ✔️</strong>
+<strong>TypeScript Support ✔️</strong>
 
 <br/>
 <br/>
@@ -41,7 +41,7 @@
 - Install the Flyde extension from the Visual Studio Code marketplace
 - Right-click on a folder in the Explorer and select "Flyde: New Visual Flow"
 - Choose a template and name your flow
-- Start creating your flow by adding nodes, connecting them together, and writing code
+- Start creating your flow by adding nodes, connecting them, and writing code
 
 ## Use-cases
 
@@ -60,7 +60,7 @@ Check out the official website at [https://flyde.dev](https://flyde.dev) for mor
 
 ## License
 
-Everything needed to run a Flyde file is _MIT_ licensed. That includes:
+Everything needed to run a Flyde file is MIT-licensed. That includes:
 
 - `@flyde/core`
 - `@flyde/resolver`
@@ -69,7 +69,7 @@ Everything needed to run a Flyde file is _MIT_ licensed. That includes:
 
 The UI library and other nodes of the toolkit are GNU AGPLv3 licensed.
 
-In other words, using Flyde flows in your software is permitted without any limitation. However, if you use Flyde's visual editor in your own work, it must be open-sourced as well. More about [GNU APGLv3](https://choosealicense.com/licenses/agpl-3.0/) here
+In other words, using Flyde flows in your software is permitted without any limitation. However, if you use Flyde's visual editor in your work, it must be open-sourced as well. More about [GNU APGLv3](https://choosealicense.com/licenses/agpl-3.0/) here
 
 ## FAQ
 
@@ -91,7 +91,7 @@ Currently, only JavaScript and TypeScript are supported. However, since Flyde is
 
 ### What Inspired You to Build Flyde?
 
-Years of drawing and reviewing software designs on whiteboards led me to dream of a "run" button in the corner of the whiteboard. Modern development involves a lot of "glue" code, concurrency, asynchronicity, and third-party APIs. I find it hard to believe that developers will continue coding the same way in 10 years, and I think we're ready for the next level of abstraction. Flyde is my attempt to make that happen and lower the barrier for developers to create complex software, just as Assembly did for punched card programming, and C did for Assembly.
+Years of drawing and reviewing software designs on whiteboards led me to dream of a "run" button in the corner of the whiteboard. Modern development involves a lot of "glue" code, concurrency, asynchronicity, and third-party APIs. I find it hard to believe that developers will continue coding the same way in 10 years, and I think we're ready for the next level of abstraction. Flyde is my attempt to make that happen, and lower the barrier for developers to create complex software, just as Assembly did for punched card programming, and C did for Assembly.
 
 ---
 

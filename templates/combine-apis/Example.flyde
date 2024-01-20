@@ -1,191 +1,166 @@
 imports:
   "@flyde/stdlib":
-    - GET Request
+    - InlineValue
+    - CodeExpression
+    - Http
     - Loop List
     - Get Attribute
     - Accumulate Values by Time
 node:
   instances:
     - pos:
-        x: -171.43105712890622
-        y: 131.64248191833497
-      id: clfuuvdn7000u4668ghe8jiiw
+        x: -86.86109741210936
+        y: -332.4004211425781
+      id: lppjv85ixcde390hug6eonj5
+      inputConfig: {}
+      nodeId: InlineValue__lppjv85ixcde390hug6eonj5
+      macroId: InlineValue
+      macroData:
+        value: 5
+        type: number
+        label: "5"
+    - pos:
+        x: 57.393768310546875
+        y: -13.628143310546875
+      id: Loop List-a2149ei
       inputConfig: {}
       nodeId: Loop List
     - pos:
-        x: -185.784885152181
-        y: -13.900549091697215
-      id: Fetch Users -3m146np
+        x: -257.25370971679683
+        y: -38.7403533935547
+      id: Example-er2490w
+      inputConfig: {}
+      nodeId: Loop List
+    - pos:
+        x: 41.97147338867188
+        y: 140.09222335815429
+      id: Get Attribute-bu349tr
       inputConfig:
-        count:
-          mode: queue
-      visibleInputs:
-        - count
+        attribute:
+          mode: sticky
+      nodeId: Get Attribute
+    - pos:
+        x: -278.4306311035156
+        y: 130.01132415771485
+      id: Example-08049sl
+      inputConfig:
+        attribute:
+          mode: sticky
+      nodeId: Get Attribute
+    - pos:
+        x: 242.60955810546875
+        y: 5.8730010986328125
+      id: ydryp0wq8nwbwust0b2h6gj0
+      inputConfig: {}
+      nodeId: InlineValue__ydryp0wq8nwbwust0b2h6gj0
+      macroId: InlineValue
+      macroData:
+        type: string
+        value: first_name
+        label: '"first_name"'
+    - pos:
+        x: -98.13684509277346
+        y: 30.92610443115234
+      id: Example-mt149qn
+      inputConfig: {}
+      nodeId: InlineValue__Example-mt149qn
+      macroId: InlineValue
+      macroData:
+        type: string
+        value: name
+        label: '"name"'
+    - pos:
+        x: -203.3569860839844
+        y: 242.0537305481027
+      id: zfhcgwxnesaxpux6bgjwnan2
+      inputConfig: {}
+      nodeId: CodeExpression__zfhcgwxnesaxpux6bgjwnan2
+      macroId: CodeExpression
+      macroData:
+        value: "{name: inputs.user, beer: inputs.beer}"
+        label: "{name: inputs.user, beer: inputs.beer}"
+    - pos:
+        x: -128.21905517578125
+        y: 367.5078877431939
+      id: Accumulate Values by Time-94349pu
+      inputConfig: {}
+      nodeId: Accumulate Values by Time
+    - pos:
+        x: 164.82755065917968
+        y: 257.65442613430724
+      id: ee7yviy1bepb02veufecnd5e
+      inputConfig: {}
+      nodeId: InlineValue__ee7yviy1bepb02veufecnd5e
+      macroId: InlineValue
+      macroData:
+        value: 5
+        type: number
+        label: "5"
+    - pos:
+        x: 4.522508544921877
+        y: -162.09458923339844
+      id: Fetch Random Users-8i0496g
+      inputConfig: {}
       node:
-        id: "Fetch Users "
-        inputs:
-          count:
-            mode: required
-        outputs:
-          data:
-            delayed: false
         instances:
-          - id: value-458
-            node:
-              id: Inline-value-https://random
-              inputs:
-                count:
-                  mode: required
-              outputs:
-                value:
-                  delayed: false
-              runFnRawCode: const result =
-                (`https://random-data-api.com/api/v2/users?size=${inputs.count}`);
-                Promise.resolve(result).then(val => outputs.value.next(val))
-              customViewCode: "`https://random-data-api.com/api/v2/users?size=${inputs.count}`"
-              dataBuilderSource: YGh0dHBzOi8vcmFuZG9tLWRhdGEtYXBpLmNvbS9hcGkvdjIvdXNlcnM/c2l6ZT0ke2lucHV0cy5jb3VudH1g
-              templateType: value
-              completionOutputs:
-                - value
-              defaultStyle:
-                size: regular
-                icon: code
-                cssOverride:
-                  fontFamily: monospace
-                  fontWeight: "500"
-              description: Custom inline value
-            inputConfig:
-              count:
-                mode: queue
-            pos:
-              x: -408.0011983235678
-              y: -125.39325990438653
-          - id: RestAPIExample-bd046az
-            nodeId: GET Request
-            inputConfig:
+          - pos:
+              x: -39.622965087890634
+              y: -144.00405883789062
+            id: pyiyhtxsh3b5b7qhuuncqv9u
+            inputConfig: {}
+            nodeId: CodeExpression__pyiyhtxsh3b5b7qhuuncqv9u
+            macroId: CodeExpression
+            macroData:
+              value: "`https://random-data-api.com/api/v2/users?size=${inputs.count}`"
+              label: "`https://random-data-api.com/api/v2/users?size=${inputs.count}`"
+          - pos:
+              x: 90
+              y: -45
+            id: rxuwi8y3zmoabq64tqybypf9
+            inputConfig: {}
+            nodeId: Http__rxuwi8y3zmoabq64tqybypf9
+            macroId: Http
+            macroData:
+              method:
+                mode: static
+                value: GET
               url:
-                mode: queue
-            pos:
-              x: -226.7543994140625
-              y: 23.96849304199219
-        defaultStyle:
-          size: large
-          color: "#00bbf9"
-        inputsPosition:
-          count:
-            x: -240.17943589888858
-            y: -190.1419901392976
-        outputsPosition:
-          data:
-            x: -155.62975506637935
-            y: 246.5622024279985
+                mode: dynamic
+              headers:
+                mode: static
+                value: {}
+              params:
+                mode: static
+                value: {}
+              data:
+                mode: static
+                value: {}
         connections:
           - from:
-              insId: value-458
+              insId: pyiyhtxsh3b5b7qhuuncqv9u
               pinId: value
             to:
-              insId: RestAPIExample-bd046az
+              insId: rxuwi8y3zmoabq64tqybypf9
               pinId: url
           - from:
               insId: __this
               pinId: count
             to:
-              insId: value-458
+              insId: pyiyhtxsh3b5b7qhuuncqv9u
               pinId: count
           - from:
-              insId: RestAPIExample-bd046az
+              insId: rxuwi8y3zmoabq64tqybypf9
               pinId: data
             to:
               insId: __this
               pinId: data
-        completionOutputs:
-          - data
-      style:
-        size: large
-        icon: user
-        color: "#f15bb5"
-    - pos:
-        x: -276.41495107014975
-        y: -147.7533322948222
-      id: value-588
-      inputConfig: {}
-      node:
-        id: Inline Code 92115
-        inputs: {}
-        outputs:
-          value:
-            delayed: false
-        runFnRawCode: const result = (5); Promise.resolve(result).then(val =>
-          outputs.value.next(val))
-        customViewCode: "5"
-        dataBuilderSource: NQ==
-        templateType: value
-        completionOutputs:
-          - value
-        defaultStyle:
-          size: regular
-          icon: code
-          cssOverride:
-            fontFamily: monospace
-            fontWeight: "500"
-        description: Custom inline value
-    - pos:
-        x: -447.1709252929687
-        y: 139.52227699279786
-      id: RestAPIExample-jq146sq
-      inputConfig: {}
-      nodeId: Loop List
-    - pos:
-        x: -476.2804445586215
-        y: -6.858721642608998
-      id: Fetch Beers-y8246hw
-      inputConfig: {}
-      node:
-        id: Fetch Beers
+        id: Fetch Random Users
         inputs:
           count:
             mode: required
         outputs:
           data:
             delayed: false
-        instances:
-          - id: clfuv2ofd00074668he6d89kz
-            nodeId: GET Request
-            inputConfig: {}
-            pos:
-              x: -532.0680209102675
-              y: 179.8814787097154
-          - id: Inline-value-https://random-m8046by
-            node:
-              id: Inline-value-https://random
-              inputs:
-                count:
-                  mode: required
-              outputs:
-                value:
-                  delayed: false
-              runFnRawCode: const result =
-                (`https://random-data-api.com/api/v2/beers?size=${inputs.count}`);
-                Promise.resolve(result).then(val => outputs.value.next(val))
-              customViewCode: "`https://random-data-api.com/api/v2/beers?size=${inputs.count}`"
-              dataBuilderSource: YGh0dHBzOi8vcmFuZG9tLWRhdGEtYXBpLmNvbS9hcGkvdjIvYmVlcnM/c2l6ZT0ke2lucHV0cy5jb3VudH1g
-              templateType: value
-              completionOutputs:
-                - value
-              defaultStyle:
-                size: regular
-                icon: code
-                cssOverride:
-                  fontFamily: monospace
-                  fontWeight: "500"
-              description: Custom inline value
-            inputConfig: {}
-            pos:
-              x: -690.7916357421875
-              y: 33.032236022949206
-        defaultStyle:
-          size: large
-          color: "#ff7f00"
         inputsPosition:
           count:
             x: 0
@@ -194,158 +169,186 @@ node:
           data:
             x: 0
             y: 400
+        completionOutputs:
+          - data
+        defaultStyle:
+          size: large
+          color: "#ff7f00"
+      style:
+        size: large
+        icon: user
+        color: "#ff7f00"
+    - pos:
+        x: -315.26334503173825
+        y: -161.8971856689453
+      id: Fetch Random Beers-6l1491s
+      inputConfig: {}
+      node:
+        instances:
+          - pos:
+              x: -461.01594482421876
+              y: -142.90456542968747
+            id: lmfgntghsb9grf4urevt19zm
+            inputConfig: {}
+            nodeId: CodeExpression__lmfgntghsb9grf4urevt19zm
+            macroId: CodeExpression
+            macroData:
+              value: "`https://random-data-api.com/api/v2/beers?size=${inputs.count}`"
+              label: "`https://random-data-api.com/api/v2/beers?size=${inputs.count}`"
+          - pos:
+              x: -368.1310766601562
+              y: -37.4415606689453
+            id: Example-d3049ww
+            inputConfig: {}
+            nodeId: Http__Example-d3049ww
+            macroId: Http
+            macroData:
+              method:
+                mode: static
+                value: GET
+              url:
+                mode: dynamic
+              headers:
+                mode: static
+                value: {}
+              params:
+                mode: static
+                value: {}
+              data:
+                mode: static
+                value: {}
         connections:
           - from:
-              insId: Inline-value-https://random-m8046by
+              insId: lmfgntghsb9grf4urevt19zm
               pinId: value
             to:
-              insId: clfuv2ofd00074668he6d89kz
+              insId: Example-d3049ww
               pinId: url
           - from:
               insId: __this
               pinId: count
             to:
-              insId: Inline-value-https://random-m8046by
+              insId: lmfgntghsb9grf4urevt19zm
               pinId: count
           - from:
-              insId: clfuv2ofd00074668he6d89kz
+              insId: Example-d3049ww
               pinId: data
             to:
               insId: __this
               pinId: data
+        id: Fetch Random Beers
+        inputs:
+          count:
+            mode: required
+        outputs:
+          data:
+            delayed: false
+        inputsPosition:
+          count:
+            x: 0
+            y: 0
+        outputsPosition:
+          data:
+            x: 0
+            y: 400
         completionOutputs:
           - data
+        defaultStyle:
+          size: large
+          color: "#ff7f00"
       style:
         size: large
         icon: beer
-        color: "#ff7f00"
-    - pos:
-        x: -420.4356591796875
-        y: 434.7028805541993
-      id: "Inline-value-{name: inputs.n-sg346h5"
-      inputConfig: {}
-      node:
-        id: "Inline-value-{name: inputs.u"
-        inputs:
-          user:
-            mode: required
-          beer:
-            mode: required
-        outputs:
-          value:
-            delayed: false
-        runFnRawCode: "const result = ({name: inputs.user, beer: inputs.beer});
-          Promise.resolve(result).then(val => outputs.value.next(val))"
-        customViewCode: "{name: inputs.user, beer: inputs.beer}"
-        dataBuilderSource: e25hbWU6IGlucHV0cy51c2VyLCBiZWVyOiBpbnB1dHMuYmVlcn0=
-        templateType: value
-        completionOutputs:
-          - value
-        defaultStyle:
-          size: regular
-          icon: code
-          cssOverride:
-            fontFamily: monospace
-            fontWeight: "500"
-        description: Custom inline value
-    - pos:
-        x: -191.23840576171875
-        y: 307.13418380737306
-      id: clfuvatkr00244668nfqy7pwr
-      inputConfig:
-        attribute:
-          mode: static
-          value: first_name
-      nodeId: Get Attribute
-    - pos:
-        x: -469.2648950195312
-        y: 307.1158465576172
-      id: RestAPIExample-3n446pd
-      inputConfig:
-        attribute:
-          mode: static
-          value: name
-      nodeId: Get Attribute
-    - pos:
-        x: -291.5539669255288
-        y: 591.2207630719383
-      id: clfuvbtj7002n46685fb6ulsq
-      inputConfig:
-        time:
-          mode: static
-          value: 200
-      nodeId: Accumulate Values by Time
+        color: "#fee440"
   connections:
     - from:
-        insId: Fetch Users -3m146np
-        pinId: data
-      to:
-        insId: clfuuvdn7000u4668ghe8jiiw
-        pinId: list
-    - from:
-        insId: value-588
+        insId: lppjv85ixcde390hug6eonj5
         pinId: value
       to:
-        insId: Fetch Users -3m146np
+        insId: Fetch Random Beers-6l1491s
         pinId: count
     - from:
-        insId: value-588
+        insId: lppjv85ixcde390hug6eonj5
         pinId: value
       to:
-        insId: Fetch Beers-y8246hw
+        insId: Fetch Random Users-8i0496g
         pinId: count
     - from:
-        insId: Fetch Beers-y8246hw
+        insId: Fetch Random Users-8i0496g
         pinId: data
       to:
-        insId: RestAPIExample-jq146sq
+        insId: Loop List-a2149ei
         pinId: list
     - from:
-        insId: clfuuvdn7000u4668ghe8jiiw
+        insId: Fetch Random Beers-6l1491s
+        pinId: data
+      to:
+        insId: Example-er2490w
+        pinId: list
+    - from:
+        insId: Loop List-a2149ei
         pinId: item
       to:
-        insId: clfuvatkr00244668nfqy7pwr
+        insId: Get Attribute-bu349tr
         pinId: object
     - from:
-        insId: clfuvatkr00244668nfqy7pwr
+        insId: Example-er2490w
+        pinId: item
+      to:
+        insId: Example-08049sl
+        pinId: object
+    - from:
+        insId: ydryp0wq8nwbwust0b2h6gj0
         pinId: value
       to:
-        insId: "Inline-value-{name: inputs.n-sg346h5"
+        insId: Get Attribute-bu349tr
+        pinId: attribute
+    - from:
+        insId: Example-mt149qn
+        pinId: value
+      to:
+        insId: Example-08049sl
+        pinId: attribute
+    - from:
+        insId: Get Attribute-bu349tr
+        pinId: value
+      to:
+        insId: zfhcgwxnesaxpux6bgjwnan2
         pinId: beer
     - from:
-        insId: RestAPIExample-jq146sq
-        pinId: item
-      to:
-        insId: RestAPIExample-3n446pd
-        pinId: object
-    - from:
-        insId: RestAPIExample-3n446pd
+        insId: Example-08049sl
         pinId: value
       to:
-        insId: "Inline-value-{name: inputs.n-sg346h5"
+        insId: zfhcgwxnesaxpux6bgjwnan2
         pinId: user
     - from:
-        insId: "Inline-value-{name: inputs.n-sg346h5"
+        insId: zfhcgwxnesaxpux6bgjwnan2
         pinId: value
       to:
-        insId: clfuvbtj7002n46685fb6ulsq
+        insId: Accumulate Values by Time-94349pu
         pinId: value
     - from:
-        insId: clfuvbtj7002n46685fb6ulsq
+        insId: ee7yviy1bepb02veufecnd5e
+        pinId: value
+      to:
+        insId: Accumulate Values by Time-94349pu
+        pinId: time
+    - from:
+        insId: Accumulate Values by Time-94349pu
         pinId: accumulated
       to:
         insId: __this
-        pinId: usersAndBeers
-  id: RestAPIExample
+        pinId: data
+  id: Example
   inputs: {}
   outputs:
-    usersAndBeers:
+    data:
       delayed: false
   inputsPosition: {}
   outputsPosition:
     result:
       x: -23.264428942324532
       y: 237.25953921502617
-    usersAndBeers:
-      x: -256.9375114346744
-      y: 791.1690328766219
+    data:
+      x: -9.984410400390622
+      y: 500.2977629089355
