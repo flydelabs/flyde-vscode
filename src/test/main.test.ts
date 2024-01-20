@@ -44,7 +44,7 @@ suite("Extension Test Suite", () => {
 
     await eventually(async () => {
       const elements = await webviewTestingCommand("$$", {
-        selector: ".actions-menu > .action-button:nth-child(1)",
+        selector: ".nodes-library .view-all button",
       });
 
       assert(
@@ -54,7 +54,7 @@ suite("Extension Test Suite", () => {
     });
 
     await webviewTestingCommand("click", {
-      selector: ".actions-menu > .action-button:nth-child(1)",
+      selector: ".nodes-library .view-all button",
     });
 
     await eventually(async () => {
