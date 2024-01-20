@@ -27,6 +27,7 @@ async function main() {
       extensionDevelopmentPath,
       extensionTestsPath,
       launchArgs: ["--disable-extensions"],
+      timeout: 5000,
     });
   } catch (err) {
     console.error("Failed to run tests");
