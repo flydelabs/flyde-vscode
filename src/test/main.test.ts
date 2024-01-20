@@ -7,8 +7,6 @@ import assert = require("assert");
 import { eventually } from "@flyde/core";
 import { getTemplates } from "../templateUtils";
 
-mocha.retries(3);
-
 suite("Extension Test Suite", () => {
   test("Loads test flow and renders instance views", async () => {
     const testFile = vscode.Uri.file(
@@ -31,7 +29,7 @@ suite("Extension Test Suite", () => {
         "Expected fixture flow to have 4 instances"
       );
     }, 4000);
-  });
+  }).retries(3);
 
   test("Renders add node modal", async () => {
     const testFile = vscode.Uri.file(
@@ -65,7 +63,7 @@ suite("Extension Test Suite", () => {
       });
       assert(elements.length > 100, "Expected to find 100+ items in the menu");
     });
-  });
+  }).retries(3);
 
   suite("Templates", () => {
     const templateFiles = getTemplates();
@@ -75,7 +73,7 @@ suite("Extension Test Suite", () => {
         templateFiles.length > 0,
         "Expected to find at least one template"
       );
-    });
+    }).retries(3);
 
     templateFiles.forEach((templateFile) => {
       test(`Loads ${templateFile.name} template`, async () => {
@@ -95,7 +93,7 @@ suite("Extension Test Suite", () => {
 
           assert(flowEditor.length === 1, ".flyde-flow-editor not found");
         }, 4000);
-      });
+      }).retries(3);
     });
   });
 });
