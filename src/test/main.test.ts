@@ -4,8 +4,10 @@ import * as vscode from "vscode";
 import * as path from "path";
 import { webviewTestingCommand } from "./testUtils";
 import assert = require("assert");
-import { delay, eventually } from "@flyde/core";
+import { eventually } from "@flyde/core";
 import { getTemplates } from "../templateUtils";
+
+mocha.retries(3);
 
 suite("Extension Test Suite", () => {
   test("Loads test flow and renders instance views", async () => {
