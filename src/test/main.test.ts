@@ -93,7 +93,9 @@ suite("Extension Test Suite", () => {
 
           assert(flowEditor.length === 1, ".flyde-flow-editor not found");
         }, 4000);
-      }).retries(3);
+      })
+        .timeout(6000)
+        .retries(3);
     });
   });
 });
