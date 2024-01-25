@@ -5,7 +5,7 @@ imports:
     - Http
     - Loop List
     - Get Attribute
-    - Accumulate Values by Time
+    - Collect
 node:
   instances:
     - pos:
@@ -79,23 +79,6 @@ node:
       macroData:
         value: "{name: inputs.user, beer: inputs.beer}"
         label: "{name: inputs.user, beer: inputs.beer}"
-    - pos:
-        x: -128.21905517578125
-        y: 367.5078877431939
-      id: Accumulate Values by Time-94349pu
-      inputConfig: {}
-      nodeId: Accumulate Values by Time
-    - pos:
-        x: 164.82755065917968
-        y: 257.65442613430724
-      id: ee7yviy1bepb02veufecnd5e
-      inputConfig: {}
-      nodeId: InlineValue__ee7yviy1bepb02veufecnd5e
-      macroId: InlineValue
-      macroData:
-        value: 5
-        type: number
-        label: "5"
     - pos:
         x: 4.522508544921877
         y: -162.09458923339844
@@ -260,6 +243,18 @@ node:
         size: large
         icon: beer
         color: "#fee440"
+    - pos:
+        x: -91.95058837890622
+        y: 357.4822429319957
+      id: n38bkbjwe57oxvd1nvztu9gv
+      inputConfig: {}
+      nodeId: Collect__n38bkbjwe57oxvd1nvztu9gv
+      macroId: Collect
+      macroData:
+        strategy: count
+        count:
+          mode: static
+          count: 5
   connections:
     - from:
         insId: lppjv85ixcde390hug6eonj5
@@ -325,17 +320,11 @@ node:
         insId: zfhcgwxnesaxpux6bgjwnan2
         pinId: value
       to:
-        insId: Accumulate Values by Time-94349pu
+        insId: n38bkbjwe57oxvd1nvztu9gv
         pinId: value
     - from:
-        insId: ee7yviy1bepb02veufecnd5e
-        pinId: value
-      to:
-        insId: Accumulate Values by Time-94349pu
-        pinId: time
-    - from:
-        insId: Accumulate Values by Time-94349pu
-        pinId: accumulated
+        insId: n38bkbjwe57oxvd1nvztu9gv
+        pinId: list
       to:
         insId: __this
         pinId: data
@@ -350,5 +339,5 @@ node:
       x: -23.264428942324532
       y: 237.25953921502617
     data:
-      x: -9.984410400390622
-      y: 500.2977629089355
+      x: -26.658421630859372
+      y: 481.40048507690426
