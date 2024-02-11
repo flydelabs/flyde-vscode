@@ -99,29 +99,28 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("flyde.openAsText", openAsTextHandler)
   );
 
+  function getWorkspaceRootPath(): vscode.Uri | undefined {
+    // Check if there is an open workspace
+    if (
+      vscode.workspace.workspaceFolders &&
+      vscode.workspace.workspaceFolders.length > 0
+    ) {
+      // Return the path of the first workspace folder
+      return vscode.workspace.workspaceFolders[0].uri;
+    }
+  }
+
   context.subscriptions.push(
     vscode.commands.registerCommand(
       "flyde.newVisualFlow",
       async (dirName: vscode.Uri) => {
         reportEvent("newVisualFlow:start");
         // use this if triggered by a menu item,
-        let folderOrFileUri = dirName; // folder will be undefined when triggered by keybinding
+        let folderOrFileUri = dirName ?? getWorkspaceRootPath(); // folder will be undefined when triggered by keybinding
 
         if (!folderOrFileUri) {
-          // so triggered by a keybinding
-          const originalClipboard = await vscode.env.clipboard.readText();
-
-          await vscode.commands.executeCommand("copyFilePath");
-          const pathResult = await vscode.env.clipboard.readText(); // returns a string
-
-          await vscode.env.clipboard.writeText(originalClipboard);
-
-          folderOrFileUri = await vscode.Uri.file(pathResult); // make it a Uri
-
-          const stat = await fs.stat(folderOrFileUri);
-          if (stat.type === vscode.FileType.File) {
-            folderOrFileUri = vscode.Uri.joinPath(folderOrFileUri, "..");
-          }
+          vscode.window.showErrorMessage("No folder or file selected");
+          return;
         }
 
         const folderStat = await fs.stat(folderOrFileUri);
