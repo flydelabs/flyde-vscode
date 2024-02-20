@@ -115,7 +115,6 @@ export function activate(context: vscode.ExtensionContext) {
       "flyde.newVisualFlow",
       async (dirName: vscode.Uri) => {
         reportEvent("newVisualFlow:start");
-        // use this if triggered by a menu item,
         let folderOrFileUri = dirName ?? getWorkspaceRootPath(); // folder will be undefined when triggered by keybinding
 
         if (!folderOrFileUri) {

@@ -162,13 +162,13 @@
           {
             "id": "learn-more",
             "title": "Integrate Flyde into your project",
-            "description": "Learn more about how to integrate Flyde into your project by reading the [documentation](https://www.flyde.dev/docs/quick-start).",
+            "description": "Learn more about how to integrate Flyde into your project by reading the [documentation](https://www.flyde.dev/docs/integrate-flows).",
             "media": {
               "image": "media/walkthrough/icon.png",
               "altText": "Flyde icon"
             },
             "completionEvents": [
-              "onLink:https://www.flyde.dev/docs/quick-start"
+              "onLink:https://www.flyde.dev/docs/integrate-flows"
             ]
           }
         ]
