@@ -19,8 +19,9 @@ node:
       nodeId: Delay__clftmbihe000j4668newg9ius
       macroId: Delay
       macroData:
-        type: static
-        timeMs: 1000
+        delayMs:
+          type: static
+          value: 1000
       style:
         size: small
         icon: fa-clock
