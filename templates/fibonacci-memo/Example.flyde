@@ -2,23 +2,23 @@ imports:
   "@flyde/stdlib":
     - Subtract
     - Add
-    - Set Global State
-    - Get Global State
+    - Set State
+    - Get State
     - InlineValue
     - Switch
 node:
   instances:
     - pos:
-        x: -67.05353698730468
-        y: 275.9205297088623
+        x: -34.16388854980468
+        y: 260.1413701629639
       id: Add-539
       inputConfig: {}
       nodeId: Add
       style:
         color: "#fee440"
     - pos:
-        x: -165.53650024414063
-        y: 45.94147613525388
+        x: -135.26147583007813
+        y: 36.80620697021482
       id: Subtract-210
       inputConfig:
         n2:
@@ -30,8 +30,8 @@ node:
       style:
         color: "#f15bb5"
     - pos:
-        x: -22.340073852539035
-        y: 48.03034332275388
+        x: 32.872145385742215
+        y: 34.94542816162107
       id: Subtract-210-d215
       inputConfig:
         n2:
@@ -43,24 +43,24 @@ node:
       style:
         color: "#f15bb5"
     - pos:
-        x: -158.5192254638672
-        y: 143.06943950176242
+        x: -128.2442010498047
+        y: 133.93417033672335
       id: Fibonacci-261
       inputConfig: {}
       visibleInputs:
         - n
       nodeId: Fibonacci
     - pos:
-        x: 19.16986083984375
-        y: 147.669946269989
+        x: 49.44488525390625
+        y: 138.53467710494994
       id: Fibonacci-379
       inputConfig: {}
       visibleInputs:
         - n
       nodeId: Fibonacci
     - pos:
-        x: -492.42649187611687
-        y: -409.6020417528665
+        x: -709.9789821104919
+        y: -387.298208745054
       id: clfv4afmf00084668r9nuoaoe
       inputConfig:
         defaultValue:
@@ -68,18 +68,18 @@ node:
       visibleOutputs:
         - value
         - __error
-      nodeId: Get Global State
+      nodeId: Get State
     - pos:
-        x: -223.11079246690974
-        y: 371.81204329462025
+        x: -185.79304344347224
+        y: 355.92854414911244
       id: clfv4epnt001o4668lpvrlux1
       inputConfig:
         key:
           mode: sticky
-      nodeId: Set Global State
+      nodeId: Set State
     - pos:
-        x: -109.21035766601562
-        y: -18.13228881835937
+        x: -78.93533325195312
+        y: -27.267557983398433
       id: cakhy4xeflrv7mec1spzru8a
       inputConfig: {}
       visibleInputs: []
@@ -90,8 +90,8 @@ node:
         type: number
         label: "1"
     - pos:
-        x: 46.63268188476562
-        y: -20.36222717285156
+        x: 74.54631713867187
+        y: -32.13064453125
       id: Fibonacci-nf049eh
       inputConfig: {}
       visibleInputs: []
@@ -102,8 +102,8 @@ node:
         type: number
         label: "2"
     - pos:
-        x: -240.085830078125
-        y: -227.9235906982422
+        x: -342.77766357421876
+        y: -230.55667785644533
       id: o97dpv9ilum2i4n47m2bxdtw
       inputConfig: {}
       visibleInputs:
