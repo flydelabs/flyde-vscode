@@ -8,7 +8,7 @@
     "vscode": "^1.75.0"
   },
   "icon": "icon.png",
-  "repository": "https://github.com/flydehq/flyde-vscode",
+  "repository": "https://github.com/flydelabs/flyde-vscode",
   "categories": [
     "Programming Languages",
     "Visualization",
