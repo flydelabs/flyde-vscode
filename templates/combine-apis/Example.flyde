@@ -4,8 +4,8 @@ imports:
     - CodeExpression
     - Http
     - Loop List
-    - Get Attribute
     - Collect
+    - GetAttribute
 node:
   instances:
     - pos:
@@ -31,44 +31,6 @@ node:
       id: Example-er2490w
       inputConfig: {}
       nodeId: Loop List
-    - pos:
-        x: 41.97147338867188
-        y: 140.09222335815429
-      id: Get Attribute-bu349tr
-      inputConfig:
-        attribute:
-          mode: sticky
-      nodeId: Get Attribute
-    - pos:
-        x: -278.4306311035156
-        y: 130.01132415771485
-      id: Example-08049sl
-      inputConfig:
-        attribute:
-          mode: sticky
-      nodeId: Get Attribute
-    - pos:
-        x: 242.60955810546875
-        y: 5.8730010986328125
-      id: ydryp0wq8nwbwust0b2h6gj0
-      inputConfig: {}
-      nodeId: InlineValue__ydryp0wq8nwbwust0b2h6gj0
-      macroId: InlineValue
-      macroData:
-        type: string
-        value: first_name
-        label: '"first_name"'
-    - pos:
-        x: -98.13684509277346
-        y: 30.92610443115234
-      id: Example-mt149qn
-      inputConfig: {}
-      nodeId: InlineValue__Example-mt149qn
-      macroId: InlineValue
-      macroData:
-        type: string
-        value: name
-        label: '"name"'
     - pos:
         x: -203.3569860839844
         y: 242.0537305481027
@@ -244,8 +206,8 @@ node:
         icon: beer
         color: "#fee440"
     - pos:
-        x: -91.95058837890622
-        y: 357.4822429319957
+        x: -117.35210815429684
+        y: 348.5079768797496
       id: n38bkbjwe57oxvd1nvztu9gv
       inputConfig: {}
       nodeId: Collect__n38bkbjwe57oxvd1nvztu9gv
@@ -254,7 +216,29 @@ node:
         strategy: count
         count:
           mode: static
-          count: 5
+          value: 5
+    - pos:
+        x: -66.03905883789065
+        y: 113.72089470890216
+      id: pcld2qma2841gzcfyqurwu4a
+      inputConfig: {}
+      nodeId: GetAttribute__pcld2qma2841gzcfyqurwu4a
+      macroId: GetAttribute
+      macroData:
+        key:
+          value: first_name
+          mode: static
+    - pos:
+        x: -346.9323999023437
+        y: 112.26985473632811
+      id: Example-w0049zu
+      inputConfig: {}
+      nodeId: GetAttribute__Example-w0049zu
+      macroId: GetAttribute
+      macroData:
+        key:
+          value: name
+          mode: static
   connections:
     - from:
         insId: lppjv85ixcde390hug6eonj5
@@ -281,42 +265,6 @@ node:
         insId: Example-er2490w
         pinId: list
     - from:
-        insId: Loop List-a2149ei
-        pinId: item
-      to:
-        insId: Get Attribute-bu349tr
-        pinId: object
-    - from:
-        insId: Example-er2490w
-        pinId: item
-      to:
-        insId: Example-08049sl
-        pinId: object
-    - from:
-        insId: ydryp0wq8nwbwust0b2h6gj0
-        pinId: value
-      to:
-        insId: Get Attribute-bu349tr
-        pinId: attribute
-    - from:
-        insId: Example-mt149qn
-        pinId: value
-      to:
-        insId: Example-08049sl
-        pinId: attribute
-    - from:
-        insId: Get Attribute-bu349tr
-        pinId: value
-      to:
-        insId: zfhcgwxnesaxpux6bgjwnan2
-        pinId: beer
-    - from:
-        insId: Example-08049sl
-        pinId: value
-      to:
-        insId: zfhcgwxnesaxpux6bgjwnan2
-        pinId: user
-    - from:
         insId: zfhcgwxnesaxpux6bgjwnan2
         pinId: value
       to:
@@ -328,6 +276,30 @@ node:
       to:
         insId: __this
         pinId: data
+    - from:
+        insId: pcld2qma2841gzcfyqurwu4a
+        pinId: value
+      to:
+        insId: zfhcgwxnesaxpux6bgjwnan2
+        pinId: beer
+    - from:
+        insId: Loop List-a2149ei
+        pinId: item
+      to:
+        insId: pcld2qma2841gzcfyqurwu4a
+        pinId: object
+    - from:
+        insId: Example-er2490w
+        pinId: item
+      to:
+        insId: Example-w0049zu
+        pinId: object
+    - from:
+        insId: Example-w0049zu
+        pinId: value
+      to:
+        insId: zfhcgwxnesaxpux6bgjwnan2
+        pinId: user
   id: Example
   inputs: {}
   outputs:
@@ -339,5 +311,5 @@ node:
       x: -23.264428942324532
       y: 237.25953921502617
     data:
-      x: -26.658421630859372
-      y: 481.40048507690426
+      x: -35.6508837890625
+      y: 469.41647628784176
