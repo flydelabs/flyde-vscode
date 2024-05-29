@@ -1,9 +1,0 @@
-.DS_Store
-node_modules
-dist
-.yarn
-yarn-error
-out
-editor-build
-*.vsix
-.vscode-test
